@@ -19,25 +19,5 @@ class HomeController extends BaseController {
 	{
 		return View::make('hello');
 	}
-	
-	public function login()
-	{
-		$validator = Validator::make(Input::all(), [
-                "email" => "required",
-                "password" => "required"
-            ]);
-            
-            if ($validator->passes())
-            {
-            	$credentials = [
-            	"email" => Input::get("email"),
-            	"password" => Input::get("password")
-            	];
-            	if (Auth::attempt($credentials))
-            	{
-            		return Redirect::route('/');
-            	}
-            }
-	}
 
 }
