@@ -41,7 +41,7 @@ CREATE TABLE design_changes (id  SERIAL NOT NULL, project_id int4 NOT NULL, pcb_
 CREATE TABLE serial_numbers (id  SERIAL NOT NULL, project_id int4 NOT NULL, pcb varchar(25), housing varchar(25), imei varchar(50), ip varchar(50), mac varchar(50), esn varchar(50), phone varchar(50), sim varchar(50), PRIMARY KEY (id));
 CREATE TABLE test_attempts (id  SERIAL NOT NULL, project_id int4 NOT NULL, serial_number_id int4 NOT NULL, member_id int4 NOT NULL, final_result varchar(45), "date" timestamp, PRIMARY KEY (id));
 CREATE TABLE test_and_debug_log (id  SERIAL NOT NULL, test_attempt_id int4 NOT NULL, type varchar(10), current_status varchar(255), problem varchar(255), resolution varchar(255), PRIMARY KEY (id));
-CREATE TABLE users (id  BIGSERIAL NOT NULL, username varchar(65), password char(60) NOT NULL, email varchar(255) NOT NULL UNIQUE, admin int2, timestamp timestamp, remember_token varchar(255), PRIMARY KEY (id));
+CREATE TABLE users (id  BIGSERIAL NOT NULL, username varchar(65), password char(96) NOT NULL, email varchar(255) NOT NULL UNIQUE, admin int2, timestamp timestamp, remember_token varchar(255), PRIMARY KEY (id));
 CREATE TABLE awt_test_metadata (id  SERIAL NOT NULL, test_attempt_id int4 NOT NULL, inspector_number varchar(45), tns_system varchar(45), tns_software_version varchar(45), test_program_set_build varchar(45), tps_version varchar(45), path_loss_file_due varchar(45), PRIMARY KEY (id));
 CREATE TABLE test_results (id  SERIAL NOT NULL, test_attempt_id int4 NOT NULL, test_num varchar(10), test_name varchar(75), min varchar(45), max varchar(45), actual varchar(45), units varchar(45), result varchar(45), PRIMARY KEY (id));
 CREATE TABLE project_logs (id  SERIAL NOT NULL, project_id int4 NOT NULL, team_member_id int4 NOT NULL, message varchar(500), message_date timestamp, PRIMARY KEY (id));
@@ -79,7 +79,4 @@ CREATE INDEX users_id ON users (id);
 CREATE INDEX awt_test_metadata_id ON awt_test_metadata (id);
 CREATE INDEX test_results_id ON test_results (id);
 CREATE INDEX project_logs_id ON project_logs (id);
-
--- default password = administrator
-INSERT INTO users(id,username,email,password,admin) VALUES (1,'admin','admin@admin.com','$2y$10$YN75JeNWFyPY5MytYrNTP.f9N3NnB/Em89MbKgbmaK7uDVxtfV8eS',1);
-INSERT INTO members(id,user_id,firstname) VALUES (1,1,'AWT Test Data Uploader');
+INSERT INTO pcb_revisions(id, project_id, revision, schematic_name, layout_name) VALUES (1, null, null, null, null);

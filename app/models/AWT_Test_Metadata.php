@@ -7,7 +7,7 @@ class AWT_Test_Metadata extends \Eloquent {
 	
 	public function test_attempt()
 	{
-		return $this->belongsTo("Test_Attempt","test_attempt_id");
+		return $this->belongsTo("Test_Attempt","test_attempt_id","id");
 	}
 	
 	public function project()

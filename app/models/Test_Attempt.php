@@ -23,12 +23,12 @@ class Test_Attempt extends \Eloquent {
 	
 	public function awt_test_metadata()
 	{
-		return $this->hasOne("AWT_Test_Metadata","awt_test_metadata_id");
+		return $this->hasOne("AWT_Test_Metadata","test_attempt_id");
 	}
 	
 	public function test_result()
 	{
-		return $this->hasMany("Test_Result","test_result_id");
+		return $this->hasMany("Test_Result","test_attempt_id");
 	}
 	
 
