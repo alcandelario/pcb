@@ -65,8 +65,8 @@ return array(
 	|
 	*/
 
-	'key' => 'jj3tFU45SstMLolp60982hHHgGhUl8Rt',
-
+	//'key' => 'jj3tFU45SstMLolp60982hHHgGhUl8Rt',
+	  'key' => 'jp3tFUC5SstKLolp69982hCAgGnUl8Dy',
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers

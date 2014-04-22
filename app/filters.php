@@ -1,5 +1,22 @@
 <?php
 
+
+Route::filter('serviceAuth', function(){
+	if(!Auth::check()){
+		return Response::json([
+				'flash' => 'You must login to access this URL'
+				], 401);
+	}
+});
+
+Route::filter('serviceCSRF',function(){
+	if (Session::token() != Request::header('csrf_token')) {
+		return Response::json([
+				'message' => 'Hacker Trap :D '
+				], 418);
+	}
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters

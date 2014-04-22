@@ -12,27 +12,50 @@
 */
 
 
-Route::group(["before" => "guest"], function()
+// this first route is to load AngularJS
+Route::get('/', function()
 {
-	Route::any("/", [
-		"as"   => "user/login",
-		"uses" => "UserController@login"
-		]);
+	return View::make('index');
+});
+
+
+// add the authenticate route for Angular to have access to
+Route::group(array('prefix' => 'service'), function() {
+
+	Route::resource('authenticate', 'UserController');
+	Route::resource('projects', 'ProjectController');
+});
+
+
+// Route::group(["before" => "guest"], function()
+// {
+// 	// 	Route::any("/", [
+// 	// 		"as"   => "user/login",
+// 	// 		"uses" => "UserController@login"
+// 	// 		]);
+
+// 	// this first route is to load AngularJS
+// 	Route::get('/', function() 
+// 	{
+// 		return View::make('index');
+// 	});
 	
-	Route::any("/request", [
-	"as"   => "user/reset_password_request",
-	"uses" => "UserController@resetPasswordRequest"
-	]);
+// 	Route::any("/request", [
+// 	"as"   => "user/reset_password_request",
+// 	"uses" => "UserController@resetPasswordRequest"
+// 	]);
 	
-	Route::any("/reset", [
-	"as"   => "user/reset_password",
-	"uses" => "UserController@resetPassword"
-	]);
+// 	Route::any("/reset", [
+// 	"as"   => "user/reset_password",
+// 	"uses" => "UserController@resetPassword"
+// 	]);
 	
-});	
+// });	
 	
+
+
 // USER MUST BE LOGGED IN TO GET TO THESE ROUTES
-Route::group(["before" => "auth"], function()
+Route::group(["before" => "guest"], function()
 {
 	Route::any('/profile',[
 				"as"	=> "user/profile",

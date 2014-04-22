@@ -1,15 +1,18 @@
 <?php
 
 class ProjectController extends BaseController {
-
-	public function get_projects($id = NULL){
 	
-		if($id === NULL){
-			return Project::all();
-		}
-		else{
-			return Project::find($id);
-		}
-		
+	public function __construct()
+	{
+		$this->beforeFilter('serviceAuth');
+		$this->beforeFilter('serviceCSRF');
+	}
+
+	public function index(){
+		return Response::json(Project::all(),201);
+	}
+	
+	public function show($id){
+		return Response::json(Project::find($id),201);
 	}
 }
