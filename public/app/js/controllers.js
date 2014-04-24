@@ -1,45 +1,39 @@
 angular.module("projectTracker")	
 	
-	// Controller to handle login
-	.controller('loginController',function($scope,$sanitize,$location,Authenticate,Flash,SharedDataSvc){
+	// Login
+	.controller('loginController',function($scope,$sanitize,$location,Authenticate,SharedDataSvc,authService,Flash){
         $data = SharedDataSvc.getShared();
-        $scope.flash = $data.flash;
-		
+        if($data !== null){
+            $scope.flash = $data.flash;
+        }
+        
 		$scope.login = function(){
         	Authenticate.save({
                 'email': $sanitize($scope.email),
                 'password': $sanitize($scope.password)
             },function(data) {
-                $scope.flash = '';
+            	authService.loginConfirmed();
+            	$scope.flash = '';
                 SharedDataSvc.setShared("username", data.user.username);
                 SharedDataSvc.setShared("email", data.user.email);
                 $location.path('/home');
                 Flash.clear()
-                sessionStorage.authenticated = true;
+           //     sessionStorage.authenticated = true;
             },function(response){
-               // $scope.flash = response.data.flash;
+               // Auth Failed
+            	Flash.show("Login Failed");
             })
         }
 	})
         
     // Controller for Homepage. For now, show all project names but
     // eventually just show projects user is a team member on
-    .controller('homeController',function($scope,$location,Authenticate,Projects,SharedDataSvc,Flash){
+    .controller('homeController',function($scope,$location,Projects,SharedDataSvc){
     	    $userdata = SharedDataSvc.getShared();
     	    $scope.email = $userdata.email;
     	    $scope.username = $userdata.username;
             
-    	    if(!sessionStorage.authenticated){
-    	    	$location.path('/')
-    	    	Flash.show("You need to be logged in to see this page")
-    	    }
-    	    
     	    var projects = Projects.query();
+    	    $scope.projects = projects;    	    
     	    
-    	    $scope.logout = function (){
-                Authenticate.get({},function(){
-                	SharedDataSvc.setShared("flash","You've logged out, "+$scope.username);
-                    $location.path('/')
-                })
-            }
     })

@@ -5,11 +5,12 @@ class ProjectController extends BaseController {
 	public function __construct()
 	{
 		$this->beforeFilter('serviceAuth');
-		$this->beforeFilter('serviceCSRF');
+ 		//$this->beforeFilter('serviceCSRF');
 	}
 
 	public function index(){
-		return Response::json(Project::all(),201);
+		$projects = Response::json(Project::all(),201);
+		return $projects;
 	}
 	
 	public function show($id){

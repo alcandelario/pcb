@@ -2,3 +2,6 @@
 <div ng-bind="email"></div>
 <div ng-bind="username"></div>
 <button type="submit" class="btn" ng-click="logout()">Sign out</button>
+
+<h1>Projects in DB</h1>
+<li ng-repeat="project in projects" ng-bind="project.name"></li>

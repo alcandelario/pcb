@@ -8,14 +8,19 @@
     <link href="app/css/app.css" rel="stylesheet" />
 </head>
 <body ng-app="projectTracker">
+<div class="alert" ng-show="flash" ng-bind="flash"></div>
 
-<div class="container" ng-view></div>
+<div id="content" ng-controller='ContentController' class="ng-scope">
+	<div class="container" ng-view></div>
+</div>
 
 <script src="app/lib/angular/angular.min.js"></script>
 <script src="app/lib/angular/angular-route.min.js"></script>
 <script src="app/lib/angular/angular-resource.min.js"></script>
 <script src="app/lib/angular/angular-sanitize.min.js"></script>
+<script src="app/lib/angular/http-auth-interceptor.js"></script>
 <script src="app/js/app.js"></script>
+<script src="app/js/content.js"></script>
 <script src="app/js/controllers.js"></script>
 <script src="app/js/directives.js"></script>
 <script src="app/js/filters.js"></script>
