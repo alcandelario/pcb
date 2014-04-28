@@ -32,6 +32,16 @@ class TestAttemptController extends BaseController {
 		}
 	}
 	
+	public function show($id){
+		
+		$test_attempts = Test_Attempt::where('serial_number_id','=',$id)
+		->orderBy('date','ASC')
+		->get();
+	
+		return Response::json($test_attempts,201);
+	
+	}
+	
 	
 	
 }

@@ -11,11 +11,12 @@
 <div class="alert" ng-show="flash" ng-bind="flash"></div>
 
 <div id="content" ng-controller='ContentController' class="ng-scope">
-	<div class="container" ng-view></div>
+	<div class="container" ui-view></div>
 </div>
 
 <script src="app/lib/angular/angular.min.js"></script>
 <script src="app/lib/angular/angular-route.min.js"></script>
+<script src="app/lib/angular/angular-ui-router.js"></script>
 <script src="app/lib/angular/angular-resource.min.js"></script>
 <script src="app/lib/angular/angular-sanitize.min.js"></script>
 <script src="app/lib/angular/http-auth-interceptor.js"></script>

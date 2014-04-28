@@ -24,6 +24,9 @@ Route::group(array('prefix' => 'service'), function() {
 
 	Route::resource('authenticate', 'UserController');
 	Route::resource('projects', 'ProjectController');
+	Route::resource('serial_numbers', 'SerialNumberController');
+	Route::resource('test_attempts', 'TestAttemptController');
+	Route::resource('test_results', 'TestResultController');
 });
 
 

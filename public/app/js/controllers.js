@@ -28,12 +28,24 @@ angular.module("projectTracker")
         
     // Controller for Homepage. For now, show all project names but
     // eventually just show projects user is a team member on
-    .controller('homeController',function($scope,$location,Projects,SharedDataSvc){
+    .controller('homeController',function($scope,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,SharedDataSvc){
     	    $userdata = SharedDataSvc.getShared();
     	    $scope.email = $userdata.email;
     	    $scope.username = $userdata.username;
             
     	    var projects = Projects.query();
-    	    $scope.projects = projects;    	    
+    	    $scope.projects = projects;   
     	    
+    	    $scope.getSerials = function(id){
+        		$scope.serials = Serial_Numbers.query({projectID:id});
+        	}
+    	    
+    	    $scope.getTestAttempts = function(serialID){
+    	    	$scope.testAttempts = Test_Attempts.query({serialID:serialID});
+    	    }
+    	    
+    	    $scope.getTestData = function(attemptID){
+    	    	$scope.testData = Test_Results.query({attemptID:attemptID});
+    	    }
     })
+    

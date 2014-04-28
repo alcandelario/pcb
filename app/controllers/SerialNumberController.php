@@ -21,4 +21,13 @@ class SerialNumberController extends BaseController {
 								->get();
 		}
 	}
+	
+	public function show($id){
+		$serial_numbers = Serial_Number::where('project_id','=',$id)
+		->orderBy(DB::raw('LENGTH(pcb), pcb'))
+		->get();
+		
+		return Response::json($serial_numbers,201);
+		
+	}
 }

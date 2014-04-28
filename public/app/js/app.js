@@ -3,19 +3,54 @@ var app = angular.module("projectTracker",[
                                            'content',
                                            'ngResource',
                                            'ngSanitize',
-                                           'ngRoute'
+                                           'ngRoute',
+                                           'ui.router'
                                            ]);
 
-app.config(['$routeProvider',function($routeProvider){
-        $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'});
-        $routeProvider.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'});
-        $routeProvider.otherwise({redirectTo :'/'});
-    }]);
+//app.config(['$routeProvider',function($routeProvider){
+//        $routeProvider
+//        
+//        	.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'})
+//        	
+//        	.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'})
+//
+//        	.when('/serial_numbers',{templateUrl: 'app/partials/serials.html', controller: 'serialNumbersController'})
+//        	
+//        	.otherwise({redirectTo :'/'});
+//        
+//    }]);
+
+app.config(function($stateProvider,$urlRouterProvider){
+	$urlRouterProvider.otherwise("/");
+	
+	$stateProvider
+		.state('/', {
+			url: "/",
+			templateUrl: 'partials/login.html',
+			controller: 'loginController'
+		})
+	
+		.state('home', {
+			url: "/home",
+			templateUrl: "partials/home.html",
+			controller: 'homeController'
+		})	
+		
+		.state('project_home', {
+			url: "/project_home",
+			templateUrl: "partials/project_home.html"
+		})
+		
+});
 
 
 app.run(function($http,CSRF_TOKEN){
             $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN;
         });
+
+app.run(function($rootScope) {
+	$rootScope.rsrc_path = '/pcbtracker/public/service/';
+});
 
 app.directive('authMessages', function() {
     return {

@@ -14,6 +14,11 @@ class ProjectController extends BaseController {
 	}
 	
 	public function show($id){
-		return Response::json(Project::find($id),201);
+		$projects = Project::with(array('team_members' => function($query)
+		{
+			$query->where('member_id','equals',$id);
+		}))->get();
+		
+		return Response::json($projects,201);
 	}
 }

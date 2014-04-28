@@ -1,12 +1,27 @@
 
 angular.module("projectTracker")
 	
-    .factory("Authenticate", function($resource){
-        return $resource("/pcbtracker/public/service/authenticate/")
+	.factory("Authenticate", function($resource,$rootScope){
+        return $resource($rootScope.rsrc_path +"authenticate/")
     })
     
-    .factory("Projects", function($resource){
-        return $resource("/pcbtracker/public/service/projects/")
+    .factory("Projects", function($resource,$rootScope){
+        return $resource($rootScope.rsrc_path +"projects/")
+    })
+    
+    .factory("Serial_Numbers", function($resource,$rootScope){
+    	return $resource($rootScope.rsrc_path +"serial_numbers/:projectID",{projectID:'@id'})
+    })
+    
+    .factory("Test_Attempts", function($resource,$rootScope){
+    	return $resource($rootScope.rsrc_path +"test_attempts/:serialID", {serialID:'@id'})
+    })
+    
+    .factory("Test_Results", function($resource,$rootScope){
+    	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
+    			{attemptID:'@id'},
+    			{'query': {method: 'GET', isArray: false}
+    	});
     })
     
     .factory('SharedDataSvc', function(){
