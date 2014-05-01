@@ -21,25 +21,59 @@ var app = angular.module("projectTracker",[
 //    }]);
 
 app.config(function($stateProvider,$urlRouterProvider){
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/login");
 	
 	$stateProvider
-		.state('/', {
-			url: "/",
-			templateUrl: 'partials/login.html',
-			controller: 'loginController'
+		.state('login', {
+			url: '/login',
+			controller: 'loginController',
+			views: {
+				"content": {templateUrl: "app/partials/login.html"}
+			}
 		})
 	
 		.state('home', {
 			url: "/home",
-			templateUrl: "partials/home.html",
-			controller: 'homeController'
-		})	
-		
-		.state('project_home', {
-			url: "/project_home",
-			templateUrl: "partials/project_home.html"
+			views: { 
+				      "header":	{templateUrl: "app/partials/header.html"},
+			         'content':	{templateUrl: "app/partials/home.html",
+								  controller:  "homeController"
+								},
+		     'dataUpload@home':	{templateUrl: "app/partials/data_upload_form.html"},
+		       'projects@home': {templateUrl: "app/partials/projects.html"}
+			}
 		})
+		
+//		.state('home.dataUpload', {
+//			views: {
+//				"dataUpload@home.dataUpload": {templateUrl: "app/partials/data_upload_form.html"}
+//			}
+//		})
+//		
+//		.state('home.projects', {
+//			views: {
+//				"projects@home.projects":  {templateUrl: "app/partials/projects.html",
+//								    		 controller: "projectsController"
+//				}
+//			}
+//		})
+//		
+//		.state('project_home', {
+//			       url: "/project_home",
+//			controller: 'projectHomeController',
+//			     views: {
+//			    	 "content": {templateUrl: "app/partials/serial_numbers.html"}
+//			     }
+//		})
+//		
+//		.state('test_history', {
+//			url: "/test_history",
+//			controller: 'testHistoryController',
+//			views: {
+//				"test_history": {templateUrl: "app/partials/test_attempts.html"},
+//				"test_results": {templateUrl: "app/partials/test_results.html"}
+//			}
+//		})
 		
 });
 
@@ -51,6 +85,11 @@ app.run(function($http,CSRF_TOKEN){
 app.run(function($rootScope) {
 	$rootScope.rsrc_path = '/pcbtracker/public/service/';
 });
+
+//app.run(['$rootScope','$state','$stateParams', function($rootScope, $state, $stateParams) {
+//	$rootScope.$state = $state;
+//	$rootScope.$stateParams = $stateParams;
+//}]);
 
 app.directive('authMessages', function() {
     return {

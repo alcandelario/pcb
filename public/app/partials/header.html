@@ -1,0 +1,24 @@
+<!--  Navigation -->
+<nav class="navbar navbar-default" role="navigation">
+  <div class='container-fluid'>
+	<div class="navbar-header pull-left">
+      <a class="navbar-brand" ui-sref="/home">PeaSeaBee</a>
+    </div>
+    <div class='clearfix'>
+		<div class='pull-right span7'>
+			<ul class="nav navbar-nav">
+				<li><a ui-sref="/home">Projects</a></li>
+				<li><a ui-sref="/calendar">Calendar</a></li>
+				<li><a ui-sref="/toDo">To-do list</a></li>
+				<li>|</li>
+				<li><a ui-sref="/everyone">Everyone</a></li>
+				<li><a ui-sref="/me">Me</a></li>
+			</ul>
+			<div class="">
+				<h1 class="pull-left" ng-bind='Welcome {{username}}'></h1>
+				<button class='pull-right' type="submit" class="btn" ng-click="logout()">Sign out</button>	
+			</div>
+		</div>
+	</div>	
+  </div>
+</nav>
