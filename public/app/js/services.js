@@ -25,14 +25,16 @@ angular.module("projectTracker")
     })
     
     .factory('SharedDataSvc', function(){
-    	var sharedData = {};
+     	var shareddata = {};
+//    	return shareddata;
     	
     	return {
     		getShared: function(){
-    			return sharedData;
+    	  			return shareddata;
     		},
-    		setShared: function(key,value){
-    			sharedData[key] = value;
+    		setShared: function($key,value){
+    		
+    			shareddata[$key] = value;
     		}
     	}
     })

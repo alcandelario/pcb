@@ -1,3 +1,10 @@
-<ul>
-	<li ng-repeat="attempt in testAttempts" ng-bind="attempt.date + attempt.final_result"  ng-click="getTestData(attempt.id)"></li>
-</ul>
+<a ui-sref='projects.home({projectID:projectID, projectName: projectName})' ng-bind="serialNum"></a><br>
+
+<div class="span4">
+
+	<ul>
+		<li ng-repeat="attempt in testAttempts"> <a ui-sref='test_history.results({resultID: attempt.id})' ng-bind="attempt.date + attempt.final_result"></a></li>
+	</ul>
+</div>
+
+<div class="span8" ui-view='results'></div>

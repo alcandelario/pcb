@@ -35,46 +35,63 @@ app.config(function($stateProvider,$urlRouterProvider){
 		.state('home', {
 			url: "/home",
 			views: { 
-				      "header":	{templateUrl: "app/partials/header.html"},
+				      "header":	{templateUrl: "app/partials/header.html",
+				      			  controller: "homeController"},
 			         'content':	{templateUrl: "app/partials/home.html",
-								  controller:  "homeController"
-								},
-		     'dataUpload@home':	{templateUrl: "app/partials/data_upload_form.html"},
-		       'projects@home': {templateUrl: "app/partials/projects.html"}
+			        	 		  controller: "homeController"},
+		     'leftColumn@home':	{templateUrl: "app/partials/data_upload_form.html"},
+		    'rightColumn@home': {templateUrl: "app/partials/projects.html",
+		    					  controller: "homeController"}
+			},
+		controller: 'homeController'
+		})
+		
+		.state('projects', {
+			url: "/projects/:projectID",
+			controller: 'projectHomeController'
+		})
+		
+		.state('projects.home', {
+			  url: '/:projectName',
+			views: {
+				'header' : {templateUrl: "app/partials/header.html"},
+				'content': {templateUrl: 'app/partials/home.html',
+							 controller: 'projectHomeController'
+				},
+				'leftColumn@projects.home': {templateUrl: "app/partials/data_upload_form.html"},
+				'rightColumn@projects.home': {templateUrl: "app/partials/serial_numbers.html"}
 			}
 		})
 		
-//		.state('home.dataUpload', {
-//			views: {
-//				"dataUpload@home.dataUpload": {templateUrl: "app/partials/data_upload_form.html"}
-//			}
-//		})
-//		
-//		.state('home.projects', {
-//			views: {
-//				"projects@home.projects":  {templateUrl: "app/partials/projects.html",
-//								    		 controller: "projectsController"
-//				}
-//			}
-//		})
-//		
-//		.state('project_home', {
-//			       url: "/project_home",
-//			controller: 'projectHomeController',
-//			     views: {
-//			    	 "content": {templateUrl: "app/partials/serial_numbers.html"}
-//			     }
-//		})
-//		
-//		.state('test_history', {
-//			url: "/test_history",
-//			controller: 'testHistoryController',
-//			views: {
-//				"test_history": {templateUrl: "app/partials/test_attempts.html"},
-//				"test_results": {templateUrl: "app/partials/test_results.html"}
-//			}
-//		})
+		.state('test_history', {
+			url: '/test_history/:serialID',
+			controller: 'testHistoryController'
+		})
 		
+		.state('test_history.serial', {
+			url: '/:serialNumber',
+			views: {
+				'header' : {templateUrl: "app/partials/header.html"},
+				'content': {templateUrl: 'app/partials/home.html',
+						 	 controller: 'testHistoryController'
+		},
+		 'leftColumn@test_history.serial': {templateUrl: "app/partials/data_upload_form.html"},
+		'rightColumn@test_history.serial': {templateUrl: "app/partials/test_attempts.html"}
+			}
+		})
+		
+		.state('test_history.results', {
+			url: '/results/:resultID',
+			views: {
+				'header' : {templateUrl: "app/partials/header.html"},
+				'content': {templateUrl: 'app/partials/home.html',
+						 	 controller: 'testResultsController'
+				},
+				'leftColumn@test_history.results':  {templateUrl: "app/partials/data_upload_form.html"},
+				'rightColumn@test_history.results': {templateUrl: "app/partials/test_attempts.html"},
+				'results@test_history.results':     {templateUrl: "app/partials/test_results.html"}
+			}
+		})
 });
 
 
