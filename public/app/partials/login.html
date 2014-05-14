@@ -1,21 +1,25 @@
-<h1>PCB</h1>
-<form class="form-horizontal" ng-submit="login()" ng-controller='loginController'>
-    <div class="control-group">
-        <label class="control-label" for="inputEmail">Email</label>
-        <div class="controls">
-            <input type="text" id="inputEmail" placeholder="Email" ng-model="email" required>
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-            <input type="password" id="inputPassword" placeholder="Password" ng-model="password" required>
-        </div>
-    </div>
-    <div class="control-group">
-        <div class="controls">
-            <button type="submit" class="btn">Sign in</button>
-        </div>
-    </div>
-    </div>
-</form>
+<div class='clearfix'>
+	<div class='span-6 clearfix'>
+		<!-- form.login is to make scope variables accessible to MainController -->
+	
+	  	<form name='form.login' class="form-horizontal" ng-submit="login()"  ng-controller='MainController'>
+	    	<div class="control-group">
+	        	<label class="control-label" for="inputEmail">Email</label>
+	        	<div class="controls">
+	            	<input type="text" id="inputEmail" placeholder="Email" ng-model="email" required>
+	        	</div>
+	    	</div>
+		    <div class="control-group">
+		        <label class="control-label" for="inputPassword">Password</label>
+		        <div class="controls">
+		            <input type="password" id="inputPassword" placeholder="Password" ng-model="password" required>
+		        </div>
+		    </div>
+		    <div class="control-group">
+		        <div class="controls">
+		            <button type="submit" class="btn">Sign in</button>
+		        </div>
+		    </div>
+	 	</form>
+   </div>
+</div>

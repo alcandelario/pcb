@@ -4,7 +4,7 @@ angular.module('content',[])
 		
 		$scope.logout = function (){
 	        Authenticate.get({},function(){
-	        	SharedDataSvc.setShared("flash","You've logged out, "+$scope.username);
+	        	SharedDataSvc.setShared("flash","You've logged out, "+ $scope.username);
 	            $location.path('/')
 	        })
 	    }

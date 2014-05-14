@@ -8,14 +8,13 @@
     <link href="app/css/app.css" rel="stylesheet" />
 </head>
 <body ng-app="projectTracker">
-	<div class="alert" ng-show="flash" ng-bind="flash"></div>
 
-	<div ng-controller='ContentController'>
-		<div class="container" ui-view>
-			<div ui-view='header'></div>
-			<div ui-view='content'></div>
-			<div ui-view='footer'></div>
-		</div>
+	<div ng-controller='MainController' class='container' ui-view>
+			<if-login-required ui-view="login" ng-hide="loginForm"></if-login-required>
+			<header ng-include ='"app/partials/header.html"'></header>
+			<div class="alert" ng-show="flash" ng-bind="flash"></div>
+			<section ui-view='content'></section>
+			<footer ui-view='footer'></footer>
 	</div>
 
 	<script src="app/lib/angular/angular.min.js"></script>

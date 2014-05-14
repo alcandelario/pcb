@@ -14,11 +14,11 @@
 				<li><a ui-sref="everyone">Everyone</a></li>
 				<li><a ui-sref="me">Me</a></li>
 			</ul>
-			<div class="">
-				<h5 class="pull-left" ng-bind={{username}}></h5>
+			<div ng-if='showlogoutBtn == true'>
+				<h5 class="pull-left" ng-bind='Welcome+" "+username'></h5>
 				<button class='pull-right' type="submit" class="btn" ng-click="logout()">Sign out</button>	
 			</div>
 		</div>
 	</div>	
-  </div>
+  </div> 
 </nav>

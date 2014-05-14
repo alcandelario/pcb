@@ -24,9 +24,8 @@ angular.module("projectTracker")
     	});
     })
     
-    .factory('SharedDataSvc', function(){
+    .service('SharedDataSvc', function(){
      	var shareddata = {};
-//    	return shareddata;
     	
     	return {
     		getShared: function(){
@@ -39,7 +38,7 @@ angular.module("projectTracker")
     	}
     })
     
-    .factory('Flash', function($rootScope){
+    .service('Flash', function($rootScope){
         return {
             show: function(message){
                 $rootScope.flash = message

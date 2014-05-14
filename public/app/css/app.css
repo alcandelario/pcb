@@ -55,3 +55,11 @@ label, input, .error
 {
     color : #ef7c61;
 }
+
+
+/* Custom App CSS */
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}

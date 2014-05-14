@@ -3,7 +3,7 @@
 <div class="span4">
 
 	<ul>
-		<li ng-repeat="attempt in testAttempts"> <a ui-sref='test_history.results({resultID: attempt.id})' ng-bind="attempt.date + attempt.final_result"></a></li>
+		<li ng-repeat="attempt in testAttempts"> <a ui-sref='test_history.serial.awt_data({resultID: attempt.id})' ng-bind="attempt.date +' '+ attempt.final_result"></a></li>
 	</ul>
 </div>
 
