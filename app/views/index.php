@@ -10,9 +10,9 @@
 <body ng-app="projectTracker">
 
 	<div ng-controller='MainController' class='container' ui-view>
-			<if-login-required ui-view="login" ng-hide="loginForm"></if-login-required>
-			<header ng-include ='"app/partials/header.html"'></header>
-			<div class="alert" ng-show="flash" ng-bind="flash"></div>
+			<if-login-required></if-login-required>
+			<header logged-in-nav></header>
+			<div ng-bind-html="flash" ng-show='showFlash'></div>
 			<section ui-view='content'></section>
 			<footer ui-view='footer'></footer>
 	</div>

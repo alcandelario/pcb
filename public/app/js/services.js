@@ -39,12 +39,23 @@ angular.module("projectTracker")
     })
     
     .service('Flash', function($rootScope){
-        return {
-            show: function(message){
-                $rootScope.flash = message
+    	return {
+            show: function(where,message){
+            	switch (where){
+            	case 'login_flash':
+            		$rootScope.login_flash = '<div class=\'alert\'>'+message+'</div>';
+            		$rootScope.showLoginFlash = true;
+            		break;
+            	case 'flash':
+            		$rootScope.flash = '<div class="alert">'+message+'</div>';
+            		$rootScope.showFlash = true;
+            		break;
+            	}
             },
             clear: function(){
-                $rootScope.flash = ""
+            	$rootScope.showFlash = false;
             }
         }
     })
+    
+    

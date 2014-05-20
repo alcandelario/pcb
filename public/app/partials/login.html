@@ -1,5 +1,7 @@
 <div class='clearfix'>
-	<div class='span-6 clearfix'>
+	
+	<div ng-bind-html='login_flash' ng-show='showLoginFlash'></div>
+	<div class='span12 clearfix'>
 		<!-- form.login is to make scope variables accessible to MainController -->
 	
 	  	<form name='form.login' class="form-horizontal" ng-submit="login()"  ng-controller='MainController'>
@@ -22,4 +24,5 @@
 		    </div>
 	 	</form>
    </div>
+   
 </div>

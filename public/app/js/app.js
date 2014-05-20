@@ -17,13 +17,12 @@ app.config(function($stateProvider,$urlRouterProvider){
 				   url: '/login',
 			controller: 'MainController',
 				 views: {"content": {templateUrl: "app/partials/login.html"}}
-		})
-		
+		})		
 		
 		.state('home', {
 			url: "/home",
 			views: { 
-			        'content@': {templateUrl: "app/partials/home.html",
+				    'content@': {templateUrl: "app/partials/home.html",
 			             		  controller: "homeController"},
 			 'leftColumn@home': {templateUrl: "app/partials/data_upload_form.html",
 		    	 				  controller: "homeController"},
@@ -92,6 +91,8 @@ app.run(function($http,CSRF_TOKEN){
 
 app.run(function($rootScope) {
 	$rootScope.rsrc_path = '/pcbtracker/public/service/';
+	$rootScope.showFlash = false;
+	$rootScope.showLoginFlash = false;
 });
 
 
@@ -103,7 +104,7 @@ app.run(
 		}])
 
 		
-app.directive('ifLoginRequired', ['$compile','$http','$templateCache','$rootScope','Flash', function($rootScope,Flash,$compile,$http,$templateCache) {
+app.directive('ifLoginRequired', ['$compile','$http','$templateCache','Flash','authService', function($compile,$http,$templateCache,Flash,authService) {
 		/**
 		 * Directive: To handle session expiration
 		 * 
@@ -118,36 +119,44 @@ app.directive('ifLoginRequired', ['$compile','$http','$templateCache','$rootScop
 	
 	
 		var linker = function(scope,element,attrs) {
-				scope.$on('event:auth-loginRequired', function($rootScope,Flash) {
+			
+				scope.$on('event:auth-loginRequired', function(event,message) {
 					/*
-					 * Flash a static alert message inside the 'login' partial 
-					 *   &&&&& A "dynamic messages" service is likely needed &&&&&
+					 * Display the 'login' partial and flash a "session expired" alert.
+					 * Do not display partial if a new page load, failed login, or
+					 * if user manually logs out
 					 */
 					
-					// don't do this for a fresh login that failed, though
-					$rootScope.sessionExpired = true;
-					
-					if($rootScope.freshLogin == false){		
-						var template = getTemplate();
+				  
+					if(message.data.flash != 'userLogout' && message.data.flash != "Authentication failed"){
 						
-						var promise = template.success(function(html) {
+						// session must have expired so show a login partial
+						var loader = getTemplate();
+					
+						var promise = loader.success(function(html) {
 							element.html(html);
-						}).then(function (response) {
+						})
+						.then(function(response) {
+						
 							var compiled = $compile(element.html())(scope);
 							element.replaceWith(compiled);
 							element = compiled;
 						})
+						Flash.show("login_flash", "Your session expired. Please log the fuck back in");
 					}
-					else {
-						Flash.show('Login Failed bud...try again');
+					else if(message.data.flash == 'Authentication failed'){
+						
+						// failed login attempt
+						authService.loginCancelled();  // dump any buffered http requests
+						Flash.show("login_flash","Sorry but your email/password combo did not work. Try again");
 					}
-				});
+				})
 			
 		        
 				scope.$on('event:auth-loginConfirmed', function($rootScope) {
-					// remove the login partial
-					Flash.clear();
+					scope.sessionExpired = false;
 					
+					// remove the login partial
 					var compiled = $compile('<div></div>')(scope);
 					element.replaceWith(compiled);
 					element = compiled;
@@ -157,47 +166,97 @@ app.directive('ifLoginRequired', ['$compile','$http','$templateCache','$rootScop
 	return {
 		restrict: 'E',
 		    link: linker,
-  	     replace: true
+	     replace: true
 	}		
 }]);
 
-
-app.directive('showLogoutBtn', ['$compile','$templateCache','$state','$rootScope', function($rootScope,$state,$compile,$http,$templateCache) {
+app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$rootScope', function($compile,$http,$templateCache,Flash,$rootScope) {
 	/**
-	 * Directive: For logout button visibility
+	 * Directive: To handle nav bar display
 	 * 
-	 * Either default to invisible or make "logout" button invisible,
-	 * based on user's auth status
-	 *
-	 **/
-	
-//	var linker = function(scope,element,attrs) {
-//		// default state of this button
-//		$rootScope.showLogoutBtn = true;
-//
-//		
-//		scope.$on('event:auth-loginConfirmed', function() {
-//			$rootScope.showLogoutBtn = true; 
-//		});
-//		scope.$on('event:auth-loginRequired', function() {
-//			$rootScope.showLogoutBtn = false;
-//		})
-//	}
+	 * 
+     **/
+
+	var getTemplate = function(){
+		return $http.get("app/partials/header.html", {cache: $templateCache});
+	}
+
+
+	var linker = function(scope,element,attrs) {
+		
+		var template = function () {
+			var loader = getTemplate();
+		
+			var promise = loader.success(function(html) {
+				element.html(html);
+			})
+			.then(function(response) {
+		
+				var compiled = $compile(element.html())(scope);
+				element.replaceWith(compiled);
+				element = compiled;
+			})
+		}
+		
+		
+			if($rootScope.userLoggedIn === true){
+				template();
+			}
+			
+			scope.$on('event:auth-loginConfirmed', function() {
+				/*
+				 * Display the 'header' partial
+				 */
+				
+				template();
+			})
+		
+	        
+			scope.$on('event:auth-loginRequired', function(event,message) {
+			
+				// remove the header partial if the user logged out
+				if(message.data.flash == 'userLogout'){
+					scope.sessionExpired = true;
+					var compiled = $compile('<div></div>')(scope);
+					element.replaceWith(compiled);
+					element = compiled;
+				}
+			});
+		}
 
 return {
 	restrict: 'A',
-//	    link: linker,
-	 replace: true,
-	 controller: function($rootScope,$scope) {
-		 $rootScope.showLogoutBtn = true;
-		 
-		 $scope.$on('event:auth-loginConfirmed', function() {
-				$rootScope.showLogoutBtn = true; 
-		});
-		
-		 $scope.$on('event:auth-loginRequired', function() {
-				$rootScope.showLogoutBtn = false;
-		});
-	 }
+	    link: linker,
+     replace: true
 }		
 }]);
+
+
+//app.directive('loggedInNav', ['$compile','$http','$templateCache','$rootScope', function($compile,$http,$templateCache,$rootScope) {
+//	/**
+//	 * Directive: For logout button visibility
+//	 * 
+//	 * Either default to invisible or make "logout" button invisible,
+//	 * based on user's auth status
+//	 *
+//	 **/
+//	
+//	var linker = function(scope,element,attrs) {
+//		// default state of this button
+//	//	$rootScope.isLoggedIn = true;
+//
+//		
+//		scope.$on('event:auth-loginConfirmed', function() {
+//			$rootScope.isLoggedIn = true; 
+//		});
+//		scope.$on('event:auth-loginRequired', function() {
+//			$rootScope.isLoggedIn = false; 
+//		})
+//	}
+//
+//return {
+//	restrict: 'A',
+//	    link: linker,
+//	 replace: true,
+//}		
+//}]);

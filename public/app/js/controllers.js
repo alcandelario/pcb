@@ -59,17 +59,18 @@ angular.module("projectTracker")
      *
      **/
     .controller('MainController', function($scope,$rootScope,$state,$sanitize,$location,Authenticate,SharedDataSvc,authService,Flash) {
-    	$rootScope.sessionExpired = false;  // if it is a fresh login, technically session hasn't expired
+    	//$rootScope.sessionExpired = false;  // if it is a new login, technically session hasn't expired
        	$defaultState = 'home';				// where to go after logging in
-       	$rootScope.freshLogin = true;
+       	$rootScope.isLoggedIn = false;      // default button visibility 
        	
     	$scope.logout = function (){
     		Authenticate.get({});  			// our index() server endpoint will logout the user
-    		$state.go("login");	
+    		$rootScope.userLoggedIn = false;
+    		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
+    		$state.go("login");
     	}
     	
         $scope.login = function(){
-        	$rootScope.freshLogin = false;  // user just tried loggin in 
 	
          	Authenticate.save({
                  'email': $sanitize($scope.email),
@@ -80,9 +81,8 @@ angular.module("projectTracker")
     
             	// broadcast a successful login event
              	authService.loginConfirmed();
-             	
+             	$rootScope.userLoggedIn = true;
              	$rootScope.username = data.user.username;
-             	$rootScope.showLogoutBtn = true; // hidden unless user logs in
              	$rootScope.email = data.user.email;
              	
                 // go to a default state if its a fresh login o
