@@ -2,24 +2,21 @@
 
 class ImportedDataController extends BaseController {
 	
-	
+	/**
+	 * This method provides a means for processing pcb test data (i.e. like output from an AWT)
+	 * which outputs html files. The application supports single file or zip file uploads for
+	 * bulk processing of pcb test data files
+	 *
+	 * @param int $mode
+	 *  	0: parse uploaded files
+	 *  	1: parse a folder on or mapped to the server
+	 *
+	 */
 	public function pcb_test_data($mode)
 	{
-		/** 
-		 * This method provides a means for processing pcb test data (i.e. like output from an AWT) 
-		 * which outputs html files. The application supports single file or zip file uploads for 
-		 * bulk processing of pcb test data files
-		 * 
-		 * @param int $mode
-		 *  	0: parse uploaded files
-		 *  	1: parse a folder on or mapped to the server
-		 * 
-		 */	
 		
-		/** 
-		 *	directory to work with uploaded files
-		 */
-			$data_dir = app_path()."\\temp\\";
+		//	directory to work with uploaded files
+		$data_dir = app_path()."\\temp\\";
 		
 		//  
 		if($mode == 0){

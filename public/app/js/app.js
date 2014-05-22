@@ -4,7 +4,9 @@ var app = angular.module("projectTracker",[
                                            'ngResource',
                                            'ngSanitize',
                                            'ngRoute',
-                                           'ui.router'
+                                           'ui.router',
+                                           'ngCookies',
+                                           'angularFileUpload'
                                            ]
 );
 
@@ -17,16 +19,15 @@ app.config(function($stateProvider,$urlRouterProvider){
 				   url: '/login',
 			controller: 'MainController',
 				 views: {"content": {templateUrl: "app/partials/login.html"}}
-		})
-		
+		})		
 		
 		.state('home', {
 			url: "/home",
 			views: { 
-			        'content@': {templateUrl: "app/partials/home.html",
+				    'content@': {templateUrl: "app/partials/home.html",
 			             		  controller: "homeController"},
 			 'leftColumn@home': {templateUrl: "app/partials/data_upload_form.html",
-		    	 				  controller: "homeController"},
+		    	 				  controller: "fileUploadController"},
 		    'rightColumn@home': {templateUrl: "app/partials/projects.html",
 		    					  controller: "homeController"}
 			}
@@ -43,31 +44,32 @@ app.config(function($stateProvider,$urlRouterProvider){
 				'content': {templateUrl: 'app/partials/home.html',
 							 controller: 'projectHomeController'
 				},
-				 'leftColumn@projects.home': {templateUrl: "app/partials/data_upload_form.html"},
+				 'leftColumn@projects.home': {templateUrl: "app/partials/data_upload_form.html",
+					 						   controller: 'fileUploadController'},
 				'rightColumn@projects.home': {templateUrl: "app/partials/serial_numbers.html"}
 			}
 		})
 		
 		.state('test_history', {
-			url: '/test_history/:projectID',
+				   url: '/test_history'
 		})
 		
 		.state('test_history.serial', {
 			url: '/:serialID',
 			views: {
 				'content': {templateUrl: 'app/partials/home.html',
-				   	 	     controller: 'testHistoryController'
-				},
-		 'leftColumn@test_history.serial': {templateUrl: "app/partials/data_upload_form.html"},
-		'rightColumn@test_history.serial': {templateUrl: "app/partials/test_attempts.html"}
+				   	 	     controller: 'testHistoryController'},
+				'leftColumn@test_history.serial':  {templateUrl: "app/partials/data_upload_form.html",
+													controller: 'fileUploadController'},
+				'rightColumn@test_history.serial': {templateUrl: "app/partials/test_attempts.html"}
 			}
 		})
 		
 		.state('test_history.serial.awt_data', {
-			url: '/awt_data/:resultID',
+			url: '/awt/:resultID',
 			views: {
-				'results@test_history.serial.awt_data': {templateUrl: "app/partials/test_results.html",
-														  controller: "testResultsController" }
+				'results@test_history.serial' : {templateUrl: 'app/partials/test_results.html',
+												  controller: 'testResultsController'}
 			}
 		})
 
@@ -92,6 +94,8 @@ app.run(function($http,CSRF_TOKEN){
 
 app.run(function($rootScope) {
 	$rootScope.rsrc_path = '/pcbtracker/public/service/';
+	$rootScope.showFlash = false;
+	$rootScope.showLoginFlash = false;
 });
 
 
@@ -101,103 +105,3 @@ app.run(
 			$rootScope.$state = $state;
 			$rootScope.$stateParams = $stateParams;			
 		}])
-
-		
-app.directive('ifLoginRequired', ['$compile','$http','$templateCache','$rootScope','Flash', function($rootScope,Flash,$compile,$http,$templateCache) {
-		/**
-		 * Directive: To handle session expiration
-		 * 
-		 * Use http-auth-interceptor to look for any 401 (unauthorized) events
-		 * and prompt user to login
-		 * 
-	     **/
-	
-		var getTemplate = function(){
-			return $http.get("app/partials/login.html", {cache: $templateCache});
-		}
-	
-	
-		var linker = function(scope,element,attrs) {
-				scope.$on('event:auth-loginRequired', function($rootScope,Flash) {
-					/*
-					 * Flash a static alert message inside the 'login' partial 
-					 *   &&&&& A "dynamic messages" service is likely needed &&&&&
-					 */
-					
-					// don't do this for a fresh login that failed, though
-					$rootScope.sessionExpired = true;
-					
-					if($rootScope.freshLogin == false){		
-						var template = getTemplate();
-						
-						var promise = template.success(function(html) {
-							element.html(html);
-						}).then(function (response) {
-							var compiled = $compile(element.html())(scope);
-							element.replaceWith(compiled);
-							element = compiled;
-						})
-					}
-					else {
-						Flash.show('Login Failed bud...try again');
-					}
-				});
-			
-		        
-				scope.$on('event:auth-loginConfirmed', function($rootScope) {
-					// remove the login partial
-					Flash.clear();
-					
-					var compiled = $compile('<div></div>')(scope);
-					element.replaceWith(compiled);
-					element = compiled;
-				});
-			}
-	
-	return {
-		restrict: 'E',
-		    link: linker,
-  	     replace: true
-	}		
-}]);
-
-
-app.directive('showLogoutBtn', ['$compile','$templateCache','$state','$rootScope', function($rootScope,$state,$compile,$http,$templateCache) {
-	/**
-	 * Directive: For logout button visibility
-	 * 
-	 * Either default to invisible or make "logout" button invisible,
-	 * based on user's auth status
-	 *
-	 **/
-	
-//	var linker = function(scope,element,attrs) {
-//		// default state of this button
-//		$rootScope.showLogoutBtn = true;
-//
-//		
-//		scope.$on('event:auth-loginConfirmed', function() {
-//			$rootScope.showLogoutBtn = true; 
-//		});
-//		scope.$on('event:auth-loginRequired', function() {
-//			$rootScope.showLogoutBtn = false;
-//		})
-//	}
-
-return {
-	restrict: 'A',
-//	    link: linker,
-	 replace: true,
-	 controller: function($rootScope,$scope) {
-		 $rootScope.showLogoutBtn = true;
-		 
-		 $scope.$on('event:auth-loginConfirmed', function() {
-				$rootScope.showLogoutBtn = true; 
-		});
-		
-		 $scope.$on('event:auth-loginRequired', function() {
-				$rootScope.showLogoutBtn = false;
-		});
-	 }
-}		
-}]);

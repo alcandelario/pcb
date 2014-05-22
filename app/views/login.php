@@ -40,7 +40,7 @@
 
 	   <br><br>
 		
-       <form action=<?php action('HomeController@login');?> method = 'POST'>
+       <form action=<?php action('HomeController@test');?> method='POST'>
     		<div style='position: relative; border: 1px solid black; max-width: 160px;'>
 		        <h4 style='text-align:center; margin: 5px 0 10px 0'>Login</h4>
 		        <input type="email" name="email" placeholder="Username">
