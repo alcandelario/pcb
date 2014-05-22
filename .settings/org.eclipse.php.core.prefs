@@ -1,2 +1,5 @@
+#Wed May 14 15:59:00 CDT 2014
 eclipse.preferences.version=1
-include_path=
+include_path=0;/pcbtracker
+phpVersion=php5.3
+use_asp_tags_as_php=false
