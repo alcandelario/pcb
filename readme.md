@@ -1,21 +1,27 @@
-## Laravel PHP Framework
+PCB
+===
+PCB is an under-development refactor of an app designed to manage printed circuit board (PCB) test data, notes and development milestones for Electrical Engineers.
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+Orgnanizations that cannot justify the cost of larger content management applications (SAP for example) tend to use manual, decentralized means of tracking data. This means lots of spreadsheets, no standards for document keeping and files haphazardly spread out on the engineering team's server.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+PCB's goal is to simplify and organize test-data records and any notes/data related to a project's hardware development
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+Implementation
+==============
+Laravel 4.0 is used to create a RESTful API
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+AngularJS 1.3 is used for client-side single page navigation, simplifying XHR requests to the Laravel API, etc
 
-## Official Documentation
+Postgres SQL is used as the data store
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+Beyond any app-specific framework code, a parser feature was built to handle the import of HTML-based test data files
 
-### Contributing To Laravel
+Yet to be completed porting an old-code feature to pipe test data into Google's chart API, to allow statistical analysis of test data
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+Issues
+======
+This project is a new port of a completely homebrew'd implementation and with the introduction of AngularJS for client-side interactivity, the project is in its infancy.
 
-### License
+The API currently has several endpoints already to retrieve products, serial numbers, test attempts and test results.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The AngularJS frontend can currently handle user authentication and fetching a list of projects the user is associated with
