@@ -63,3 +63,67 @@ label, input, .error
     float: none;
     margin: 0 auto;
 }
+
+.table-bordered {
+    border: 1px solid #ddd;
+    border-collapse: separate;
+    border-left: 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+/*******************************************************************Sign-in Form */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/********************************************************************User Profile Link */
+.user-profile-link {
+    margin-left: 100px;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.logout-btn {
+    padding-top: 8px;
+    font-style: italic;
+    color: #FD7408;
+}
+
+.logout-btn:hover {
+    text-decoration: none;
+}
+

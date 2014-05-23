@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>PeaSeaBee</title>
-    <link href="app/css/bootstrap.min.css" rel="stylesheet">
-    <link href="app/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="app/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!--  <link href="app/css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
     <link href="app/css/app.css" rel="stylesheet" />
 </head>
+
 <body ng-app="projectTracker">
 
 	<div ng-controller='MainController' class='col-md-12' ui-view>

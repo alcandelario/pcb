@@ -67,7 +67,6 @@ angular.module("projectTracker")
     		$cookieStore.put('username', '');
          	$cookieStore.put('email', '');
     		
-         	//$rootScope.userLoggedIn = false;
     		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
     		$state.go("login");
     	}
@@ -88,6 +87,7 @@ angular.module("projectTracker")
              	$cookieStore.put('user_logged_in', 'true');
              	$cookieStore.put('username', data.user.username);
              	$cookieStore.put('email', data.user.email);
+                $rootScope.username = data.user.username;  // to populate header 
         		
                // go to our default state if its NOT an expired session
                 if($rootScope.sessionExpired == false || typeof $rootScope.sessionExpired === 'undefined'){
@@ -96,7 +96,6 @@ angular.module("projectTracker")
                 // otherwise just reset the session flag and stay in current state
                 else{
                 	$cookieStore.put('sessionExpired', 'false');
-            		//$rootScope.sessionExpired = false;
                 }
              },
              

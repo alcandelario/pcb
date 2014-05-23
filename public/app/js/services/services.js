@@ -43,11 +43,11 @@ angular.module("projectTracker")
             show: function(where,message){
             	switch (where){
             	case 'login_flash':
-            		$rootScope.login_flash = '<div class=\'alert\'>'+message+'</div>';
+            		$rootScope.login_flash = message;
             		$rootScope.showLoginFlash = true;
             		break;
             	case 'flash':
-            		$rootScope.flash = '<div class="alert">'+message+'</div>';
+            		$rootScope.flash = message;
             		$rootScope.showFlash = true;
             		break;
             	}
