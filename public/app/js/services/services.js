@@ -23,6 +23,11 @@ angular.module("projectTracker")
     			{'query': {method: 'GET', isArray: false}
     	});
     })
+    .service('DashUrl', function() {
+        this.makeUrl = function(rawString){
+           return rawString.replace(/\s+/g, '-').toLowerCase(); 
+        }
+    })
     
     .service('SharedDataSvc', function(){
      	var shareddata = {};

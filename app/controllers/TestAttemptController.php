@@ -50,7 +50,4 @@ class TestAttemptController extends BaseController {
 		return Response::json($test_attempts,201);
 	
 	}
-	
-	
-	
 }

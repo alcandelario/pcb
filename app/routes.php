@@ -27,6 +27,7 @@ Route::group(array('prefix' => 'service'), function() {
 	Route::resource('serial_numbers', 'SerialNumberController');
 	Route::resource('test_attempts', 'TestAttemptController');
 	Route::resource('test_results', 'TestResultController');
+	Route::resource('upload_data','ImportedDataController');
 });
 
 // USER MUST BE LOGGED IN TO GET TO THESE ROUTES
@@ -42,7 +43,7 @@ Route::group(["before" => "guest"], function()
 				"uses" => "UserController@logoutAction"
 	]);
 	
-	Route::post('upload_data/{id}','ImportedDataController@pcb_test_data');
+	//Route::post('upload_data/{id}','ImportedDataController@pcb_test_data');
 	
 	Route::get('projects/{id?}','ProjectController@get_projects');
 	

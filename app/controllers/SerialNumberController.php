@@ -9,7 +9,19 @@ class SerialNumberController extends BaseController {
 	}
 	
 	public function show($id){
-		$serial_numbers = Serial_Number::where('project_id','=',$id)
+
+		$test_attempts = Test_Attempt::with('serial_number')
+		//$test_attempts = Serial_Number::with('test_attempt')
+		->where('serial_number_id','=',$id)
+		//->where('id','=',$id)
+		->orderBy('date','ASC')
+		->get();
+
+
+
+
+		$serial_numbers = Serial_Number::with('project')
+		->where('project_id','=',$id)
 		->orderBy(DB::raw('LENGTH(pcb), pcb'))
 		->get();
 	

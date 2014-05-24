@@ -73,7 +73,7 @@ app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$root
 		$rootScope.username = $cookieStore.get('username');
 		
 		if($rootScope.userLoggedIn === "true"){
-			var compiled = $compile('<header ng-include=\'"app/partials/header.html"\'></header>')(scope);
+			var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
 			element.replaceWith(compiled);
 			element = compiled;
 		}
@@ -81,7 +81,7 @@ app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$root
 
 		// Successful login handler. Will insert header partial
 		scope.$on('event:auth-loginConfirmed', function() {
-			var compiled = $compile('<header ng-include=\'"app/partials/header.html"\'></header>')(scope);
+			var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
 			element.replaceWith(compiled);
 			element = compiled;
 		})

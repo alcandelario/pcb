@@ -5,9 +5,23 @@ angular.module("projectTracker")
      * overview of all user projects
 	 *
 	 **/
-	.controller('homeController', function($scope,$rootScope,Projects,SharedDataSvc){
-    	    var projects = Projects.query();
-    	    $scope.projects = projects;   
+	.controller('homeController', function($scope,$rootScope,Projects,SharedDataSvc,$cookieStore){
+    	    $cookieStore.put("projectName", "");
+            $cookieStore.put("projectID", "");
+
+            $scope.projects = Projects.query();
+
+            $scope.projects.$promise.then(function (projects) {
+            
+              // add a clean url segment for project home links
+                for(var count=0; count < projects.length; count++){
+                    // extract one record and add to the array
+                    var project = projects[count];
+                    var name = project['name'];
+                    projects[count]['projectUrl'] = $scope.DashUrl.makeUrl(name);
+                }
+                $scope.projects = projects;
+            });  
     })
     
     /**
@@ -15,13 +29,24 @@ angular.module("projectTracker")
      * individual project home
      *
      **/
-    .controller('projectHomeController',function($cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
-    	
+    .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
+
+        $scope.projectName = $cookieStore.get("projectName");
+
     	$scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
-    	$scope.projectName = $stateParams.projectName;
- 
-    	$cookieStore.put("projectName", $stateParams.projectName);
-    	$cookieStore.put("projectID", $stateParams.projectID);
+
+        $scope.serials.$promise.then(function(serials) {
+            $scope.projectName = serials[0].project.name;
+            $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
+            $cookieStore.put("projectName", $scope.projectName);
+            $scope.hideProjectHome = "false";
+            $scope.hideNestedOne = 'true';
+            $scope.hideNestedTwo = 'true';
+        })
+
+        // $scope.hideProjectHome = "false";
+        $scope.projectID = $stateParams.projectID;
+        $cookieStore.put("projectID", $scope.projectID);
     })
     
     /**
@@ -48,8 +73,12 @@ angular.module("projectTracker")
      *
      **/
     .controller('testResultsController',function($scope,$stateParams,$location,Serial_Numbers,Test_Attempts,Test_Results,SharedDataSvc){
-    	
+    	$scope.hideTestResults='true';
+
     	$scope.testData = Test_Results.query({attemptID:$stateParams.resultID});
+        $scope.testData.$promise.then(function(result) {
+            $scope.hideTestResults='false';
+        })
     	    	
     })
     
@@ -109,23 +138,24 @@ angular.module("projectTracker")
          }
     })
     
-    .controller('fileUploadController', function($cookieStore,$scope,$fileUploader,$location) {
+    .controller('fileUploadController', function($cookieStore, $scope,$fileUploader,$location) {
     	// build the route Laravel will respond to for file uploads
     	var $projectID = $cookieStore.get('projectID');
     	var $url = $location.absUrl();
-    	var $path = "#"+$location.path();
+    	var $path = "index.php?/#"+$location.path();
     	var $mode = "0"    //default upload mode
-    	$url = $url.replace($path,"/upload_data/"+$mode);
+    	$url = $url.replace($path,"/service/upload_data");
     	
     	// create a uploader with options
         var uploader = $scope.uploader = $fileUploader.create({
                scope: $scope,                          // to automatically update the html. Default: $rootScope
                  url: $url,
             formData: [
-                       { id: $projectID }
+                       { id: $projectID}
+                              
             ],
             filters: [
-                function (item) {                    // first user filter
+                function (item) {                     // first user filter
                  
                 	return true;
                 }
@@ -156,6 +186,7 @@ angular.module("projectTracker")
         });
 
         uploader.bind('success', function (event, xhr, item, response) {
+        	$scope.upload_status = "Your data was saved successfully!";
             console.info('Success', xhr, item, response);
         });
 
@@ -164,6 +195,7 @@ angular.module("projectTracker")
         });
 
         uploader.bind('error', function (event, xhr, item, response) {
+        	$scope.upload_status = "Uh oh, problem saving your data to the database";
             console.info('Error', xhr, item, response);
         });
 

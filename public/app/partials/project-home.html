@@ -1,0 +1,54 @@
+<div class='col-md-12 project-home project-home-cont'> 
+  <h3><a ui-sref="project.home({projectID:projectID, projectName:projectUrl})" ng-bind="projectName"></a></h3>
+
+  <section class="nested-one  col-md-12" ui-view="nestedOne" ng-hide='hideNestedOne'>
+  	<section class="nested-two col-md-12" ui-view="nestedTwo" ng-hide='hideNestedTwo'></section>
+  </section>
+  
+  <div class='project-home-cont' ng-hide="hideProjectHome" >
+	  <nav class='project-overview-links'>
+	  	<!-- link to all general project posts, show all to-do's, show all files, show all text documents, show all milestones -->
+	  </nav>
+	  
+	  <section class='project-milestones'>
+	  	<div ui-view="projectRelatedMilestonesFromMSProjectFiles"><!-- last 3 or so --></div>
+	  	<div ui-view="pcbRelatedMilestonesFromMSProjectFiles"></div>
+	  </section>
+	  
+	  <section class="pcbOverview">
+	    <div ui-view="pcbPassFailShippedOutStatus"><!-- simple table --> </div>
+	  	<div ui-view="topAWTFailures"><!-- test name and percentage failed. might be worth it to give test failures a separate table later on --> 
+	  	</div>
+	  	<div ui-view="topCustomTestTableFailures">
+	  		<!-- if empty, put placeholder link to "Create New" custom test -->
+	  	</div>
+	  </section>
+
+	  <section class="project-issues">
+	  	<div ui-view="projectIssues">
+	  		<!-- show last 5 notes pertaining to: HW/SW bugs, Mech fitment issues, initial board bring up issues  -->
+	  	</div>
+	  </section>
+
+	  <section class="row serial-nums" ui-view="serialNums">
+	  	
+	  		<!-- dhow first 30 pcb serial nums. if mulitple revs of a pcb design show link to a bit of ui that lets them pick a different revision -->
+	  		<!-- in that same row, show imei#, SW version, CPLD ver, FPGA ver-->
+	  		<!-- show link to "enter a new serial number, which takes them to a page where they enter serial info but also have option to import awt data for this serial or manually enter in parametric/functional test data or enter a note about it" --> 
+	  		<!-- have following links to create NEW: pcb change list item, Log a new bug,  -->
+	  		<!-- have a link to show all serial numbers in one view -->
+
+	  </section>
+
+	  <section class="to-do-list">
+	  	<div ui-view="toDoList"></div>
+	  </section>
+
+	  <section class="design-data-lnks">
+	  	<div ui-view="designDataLinks">
+	  		<!-- perhaps a text display of where an important file is on the server, or if uploads are supported for some file types we can have links to download those files -->
+	  		<!-- link to schematic/layout pdfs -->
+	  	</div>
+  	</section>
+  </div>
+</div>

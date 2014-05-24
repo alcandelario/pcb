@@ -1,3 +1,7 @@
 <h4>All Projects</h4>
 
-<div ng-repeat="project in projects" ><a ui-sref="projects.home({projectID:project.id, projectName: project.name})" ng-bind="project.name"></a></div>
+<div class="col-xs-3" ng-repeat="project in projects" >
+	<div class='thumbnail project-thumbnail'>
+		<a  ui-sref="project.home({projectID:project.id, projectName: project.projectUrl})" ng-bind="project.name"></a>
+	</div>
+</div>

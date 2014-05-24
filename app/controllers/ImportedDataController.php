@@ -2,6 +2,12 @@
 
 class ImportedDataController extends BaseController {
 	
+	public function __construct()
+	{
+		$this->beforeFilter('serviceAuth');
+		//$this->beforeFilter('serviceCSRF');
+	}
+	
 	/**
 	 * This method provides a means for processing pcb test data (i.e. like output from an AWT)
 	 * which outputs html files. The application supports single file or zip file uploads for
@@ -12,12 +18,13 @@ class ImportedDataController extends BaseController {
 	 *  	1: parse a folder on or mapped to the server
 	 *
 	 */
-	public function pcb_test_data($mode)
+	//public function pcb_test_data($mode)
+	public function store()
 	{
 		
 		//	directory to work with uploaded files
 		$data_dir = app_path()."\\temp\\";
-		
+		$mode = 0;
 		//  
 		if($mode == 0){
 			$working_dir = $this->processUploads($data_dir);     		 	// returns a file object if successful, "false" otherwise			
@@ -61,13 +68,13 @@ class ImportedDataController extends BaseController {
 		}			
 		
 		// take us back to the user's profile page for now
-		return Redirect::route("user/profile");
+		return Response::json(array('parse_result' => 'success'), 201);
     }
     
     private function processUploads($data_dir){
     	// retrieve our uploaded file info
     	$file = Input::file();
-    	$file = $file['files'][0];
+    	$file = $file['file'];
     	
     	// get the filetype
     	$extension = strtolower($file->getClientOriginalExtension());
@@ -105,14 +112,14 @@ class ImportedDataController extends BaseController {
     	
     }
 
-    public function importParsedPCBData($parsed_results_collection){
+    private function importParsedPCBData($parsed_results_collection){
     	 
     	$files = $parsed_results_collection;
     
-    	$numFiles = $files->numberOfFiles();    //how files in total
+    	$numFiles = $files->numberOfFiles();    
     	$cnt = 0;
     
-    	while($cnt < $numFiles){            	//process files till complete
+    	while($cnt < $numFiles){            	//loop thru entire collection of result filese
     		 
     		$file = $files->fetchNextParsed();
     		$cnt++;
@@ -123,7 +130,7 @@ class ImportedDataController extends BaseController {
     	}
     }
     
-	public function insertFile($file){
+	private function insertFile($file){
 
 		foreach($file as $table => $data)	
     	{
@@ -141,6 +148,7 @@ class ImportedDataController extends BaseController {
 	    			$data['serial_number_id'] = $serial->id;
 	    			$data['project_id'] = $project->id;
 	    			$data["member_id"] = "1";
+// 	    			$data['date'] = strtotime($data['date']);
 	    			$attempt = Test_Attempt::firstOrNew($data);
 	    			$exists = $attempt->exists;
 	    			if(!$exists){
@@ -173,7 +181,4 @@ class ImportedDataController extends BaseController {
 	    	}
     	}
     }
-
-
-
 }

@@ -1,0 +1,17 @@
+<div class='clearfix'>
+	<div class='col-md-6'>
+		<table class='table table-striped'>
+			<thead>
+				<tr>
+					<th>Serial Number</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat='serial in serials track by $index'>
+					<td><a ui-sref="history.serial({serialID: serial.id})" ng-bind="serial.pcb"></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

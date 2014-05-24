@@ -1,0 +1,24 @@
+<section class='test-history'>
+	<div class='col-md-6'>
+		<h3>Unit test history for SN: {{serialNumber}}</h3>
+	
+		<table class='table table-striped'>
+			<thead>
+				<tr>
+					<th>Test Date</th>
+					<th>Result</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="attempt in history">
+					<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'" ></a>
+					</td>
+					<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.final_result"></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<section class='col-md-12' ui-view='results' ng-hide="hideTestDate"></section>

@@ -18,58 +18,54 @@ app.config(function($stateProvider,$urlRouterProvider){
 		.state('login', {
 				   url: '/login',
 			controller: 'MainController',
-				 views: {"content": {templateUrl: "app/partials/login.html"}}
+				 views: {"viewContent": {templateUrl: "app/partials/login.html"}}
 		})		
 		
 		.state('home', {
 			url: "/home",
 			views: { 
-				    'content@': {templateUrl: "app/partials/home.html",
-			             		  controller: "homeController"},
-			 'leftColumn@home': {templateUrl: "app/partials/data_upload_form.html",
-		    	 				  controller: "fileUploadController"},
-		    'rightColumn@home': {templateUrl: "app/partials/projects.html",
-		    					  controller: "homeController"}
+				    'viewContent@': {templateUrl: "app/partials/all-projects.html",
+			             		      controller: "homeController"},
+		    'viewAllProjects@home': {templateUrl: "app/partials/projects.html",
+		    						  controller: "homeController"},
+		 'viewProjectToolbar@home': {templateUrl: "app/partials/project-toolbar.html",
+		 							  controller: "homeController"}
 			}
 		})
 		
 		
-		.state('projects', {
-			url: "/projects/:projectID",
+		.state('project', {
+			url: "/project/:projectID"
+	  
 		})
 		
-		.state('projects.home', {
+		.state('project.home', {
 			  url: '/:projectName',
 			views: {
-				'content': {templateUrl: 'app/partials/home.html',
-							 controller: 'projectHomeController'
-				},
-				 'leftColumn@projects.home': {templateUrl: "app/partials/data_upload_form.html",
-					 						   controller: 'fileUploadController'},
-				'rightColumn@projects.home': {templateUrl: "app/partials/serial_numbers.html"}
+				'viewContent': {templateUrl: 'app/partials/project-home.html',
+					    		 controller: 'projectHomeController'},
+				'serialNums@project.home': {templateUrl: "app/partials/serial-numbers.html"}
 			}
 		})
 		
-		.state('test_history', {
-				   url: '/test_history'
+		.state('history', {
+				   url: '/history'
 		})
 		
-		.state('test_history.serial', {
-			url: '/:serialID',
+		.state('history.serial', {
+			url: '/serial/:serialID',
 			views: {
-				'content': {templateUrl: 'app/partials/home.html',
-				   	 	     controller: 'testHistoryController'},
-				'leftColumn@test_history.serial':  {templateUrl: "app/partials/data_upload_form.html",
-													controller: 'fileUploadController'},
-				'rightColumn@test_history.serial': {templateUrl: "app/partials/test_attempts.html"}
+				'viewContent': {templateUrl: 'app/partials/project-home.html',
+				   	 	         controller: 'testHistoryController'},
+				'nestedOne@history.serial': {templateUrl: "app/partials/serial-history.html"}
 			}
 		})
 		
-		.state('test_history.serial.awt_data', {
+		.state('history.serial.awt-data', {
 			url: '/awt/:resultID',
 			views: {
-				'results@test_history.serial' : {templateUrl: 'app/partials/test_results.html',
-												  controller: 'testResultsController'}
+				'results@history.serial' : {templateUrl: 'app/partials/test-results.html',
+										     controller: 'testResultsController'}
 			}
 		})
 
@@ -89,19 +85,27 @@ app.config(function($stateProvider,$urlRouterProvider){
 
 app.run(function($http,CSRF_TOKEN){
             $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN;
-        });
+});
 
-
+// application config
 app.run(function($rootScope) {
 	$rootScope.rsrc_path = '/pcbtracker/public/service/';
 	$rootScope.showFlash = false;
 	$rootScope.showLoginFlash = false;
 });
 
-
+// app-wide accessible services 
 app.run(
-		[        '$rootScope', '$state', '$stateParams',
-		 function($rootScope, $state, $stateParams) {
+		[        '$rootScope', '$state', '$stateParams','DashUrl',
+		 function($rootScope, $state, $stateParams,DashUrl) {
 			$rootScope.$state = $state;
-			$rootScope.$stateParams = $stateParams;			
+			$rootScope.$stateParams = $stateParams;		
+			$rootScope.DashUrl = DashUrl;	
 		}])
+// convert pgSQL dates into js Date() objects
+app.filter('DT_filter', function() {
+	return function(input){
+		var date = new Date(input);
+		return date
+	}
+})

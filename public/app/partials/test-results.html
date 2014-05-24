@@ -1,0 +1,20 @@
+
+<h4 ng-bind="testData.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'"></h4>
+<table class='table table-striped'>
+	<thead>
+		<tr>
+			<th>Test No</th><th>Test Name</th><th>Min</th><th>Max</th><th>Actual</th><th>Result</th><th>Units</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="test in testData.test_result">
+		 	<td ng-bind="test.test_num"></td>
+		 	<td ng-bind="test.test_name"></td>
+		 	<td ng-bind="test.min"></td>
+		 	<td ng-bind="test.max"></td>
+		 	<td ng-bind="test.actual"></td>
+		 	<td ng-bind="test.result"></td>
+		 	<td ng-bind="test.units"></td>
+	 	</tr>
+	</tbody>
+</table>

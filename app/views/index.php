@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
     <title>PeaSeaBee</title>
     <link href="app/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!--  <link href="app/css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
     <link href="app/css/app.css" rel="stylesheet" />
 </head>
 
-<body ng-app="projectTracker">
+<body ng-app="projectTracker" class='row'>
 
-	<div ng-controller='MainController' class='col-md-12' ui-view>
+	<div ng-controller='MainController' class='col-md-12 main-cont' ui-view>
 			<if-login-required></if-login-required>
-			<div logged-in-nav></div>
-			<div ng-bind-html="flash" ng-show='showFlash'></div>
-			<section ui-view='content'></section>
-			<footer ui-view='footer'></footer>
+			<div class="main-nav" logged-in-nav></div>
+			<div class='container main-inner'>
+				<div class='row' ng-bind-html="flash" ng-show='showFlash'></div>
+				<section class="content-cont row" ui-view='viewContent'></section>
+				<footer class='row' ui-view='viewFooter'></footer>
+			</div>
 	</div>
 
 	<script src="app/lib/angular/angular.min.js"></script>
