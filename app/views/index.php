@@ -12,7 +12,7 @@
 
 <body ng-app="projectTracker" class='row'>
 
-	<div ng-controller='MainController' class='col-md-12 main-cont' ui-view>
+	<div ng-controller='MainController' class='main-cont' ui-view>
 			<if-login-required></if-login-required>
 			<div class="main-nav" logged-in-nav></div>
 			<div class='container main-inner'>
@@ -26,6 +26,7 @@
 	<script src="app/lib/angular/angular-route.min.js"></script>
 	<script src="app/lib/angular/angular-ui-router.js"></script>
 	<script src="app/lib/angular/angular-resource.min.js"></script>
+	<script src="app/lib/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
 	<script src="app/lib/angular/angular-sanitize.min.js"></script>
 	<script src="app/lib/angular/angular-cookies.min.js"></script>
 	<script src="app/lib/angular/http-auth-interceptor.js"></script>

@@ -106,6 +106,28 @@ return {
 
 }]);
 
+/**
+ *
+ *  Add/Remove CSS class based on current state template's
+ *  "nested" status
+ *
+ */
+app.directive('whenNested', ['$compile','$scope','$rootScope', function($compile,$scope,$rootScope) {
+ 	
+ 	var linker = function(scope,element,attributes) {
+		if($rootScope.hideNestedOne === false || $rootScope.hideNestedTwo === true){
+			element.addClass('nested-behind');
+		}
+ 	}
+
+ 	return {
+ 		restrict: 'A',
+ 		 replace: false,
+ 		    link: linker
+ 	}
+
+ }]);
+
 
 /**
  * The angular file upload module

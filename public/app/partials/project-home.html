@@ -1,21 +1,22 @@
-<div class='col-md-12 project-home project-home-cont'> 
+<div class='col-md-12 project-home' nested-state> 
+	<nested-state> fff</nested-state>
   <h3><a ui-sref="project.home({projectID:projectID, projectName:projectUrl})" ng-bind="projectName"></a></h3>
 
-  <section class="nested-one  col-md-12" ui-view="nestedOne" ng-hide='hideNestedOne'>
+  <section class="nested-one  row" ui-view="nestedOne" ng-hide='hideNestedOne' nested-state>
   	<section class="nested-two col-md-12" ui-view="nestedTwo" ng-hide='hideNestedTwo'></section>
   </section>
   
-  <div class='project-home-cont' ng-hide="hideProjectHome" >
-	  <nav class='project-overview-links'>
+  <div class='project-home-cont row' ng-hide="hideProjectHome" >
+	  <nav class='project-overview-links col-md-12'>
 	  	<!-- link to all general project posts, show all to-do's, show all files, show all text documents, show all milestones -->
 	  </nav>
 	  
-	  <section class='project-milestones'>
+	  <section class='project-milestones col-md-12'>
 	  	<div ui-view="projectRelatedMilestonesFromMSProjectFiles"><!-- last 3 or so --></div>
 	  	<div ui-view="pcbRelatedMilestonesFromMSProjectFiles"></div>
 	  </section>
 	  
-	  <section class="pcbOverview">
+	  <section class="pcbOverview col-md-12">
 	    <div ui-view="pcbPassFailShippedOutStatus"><!-- simple table --> </div>
 	  	<div ui-view="topAWTFailures"><!-- test name and percentage failed. might be worth it to give test failures a separate table later on --> 
 	  	</div>
@@ -24,13 +25,13 @@
 	  	</div>
 	  </section>
 
-	  <section class="project-issues">
+	  <section class="project-issues col-md-12">
 	  	<div ui-view="projectIssues">
 	  		<!-- show last 5 notes pertaining to: HW/SW bugs, Mech fitment issues, initial board bring up issues  -->
 	  	</div>
 	  </section>
 
-	  <section class="row serial-nums" ui-view="serialNums">
+	  <section class="col-md-12 serial-nums" ui-view="serialNums">
 	  	
 	  		<!-- dhow first 30 pcb serial nums. if mulitple revs of a pcb design show link to a bit of ui that lets them pick a different revision -->
 	  		<!-- in that same row, show imei#, SW version, CPLD ver, FPGA ver-->
@@ -40,11 +41,11 @@
 
 	  </section>
 
-	  <section class="to-do-list">
+	  <section class="col-md-12 to-do-list">
 	  	<div ui-view="toDoList"></div>
 	  </section>
 
-	  <section class="design-data-lnks">
+	  <section class="col-md-12 design-data-lnks">
 	  	<div ui-view="designDataLinks">
 	  		<!-- perhaps a text display of where an important file is on the server, or if uploads are supported for some file types we can have links to download those files -->
 	  		<!-- link to schematic/layout pdfs -->

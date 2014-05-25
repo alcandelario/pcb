@@ -6,7 +6,8 @@ var app = angular.module("projectTracker",[
                                            'ngRoute',
                                            'ui.router',
                                            'ngCookies',
-                                           'angularFileUpload'
+                                           'angularFileUpload',
+                                           'ui.bootstrap'
                                            ]
 );
 

@@ -1,7 +1,22 @@
 @CHARSET "ISO-8859-1";
-html,body,.main-cont,.main-inner,.content-cont,.project-home-cont {
-  height:100%;  /* make content stretch to bottom of page */
+html,body,.main-cont,.main-inner,.content-cont,
+.project-home,.nested-one,.nested-two,.project-home-cont,
+.serial-nums
+{
+  min-height:955px;  /* make content stretch to bottom of page */
+  max-height:150vh;  /* this is a hack  that doesn't even work very well*/
 }
+
+/*  For angular bootstrap ui module, per their instructions */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+@media screen and (max-height: 600px) {
+  html, body,.main-cont,.main-inner,.content-cont,.project-home-cont 
+  {
+    /*height:100vh;*/  
+  }
+}
+
 body
 {
     margin      : 0;
@@ -10,9 +25,8 @@ body
     font-size   : 14px;
     line-height : 18px;
     cursor      : default;
-    height      : 100%; /* make content stretch to bottom of page */
 }
-a
+
 {
     color : #ef7c61;
 }
@@ -61,11 +75,14 @@ label, input, .error
 
 
 /* Custom App CSS */
-
+body 
+{
+  background-color        : #f5efe6;
+}
 .col-centered
 {
-    float: none;
-    margin: 0 auto;
+    float                 : none;
+    margin                : 0 auto;
 }
 .table-bordered 
 {
@@ -80,39 +97,42 @@ label, input, .error
 /********************************************************************Project Home */
 .project-home 
 {
-  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-     -moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-          box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow    : 0 0 6px rgba(0,0,0,0.3);
+     -moz-box-shadow    : 0 0 6px rgba(0,0,0,0.3);
+          box-shadow    : 0 0 6px rgba(0,0,0,0.3);
 
     
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  -webkit-border-radius : 3px;
+     -moz-border-radius : 3px;
+          border-radius : 3px;
 
-  height: 90%;
+  background-color      : rgba(255,255,255,1.0);
 }
 /*******************************************************************Nested view */
 .nested-one,.nested-two 
 {
-  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-     -moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
-          box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow    : 0 0 6px rgba(0,0,0,0.3);
+     -moz-box-shadow    : 0 0 6px rgba(0,0,0,0.3);
+          box-shadow    : 0 0 6px rgba(0,0,0,0.3);
     
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  -webkit-border-radius : 3px;
+     -moz-border-radius : 3px;
+          border-radius : 3px;
   
-  margin-left: 15px;
-
-  height: 100%;
-
-  width: 960px;
+  margin-left           : 15px;
+  margin-bottom         : -25px;
+  width                 : 960px;
+  background-color      : rgba(255,255,255,1.0);
 }
 .nested-two 
 {
   margin-top: 50px;
 }
 
+.nested-behind 
+{
+  background-color      : rgba(226, 226, 226, 1);
+}
 /*******************************************************************Login Form */
 .form-signin 
 {

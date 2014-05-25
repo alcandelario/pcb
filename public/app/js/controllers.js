@@ -30,7 +30,10 @@ angular.module("projectTracker")
      *
      **/
     .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
-
+        $scope.hideNestedOne = 'true';
+        $scope.hideNestedTwo = 'true';
+        $scope.hideProjectHome = 'true';
+        
         $scope.projectName = $cookieStore.get("projectName");
 
     	$scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
@@ -40,8 +43,6 @@ angular.module("projectTracker")
             $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
             $cookieStore.put("projectName", $scope.projectName);
             $scope.hideProjectHome = "false";
-            $scope.hideNestedOne = 'true';
-            $scope.hideNestedTwo = 'true';
         })
 
         // $scope.hideProjectHome = "false";
@@ -54,8 +55,10 @@ angular.module("projectTracker")
      * Unit under test (UUT) history of test attempts
      *
      **/
-    .controller('testHistoryController',function($cookieStore,$scope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
-    	$scope.projectName = $cookieStore.get("projectName");
+    .controller('testHistoryController',function($cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
+    	$rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
+
+        $scope.projectName = $cookieStore.get("projectName");
     	$scope.projectID = $cookieStore.get("projectID");
     	
     	$scope.history = Test_Attempts.query({serialID:$stateParams.serialID});
@@ -64,7 +67,7 @@ angular.module("projectTracker")
     		$scope.serialNumber = result[0].serial_number.pcb;
     	});
     	
-    	$cookieStore.put("serialD", $stateParams.serialID);
+    	$cookieStore.put("serialID", $stateParams.serialID);
     })
     
     /** 
