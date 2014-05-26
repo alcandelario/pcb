@@ -4,7 +4,7 @@ html,body,.main-cont,.main-inner,.content-cont,
 .serial-nums
 {
   min-height:955px;  /* make content stretch to bottom of page */
-  max-height:150vh;  /* this is a hack  that doesn't even work very well*/
+ /* max-height:150vh;*/  /* this is a hack  that doesn't even work very well*/
 }
 
 /*  For angular bootstrap ui module, per their instructions */
@@ -16,6 +16,11 @@ html,body,.main-cont,.main-inner,.content-cont,
     /*height:100vh;*/  
   }
 }
+
+.top-buffer {
+  margin-top: 10px;
+}
+
 
 body
 {
@@ -131,7 +136,7 @@ body
 
 .nested-behind 
 {
-  background-color      : rgba(226, 226, 226, 1);
+  background-color      : rgba(226, 226, 226, 0.7);
 }
 /*******************************************************************Login Form */
 .form-signin 
@@ -207,4 +212,13 @@ body
 .serial-nums
 {
  /* display: inline-block;*/
+}
+/**********************************************************************Project Toolbar */
+.project-toolbar
+{
+  margin              : 10px 5px 10px 15px;
+  border-top          : 1px solid #dedede;
+  border-bottom       : 1px solid #dedede;
+  padding             : 5px;
+  width               : 95%;
 }

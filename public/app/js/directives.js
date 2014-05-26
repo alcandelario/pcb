@@ -105,30 +105,6 @@ return {
  }		
 
 }]);
-
-/**
- *
- *  Add/Remove CSS class based on current state template's
- *  "nested" status
- *
- */
-app.directive('whenNested', ['$compile','$scope','$rootScope', function($compile,$scope,$rootScope) {
- 	
- 	var linker = function(scope,element,attributes) {
-		if($rootScope.hideNestedOne === false || $rootScope.hideNestedTwo === true){
-			element.addClass('nested-behind');
-		}
- 	}
-
- 	return {
- 		restrict: 'A',
- 		 replace: false,
- 		    link: linker
- 	}
-
- }]);
-
-
 /**
  * The angular file upload module
  * @author: nerv
@@ -160,3 +136,129 @@ app.directive('ngFileSelect', ['$fileUploader', function($fileUploader) {
         }
     };
 }]);
+app.directive('closeMe', function() {
+	'use strict';
+
+	return { 
+			link: function(scope,element,attrs) {
+					
+					element.bind('click', function(e) {
+						e.preventDefault();
+						element.parent().remove();	
+					})
+			  }
+	}
+});
+
+/**
+ *
+ *
+ * Display the data upload form
+ *
+ */
+ app.directive('uploadDataForm',['$fileUploader','$compile','$http','$templateCache','$rootScope','$cookieStore','$location', function($fileUploader,$compile,$http,$templateCache,$rootScope,$cookieStore,$location) {
+ 
+ 	var getTemplate = function(){
+			return $http.get("app/partials/data-upload.html", {cache: $templateCache});
+		}
+
+	var linker = function(scope,element,attrs) {
+			
+				// Session expired handler will insert 'login' partial
+				// Will ignore a user logout action or a failed auth attempt (as reported by server)
+				element.bind('click', function(event) {
+						event.preventDefault();
+
+						var loader = getTemplate();
+
+						var promise = loader.success(function(html) {
+							var compiled = $compile(html)(scope);
+							element.parent().next().prepend(compiled);
+						})
+				})
+			}			
+			
+	var uploadController = function($cookieStore,$location,$fileUploader,$scope){
+		// build the route Laravel will respond to for file uploads
+    	var $projectID = $cookieStore.get('projectID');
+    	var $url = $location.absUrl();
+    	var $path = "index.php?/#"+$location.path();
+    	var $mode = "0"    //default upload mode
+    	$url = $url.replace($path,"/service/upload_data");
+    	
+    	// create a uploader with options
+        var uploader = $scope.uploader = $fileUploader.create({
+               scope: $scope,                          // to automatically update the html. Default: $rootScope
+                 url: $url,
+            formData: [
+                       { id: $projectID}
+                              
+            ],
+            filters: [
+                function (item) {                     // first user filter
+                 
+                	return true;
+                }
+            ]
+        });
+        
+        
+     // REGISTER HANDLERS
+
+        uploader.bind('afteraddingfile', function (event, item) {
+            console.info('After adding a file', item);
+        });
+
+        uploader.bind('whenaddingfilefailed', function (event, item) {
+            console.info('When adding a file failed', item);
+        });
+
+        uploader.bind('afteraddingall', function (event, items) {
+            console.info('After adding all files', items);
+        });
+
+        uploader.bind('beforeupload', function (event, item) {
+            console.info('Before upload', item);
+        });
+
+        uploader.bind('progress', function (event, item, progress) {
+            console.info('Progress: ' + progress, item);
+        });
+
+        uploader.bind('success', function (event, xhr, item, response) {
+        	$scope.upload_status = {type:"success", msg:"Your data was saved successfully!"};
+            $scope.showUploadFlash = true;
+            console.info('Success', xhr, item, response);
+        });
+
+        uploader.bind('cancel', function (event, xhr, item) {
+            console.info('Cancel', xhr, item);
+        });
+
+        uploader.bind('error', function (event, xhr, item, response) {
+        	$scope.upload_status = {type:"danger", msg: "Uh oh, problem saving your data to the database"};
+            $scope.showUploadFlash = true;
+            console.info('Error', xhr, item, response);
+        });
+
+        uploader.bind('complete', function (event, xhr, item, response) {
+            console.info('Complete', xhr, item, response);
+        });
+
+        uploader.bind('progressall', function (event, progress) {
+            console.info('Total progress: ' + progress);
+        });
+
+        uploader.bind('completeall', function (event, items) {
+            console.info('Complete all', items);
+        });
+	}		
+	
+	return {
+		restrict: 'A',
+		    link: linker,
+	  controller: uploadController
+	}		
+
+
+ }]);
