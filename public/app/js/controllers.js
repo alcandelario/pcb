@@ -147,7 +147,7 @@ angular.module("projectTracker")
             //                  ]            
         }
 
-    	results.success(function (data, status, headers, config) {
+   // 	results.success(function (data, status, headers, config) {
            //parse response into arrays, each test gets it's
            // own array of results
          //  $scope.charts = $this.parseResp(data);
@@ -165,13 +165,52 @@ angular.module("projectTracker")
            //                          }
            // }
 
-           for($i=0; $i < $scope.charts.length; $i++){
+           // for($i=0; $i < $scope.charts.length; $i++){
                     
-           }
+           // }
            
+           var testdata = 
+                {        "rows": [
+                    // parser function will create the below structure
+                    // parser will return data as follows:
+                    // { "test-name1" : {the below structure},
+                    //   "test-name2" : {the below structure} 
+                    // }
+
+                    // take $chartPrototype "
+
+                   {
+                      "c": [
+                           {
+                               "v": 0
+                           },
+                           {
+                               "v": 122
+                           },
+                           {
+                               "v": "122"
+                           }
+                       ]
+                   },
+                   {
+                      "c": [
+                           {
+                               "v": 1
+                           },
+                           {
+                               "v": 126
+                           },
+                           {
+                               "v": "126"
+                           }
+                       
+                       ]
+                   }
+               ]
+           }
 
 
-           $chartPrototype = {
+           $scope.chart = {
                "type": "ScatterChart",
                "displayed": false,
                "data": {
@@ -260,7 +299,7 @@ angular.module("projectTracker")
 
 
         	
-    });
+   // });
     	
     	results.error(function (data, status, headers, config) {
             var b = 0;
