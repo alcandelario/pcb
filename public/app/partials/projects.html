@@ -1,5 +1,4 @@
 <h4>All Projects</h4>
-<div when-nested></div>
 <div class="col-xs-3" ng-repeat="project in projects" >
 	<div class='thumbnail project-thumbnail'>
 		<a  ui-sref="project.home({projectID:project.id, projectName: project.projectUrl})" ng-bind="project.name"></a>

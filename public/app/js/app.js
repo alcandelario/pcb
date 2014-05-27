@@ -7,7 +7,8 @@ var app = angular.module("projectTracker",[
                                            'ui.router',
                                            'ngCookies',
                                            'angularFileUpload',
-                                           'ui.bootstrap'
+                                           'ui.bootstrap',
+                                           'googlechart'
                                            ]
 );
 
@@ -78,6 +79,21 @@ app.config(function($stateProvider,$urlRouterProvider){
 				 {templateUrl: "app/partials/login.html",
 				   controller: "MainController"
 			     }
+			}
+		})
+
+		.state('charts', {
+			url: '/analyis/:projectID'
+		})
+
+		.state('charts.test-data', {
+			url:'/test-data/:serialID',
+			views: {
+				'viewContent': {templateUrl: 'app/partials/project-home.html',
+								 controller: 'googleChartsController'},
+				'nestedOne@charts.test-data': {templateUrl: "app/partials/serial-history.html"},
+				'nestedTwo@charts.test-data': {templateUrl: "app/partials/google-charts.html"}
+			   									
 			}
 		})
 

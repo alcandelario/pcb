@@ -31,28 +31,28 @@ Route::group(array('prefix' => 'service'), function() {
 });
 
 // USER MUST BE LOGGED IN TO GET TO THESE ROUTES
-Route::group(["before" => "guest"], function()
+Route::group(["before" => "auth"], function()
 {
-	Route::any('/profile',[
-				"as"	=> "user/profile",
-				"uses"	=> 'UserController@profile'
-	]);
+// 	Route::any('/profile',[
+// 				"as"	=> "user/profile",
+// 				"uses"	=> 'UserController@profile'
+// 	]);
 	
-	Route::any("/logout", [
-				"as"   => "user/logout",
-				"uses" => "UserController@logoutAction"
-	]);
+// 	Route::any("/logout", [
+// 				"as"   => "user/logout",
+// 				"uses" => "UserController@logoutAction"
+// 	]);
 	
-	//Route::post('upload_data/{id}','ImportedDataController@pcb_test_data');
+	Route::post('google-charts','TestResultController@googleCharts');
 	
-	Route::get('projects/{id?}','ProjectController@get_projects');
+// 	Route::get('projects/{id?}','ProjectController@get_projects');
 	
-	Route::get('serial_numbers/{proj_id?}/{serial_id?}','SerialNumberController@get_serial_numbers');
+// 	Route::get('serial_numbers/{proj_id?}/{serial_id?}','SerialNumberController@get_serial_numbers');
 	
-	// an overview of this serial number's test attempts
-	Route::get('test_attempts/{proj_id}/{serial_id?}','TestAttemptController@get_test_attempts');
+// 	// an overview of this serial number's test attempts
+// 	Route::get('test_attempts/{proj_id}/{serial_id?}','TestAttemptController@get_test_attempts');
 	
-	Route::get('test_results/{attempt_id}/{type_of?}','TestAttemptController@get_attempt_results');
+// 	Route::get('test_results/{attempt_id}/{type_of?}','TestAttemptController@get_attempt_results');
 
 });
 	

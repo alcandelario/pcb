@@ -31,6 +31,7 @@
 	<script src="app/lib/angular/angular-cookies.min.js"></script>
 	<script src="app/lib/angular/http-auth-interceptor.js"></script>
 	<script src="app/lib/angular/angular-file-upload.min.js"></script>
+	<script src="app/lib/angular/ng-google-chart.js"></script>
 	<script src="app/js/app.js"></script>
 	<script src="app/js/content.js"></script>
 	<script src="app/js/controllers.js"></script>

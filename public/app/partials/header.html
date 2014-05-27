@@ -14,14 +14,14 @@
     <div class='navbar-collapse collapse col-md-12' id="navbar-collapse-1">
 		<ul class="nav navbar-nav">
 			<li><a ui-sref="home">Projects</a></li>
-			<li><a ui-sref="awtDataAnalysis">Test data analysis</a></li>
-			<li><a ui-sref="printShippingLabels">Shipping/Labels</a></li>
+			<li><a ui-sref="charts.test-data({projectID:projectID, serialID:'all'})" ng-init="projectID = 'all'">Test-limits analysis</a></li>
+			<li><a ui-sref="printLabels">Shipping/Labels</a></li>
 			<li><a>|</a></li>
 			<li><a ui-sref="everyone">Everyone</a></li>
 			<li><a ui-sref="me">Me</a></li>
 			<li class='user-profile-link'>
 				<div class='pull-right'>	
-					<h5 class="pull-left profile-info" nb-bind="">Hey there, {{username}}</h5>
+					<h5 class="pull-left profile-info" nb-bind="'Hey there, ' + username"></h5>
 					<a class='btn btn-xs btn-link logout-link' ng-click="logout()">&nbsp;&nbsp;Sign out</a>	
   				</div> 
 			</li>	

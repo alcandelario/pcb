@@ -57,17 +57,21 @@ angular.module("projectTracker")
      **/
     .controller('testHistoryController',function($cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
     	$rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
+        $rootScope.hideNestedTwo = 'true';
 
         $scope.projectName = $cookieStore.get("projectName");
     	$scope.projectID = $cookieStore.get("projectID");
+        $scope.serialID = $stateParams.serialID;
     	
     	$scope.history = Test_Attempts.query({serialID:$stateParams.serialID});
     	
     	$scope.history.$promise.then(function(result){
     		$scope.serialNumber = result[0].serial_number.pcb;
+            $cookieStore.put("serialNumber", $scope.serialNumber);
     	});
     	
     	$cookieStore.put("serialID", $stateParams.serialID);
+
     })
     
     /** 
@@ -83,6 +87,185 @@ angular.module("projectTracker")
             $scope.hideTestResults='false';
         })
     	    	
+    })
+
+    /** 
+     * 
+     * Google charts API interfacing controller
+     *
+     **/
+    .controller('googleChartsController',function($cookieStore,$scope,$stateParams,$location,Test_Results,$http){
+        $scope.hideTestResults='true';
+        $scope.hideNestedTwo='false';
+
+        $scope.projectName = $cookieStore.get("projectName");
+        $scope.projectID = $cookieStore.get("projectID");
+        $scope.serialID = $cookieStore.get("serialID");
+        $scope.serialNumber = $cookieStore.get("serialNumber");
+        
+        
+        // build the request URL
+        var $url = $location.absUrl();
+        var $path = "index.php?/#"+$location.path();
+        $url = $url.replace($path,"/google-charts");
+
+        if($stateParams.projectID === 'all'){
+            // don't support this for now. This link
+            // came from a generic non-project related page
+            // like for example, the mainpage 
+        }
+        else {
+        	var serID = '';
+        	
+        	if($stateParams.serialID !== 'all') {
+                serID = $scope.serialID;
+            }
+            else{
+                serID = 'all'
+            }
+
+            var results = $http({
+                              url: $url,
+                           method: "POST",
+                             data: {'projectID': $scope.projectID, 'serialID': serID },
+            })
+        }
+
+        var parseResp = function(data){
+            // takes individual attempts and parses each
+            // test result into arrays. will return an 
+            // array like:
+            //               [
+            //                    "Test Name": {
+            //                              "url": test-name,
+            //                             "data": ["result","result",...,"result"]
+            //                     },
+            //                     "Other Test": {
+            //                               "url": other-test,
+            //                              "data": ["result","result",...,"result"]
+            //                     }
+            //                  ]            
+        }
+
+    	results.success(function (data, status, headers, config) {
+           //parse response into arrays, each test gets it's
+           // own array of results
+         //  $scope.charts = $this.parseResp(data);
+
+           // $scope.charts = {
+           //                  "test1": 
+           //                          {
+           //                              "url": "test1",
+           //                              "data": {"1","2","3"}
+           //                          },
+           //                  "test2": 
+           //                          {
+           //                              "url": "test2",
+           //                              "data": {"4","5","6"}
+           //                          }
+           // }
+
+           for($i=0; $i < $scope.charts.length; $i++){
+                    
+           }
+           
+
+
+           $chartPrototype = {
+               "type": "ScatterChart",
+               "displayed": false,
+               "data": {
+                   "cols": [
+                       {    "id": "index",
+                         "label": "Index",
+                          "type": "number" 
+                       },
+                       {
+                            "id": "actual",
+                         "label": "Actual",
+                          "type": "number"
+                       },
+                       {    "id":  '',
+                          "type":  'string', 
+                          'role':'tooltip',
+                             'p': {
+                                   'role': "tooltip",
+                                   'html': true
+                               }
+                       }
+                   ],
+                   "rows": [
+                    // parser function will create the below structure
+                    // parser will return data as follows:
+                    // { "test-name1" : {the below structure},
+                    //   "test-name2" : {the below structure} 
+                    // }
+
+                    // take $chartPrototype "
+
+                   {
+                      "c": [
+                           {
+                               "v": 0
+                           },
+                           {
+                               "v": 122
+                           },
+                           {
+                               "v": "122"
+                           }
+                       ]
+                   },
+                   {
+                      "c": [
+                           {
+                               "v": 1
+                           },
+                           {
+                               "v": 126
+                           },
+                           {
+                               "v": "126"
+                           }
+                       
+                       ]
+                   }
+               ]
+           },
+           "options": {
+               "title": "Average Sleep Current",
+               "isStacked": "true",
+               "fill": 20,
+               "displayExactValues": true,
+               "vAxis": {
+                   "title": "Avg Sleep Current (mA)",
+                   "gridlines": {
+                       "count": 2
+                   }
+               },
+               "legend": "none",
+               "hAxis": {
+                   "title": "Attempt"
+               },
+               "tooltip": {
+                   "isHtml": true,
+                  "trigger": "selection"
+               },
+               "width": 300,
+               "height": 200
+           },
+           "formatters": {},
+           "view": {}
+       }
+
+
+        	
+    });
+    	
+    	results.error(function (data, status, headers, config) {
+            var b = 0;
+        });
+
     })
     
     /**

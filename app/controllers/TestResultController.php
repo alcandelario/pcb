@@ -14,6 +14,27 @@ class TestResultController extends BaseController {
 		return $resp;
 	}
 
+	public function googleCharts(){
+		$params = Input::all();
+		
+		// sometimes we want charts for all serial numbers or 
+		// just for a single unit's test attempts
+		if(!strcmp($params['serialID'],'all')){
+			$resp = Test_Attempt::with('test_result')
+			->where('project_id','=',$params['projectID'])
+			->orderBy('date','ASC')
+			->get();
+		}
+		else {
+			$resp = Test_Attempt::with('test_result')
+			->where('serial_number_id','=',$params['serialID'])
+			->orderBy('date','ASC')
+			->get();
+		}
+		
+		return Response::json($resp,201);	
+	
+	}
 
 
 }

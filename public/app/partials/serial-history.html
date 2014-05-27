@@ -1,24 +1,42 @@
-<section class='test-history clearfix'>
-	<div class='col-md-6'>
-		<h3>Unit test history for SN: {{serialNumber}}</h3>
+<div class='col-md-12 serial-history'>	
 	
-		<table class='table table-striped'>
-			<thead>
-				<tr>
-					<th>Test Date</th>
-					<th>Result</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="attempt in history">
-					<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'" ></a>
-					</td>
-					<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.final_result"></a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</section>
 
-<section class='col-md-12' ui-view='results' ng-hide="hideTestDate"></section>
+	<h3>
+		<a ui-sref="history.serial({serialID: serialID})" ng-bind="'Serial Number: ' + serialNumber"></a>
+	</h3>
+
+	<section class="nested-two col-md-12" ui-view="nestedTwo" ng-hide='hideNestedTwo'></section>
+
+	<div ng-show='hideNestedTwo'>
+		<nav class='row project-toolbar'>
+			  	<!-- link to all general project posts, show all to-do's, show all files, show all text documents, show all milestones -->
+			  	<a ui-sref="charts.test-data({projectID:projectID, serialID: serialID})">Chart all test-data</a>
+			  	<a ui-sref="printLabel.serial({projectID: projectID, serialID: serialID})">Print label</a>
+		</nav>
+
+		<section class='test-history row'>
+			<div class='col-md-6'>
+				<h3>Unit test history</h3>
+			
+				<table class='table table-striped'>
+					<thead>
+						<tr>
+							<th>Test Date</th>
+							<th>Result</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="attempt in history">
+							<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'" ></a>
+							</td>
+							<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.final_result"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class='row' ui-view='results' ng-hide="hideTestDate"></section>
+	</div>
+</div>

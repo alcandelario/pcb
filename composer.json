@@ -25,6 +25,7 @@
 			"php artisan clear-compiled",
 			"php artisan optimize"
 		],
+
 		"post-create-project-cmd": [
 			"php artisan key:generate"
 		]
@@ -36,6 +37,8 @@
 	
 	"require-dev": {
     	"way/generators": "2.*",
-    	"chh/bob": "master-dev"
+    	"chh/bob": "master-dev",
+    	"phpoffice/phpexcel": "dev-master"
 	}
+
 }
