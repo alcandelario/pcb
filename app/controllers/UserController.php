@@ -124,6 +124,7 @@ class UserController extends BaseController {
 				$credentials = [
 				"email" => Input::get("email")
 				];
+				
 				Password::reset($credentials,
 				function($user, $password)
 				{
@@ -134,6 +135,7 @@ class UserController extends BaseController {
 				}
 				);
 			}
+			
 			$data["email"] = Input::get("email");
 			$data["errors"] = $validator->errors();
 			return Redirect::to(URL::route("user/reset") . $token)
@@ -141,6 +143,4 @@ class UserController extends BaseController {
 		}
 		return View::make("user/reset", $data);
 	}
-
-
 }

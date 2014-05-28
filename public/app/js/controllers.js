@@ -5,11 +5,11 @@ angular.module("projectTracker")
      * overview of all user projects
 	 *
 	 **/
-	.controller('homeController', function($scope,$rootScope,Projects,SharedDataSvc,$cookieStore){
+	.controller('homeController', function($scope,$modal,$rootScope,Projects,SharedDataSvc,$cookieStore){
     	    $cookieStore.put("projectName", "");
             $cookieStore.put("projectID", "");
 
-            $scope.projects = Projects.query();
+            $scope.projects = Projects.query({projectID: "0"});
 
             $scope.projects.$promise.then(function (projects) {
             
@@ -21,7 +21,23 @@ angular.module("projectTracker")
                     projects[count]['projectUrl'] = $scope.DashUrl.makeUrl(name);
                 }
                 $scope.projects = projects;
-            });  
+            }); 
+
+            
+            $scope.createNewProject = function(){
+                
+                var modalInstance = $modal.open({
+                        templateUrl: 'newproject_modal.html',
+                         controller: 'newProjectCtrl',
+                               size: 'sm',
+                            resolve: {
+                               items: function(){
+                                return $scope.name = '';
+                               }
+                           }
+                    });
+
+            };
     })
     
     /**
@@ -39,11 +55,23 @@ angular.module("projectTracker")
     	$scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
 
         $scope.serials.$promise.then(function(serials) {
-            $scope.projectName = serials[0].project.name;
-            $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
-            $cookieStore.put("projectName", $scope.projectName);
-            $scope.hideProjectHome = "false";
-        })
+           
+           if(serials.length > 0)
+           {
+                $scope.projectName = serials[0].project.name;
+                $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
+                $cookieStore.put("projectName", $scope.projectName);
+                $scope.hideProjectHome = "false";
+            }
+            else
+            {
+                //No serials yet, but we still need the user-friendly project Name
+            var $name = Projects.query({projectID: $stateParams.projectID});
+                $name.$promise.then(function(project){
+                    $scope.projectName = project.name;
+                });
+            }
+        });
 
         // $scope.hideProjectHome = "false";
         $scope.projectID = $stateParams.projectID;
@@ -359,7 +387,7 @@ angular.module("projectTracker")
             	// use $scope.$on(event:loginRequired) to catch failed logins
              	authService.loginCancelled();
                 Flash.show("Sorry but your login credentials aren't working. Try again.");
-             })
+             });
          }
     })
     
@@ -438,6 +466,36 @@ angular.module("projectTracker")
 
     
     })
-    
+
+    var newProjectCtrl = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
+                $scope.name = items;
+                
+                $scope.submit = function(name){
+                    var project = Projects.save({
+                        'name': $sanitize(name)
+                    });
+             
+                    project.$promise.then(function(data){
+                        var url = DashUrl.makeUrl(data.name);
+                        $cookieStore.put('projectName', data.name);
+                        $cookieStore.put('projectID', data.id);
+                        $scope.alert =
+                        { type: 'success', msg: 'Success!' };
+                        setTimeout(function(){},5000);
+                        $modalInstance.dismiss('cancel');
+                        $state.go ('project.home', { projectID: data.id, projectName : url } )
+                    // }
+                    // function(response){
+                    // // couldn't create new Project
+                    // });
+                    });
+                }    
+
+                $scope.cancel = function(){
+                    $modalInstance.dismiss('cancel');
+                };
+	}
+
+
     
     

@@ -6,7 +6,10 @@ angular.module("projectTracker")
     })
     
     .factory("Projects", function($resource,$rootScope){
-        return $resource($rootScope.rsrc_path +"projects/")
+        return $resource($rootScope.rsrc_path +"projects/:projectID", 
+                {projectID:'@id'},
+                {'query': {method: 'GET', isArray: false},
+            });
     })
     
     .factory("Serial_Numbers", function($resource,$rootScope){
@@ -20,7 +23,7 @@ angular.module("projectTracker")
     .factory("Test_Results", function($resource,$rootScope){
     	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
     			{attemptID:'@id'},
-    			{'query': {method: 'GET', isArray: false}
+    			{'query': {method: 'GET', isArray: false},
     	});
     })
     .service('DashUrl', function() {

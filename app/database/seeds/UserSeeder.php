@@ -21,7 +21,7 @@ extends DatabaseSeeder
             ],
 
         ];
-        
+
         foreach ($users as $user)
         {
             User::create($user);
@@ -60,5 +60,7 @@ extends DatabaseSeeder
         {
             Member::create($member);
         }
+
+        $projects = Project::create(["name" => "Test Project"]);
     }
 }

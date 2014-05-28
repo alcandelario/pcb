@@ -1,6 +1,29 @@
-<h4>All Projects</h4>
-<div class="col-xs-3" ng-repeat="project in projects" >
-	<div class='thumbnail project-thumbnail'>
-		<a  ui-sref="project.home({projectID:project.id, projectName: project.projectUrl})" ng-bind="project.name"></a>
+<script type="text/ng-template" id="newproject_modal.html">
+        <div class="modal-header">
+            <h3 class="modal-title"> Create a new project</h3>
+        </div>
+        <div class="modal-body controls">
+        	<input id="textinput" name="textinput" type="text" placeholder="Project Name" class='form-control' ng-model="name">
+        	<button class='btn' ng-click="submit(name)">Create</button>
+		</div>
+        <div class="modal-footer row">
+	        <alert class='col-xs-8' type="{{alert.type}}" close="closeAlert()" ng-bind="alert.msg"></alert>
+            <button class="col-xs-4 btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
+
+<section class="col-md-12">
+	<h4>All Projects</h4>
+	<div class="col-xs-3" ng-repeat="project in projects" >
+		<div class='thumbnail project-thumbnail'>
+			<a  ui-sref="project.home({projectID:project.id, projectName: project.projectUrl})" ng-bind="project.name"></a>
+		</div>
 	</div>
-</div>
+
+	<div class="col-xs-3">
+		<div class="new-project">
+			<a class="thumbnail project-thumbnail"ng-click="createNewProject()">Create a new project</a>
+		</div>
+	</div>
+</section>
+
