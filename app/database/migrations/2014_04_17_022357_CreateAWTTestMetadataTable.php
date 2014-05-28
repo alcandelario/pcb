@@ -15,6 +15,8 @@ class CreateAWTTestMetadataTable extends Migration {
 		Schema::create('awt_test_metadata', function(Blueprint $table)
 		{
 			$table->increments("id");
+
+			$table->unsignedInteger('test_attempt_id');
 			
 			$table
 				->string("inspector_number")
@@ -53,7 +55,6 @@ class CreateAWTTestMetadataTable extends Migration {
 		Schema::table("awt_test_metadata", function($table) 
 		{
 			$table
-				->unsignedInteger('test_attempt_id')
 				->foreign('test_attempt_id')
 				->references('id')
 				->on('test_attempts');

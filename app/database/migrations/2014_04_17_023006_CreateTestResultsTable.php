@@ -16,6 +16,10 @@ class CreateTestResultsTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('test_attempt_id');
+
+			$table->unsignedInteger('test_name_id');
+
 			$table
 				->string("test_num")
 				->nullable()
@@ -52,13 +56,11 @@ class CreateTestResultsTable extends Migration {
 		Schema::table('test_results', function($table) 
 		{
 			$table
-				->unsignedInteger('test_attempt_id')
 				->foreign('test_attempt_id')
 				->references('id')
 				->on('test_attempts');
 
 			$table
-				->unsignedInteger('test_name_id')
 				->foreign('test_name_id')
 				->references('id')
 				->on('test_names');

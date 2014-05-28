@@ -16,6 +16,11 @@ class CreateTeamMembersTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('member_id');
+
+			$table->unsignedInteger('project_id');
+
+
 			$table
 				->boolean("is_manager")
 				->nullable()
@@ -38,13 +43,11 @@ class CreateTeamMembersTable extends Migration {
 		Schema::table('team_members', function($table) 
 		{
 			$table
-				->unsignedInteger('member_id')
 				->foreign('member_id')
 				->references('id')
 				->on('members');
 
 			$table
-				->unsignedInteger('project_id')
 				->foreign('project_id')
 				->references('id')
 				->on('projects');

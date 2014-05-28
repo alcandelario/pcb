@@ -4,7 +4,7 @@ class Serial_Number extends \Eloquent {
 	
 	protected $table = 'serial_numbers';
 	protected $fillable = array('project_id','pcb','housing','imei','ip','mac','esn','phone','sim');
-	public $timestamps = FALSE;
+	
 	
 	public function project()
 	{
@@ -16,9 +16,9 @@ class Serial_Number extends \Eloquent {
 		return $this->hasMany("Test_Attempt","serial_number_id");
 	}
 	
-	public function serial_numbers_shipped()
+	public function shipped_item()
 	{
-		return $this->hasMany("Serial_Number_Shipped","serial_number_id");
+		return $this->hasMany("shipped_items","serial_number_id");
 	}
 	
 	

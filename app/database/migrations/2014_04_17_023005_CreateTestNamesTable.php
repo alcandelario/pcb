@@ -19,8 +19,7 @@ class CreateTestNamesTable extends Migration {
 		{
 			$table->increments("id");
 
-			$table
-				->string('test_name');
+			$table->string('test_name');
 
 			$table->timestamps();
 		});

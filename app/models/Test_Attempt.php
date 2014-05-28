@@ -4,7 +4,7 @@ class Test_Attempt extends \Eloquent {
 	
 	protected $table = 'test_attempts';
 	protected $fillable = array('project_id','member_id','serial_number_id','final_result','date');
-	public $timestamps = FALSE;
+	
 
 	public function project()
 	{

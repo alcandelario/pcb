@@ -67,7 +67,8 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'project_data_tracking',
+			//'database' => 'project_data_tracking',
+			'database' => 'pcbtest',
 			'username' => 'pcb',
 			'password' => 'stynkSTar12',
 			'charset'  => 'utf8',

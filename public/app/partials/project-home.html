@@ -3,7 +3,6 @@
   <h3><a ui-sref="project.home({projectID:projectID, projectName:projectUrl})" ng-bind="projectName"></a></h3>
 
   <section class="nested-one  row" ui-view="nestedOne" ng-hide='hideNestedOne' ng-class="{'nested-behind': hideNestedTwo =='false'}">
-  	<section class="nested-two col-md-12" ui-view="nestedTwo" ng-hide='hideNestedTwo'></section>
   </section>
   
   <div class='project-home-cont row' ng-show="hideNestedOne" >

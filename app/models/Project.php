@@ -3,7 +3,7 @@
 class Project extends \Eloquent {
 	protected $fillable = array('name','charge_code');
 	protected $guarded = array('id');
-	public $timestamps = FALSE;
+	
 	
 	public function serial_number()
 	{
@@ -22,7 +22,7 @@ class Project extends \Eloquent {
 	
 	public function design_change()
 	{
-		return $this->hasMany('design_change');
+		return $this->hasMany('design_issue');
 	}
 	
 	
@@ -34,11 +34,6 @@ class Project extends \Eloquent {
 	public function shipping_form()
 	{
 		return $this->hasMany('shipping_form');
-	}
-	
-	public function project_log()
-	{
-		return $this->hasMany('project_log');
 	}
 	
 	

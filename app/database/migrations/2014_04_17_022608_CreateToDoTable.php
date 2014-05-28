@@ -16,8 +16,18 @@ class CreateToDoTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('todo_name_id');
+
+			$table->unsignedInteger('member_id');
+
+			$table->unsignedInteger('project_id');
+
 			$table
-				->string("todo_item");
+				->unsignedInteger('assigned_to_id')
+				->nullable()
+				->default(null);
+
+			$table->string("todo_item");
 
 			$table
 				->date("due_date")
@@ -32,22 +42,46 @@ class CreateToDoTable extends Migration {
 			$table->timestamps();
 		});
 
+		
+		Schema::create('todo_names', function(Blueprint $table)
+		{
+			$table->increments("id");
+
+			$table->string("name");
+
+			$table
+				  ->boolean("is_hardware")  	// false = software
+				  ->nullable()
+				  ->default(1);
+
+			$table
+				  ->boolean("is_mechanical")	// false = TBD
+				  ->nullable()
+				  ->default(0);
+
+			$table
+				  ->boolean("final_shipment")	// false = TBD
+				  ->nullable()
+				  ->default(0);
+
+
+			$table->timestamps();
+		});
+
+
 		Schema::table('todo', function($table)
 		{
 			$table
-				->unsignedInteger('member_id')
 				->foreign('member_id')
 				->references('id')
 				->on('members');
 
 			$table
-				->unsignedInteger('project_id')
 				->foreign('project_id')
 				->references('id')
 				->on('projects');
 
 			$table
-				->unsignedInteger('assigned_to_id')
 				->foreign('assigned_to_id')
 				->references('id')
 				->on('members');

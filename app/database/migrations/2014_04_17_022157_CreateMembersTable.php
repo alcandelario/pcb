@@ -16,6 +16,8 @@ class CreateMembersTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('user_id');
+			
 			$table
 				->string("position")
 				->nullable()
@@ -58,15 +60,25 @@ class CreateMembersTable extends Migration {
 
 			$table->timestamps();
 
+
 		});
 
 		Schema::table('members', function($table) 
 		{
 			$table
-				->unsignedInteger('user_id')
 				->foreign('user_id')
 				->references('id')
 				->on('users');
+
+			$table
+				->boolean("can_invite")
+				->nullable()
+				->default(0);
+
+			$table
+				->boolean("is_cleared")
+				->nullable()
+				->default(0);
 		});
 	}
 

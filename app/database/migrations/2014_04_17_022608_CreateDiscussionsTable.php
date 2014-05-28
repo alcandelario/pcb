@@ -19,8 +19,25 @@ class CreateDiscussionsTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('member_id');
+			
+			$table->unsignedInteger('project_id');
+			
 			$table
-				->string("message");
+				->unsignedInteger('serial_id')
+				->nullable()
+				->default(null);
+
+			$table
+				->unsignedInteger('reply_to_id')
+				->nullable()
+				->default(null);
+
+			$table->string("message");
+
+			$table->boolean("is_bug")
+				  ->nullable()
+				  ->default(0);
 
 			$table->timestamps();
 		});
@@ -28,25 +45,21 @@ class CreateDiscussionsTable extends Migration {
 		Schema::table('discussions', function($table) 
 		{
 			$table
-				->unsignedInteger('member_id')
 				->foreign('member_id')
 				->references('id')
 				->on('members');
 
 			$table
-				->unsignedInteger('project_id')
 				->foreign('project_id')
 				->references('id')
 				->on('projects');
 
 			$table
-				->unsignedInteger('serial_id')
 				->foreign('serial_id')
 				->references('id')
 				->on('serial_numbers');
 
 			$table
-				->unsignedInteger('reply_to_id')
 				->foreign('reply_to_id')
 				->references('id')
 				->on('discussions');

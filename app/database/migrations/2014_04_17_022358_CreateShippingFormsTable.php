@@ -16,6 +16,9 @@ class CreateShippingFormsTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('member_id');
+			
+			$table->unsignedInteger('project_id');
 			
 			$table
 				->string("to_firstname")
@@ -47,8 +50,7 @@ class CreateShippingFormsTable extends Migration {
 				->nullable()
 				->default(null);
 
-			$table
-				->date("shipped");
+			$table->date("shipped");
 
 			$table->timestamps();
 		});
@@ -56,13 +58,11 @@ class CreateShippingFormsTable extends Migration {
 		Schema::table('shipping_forms', function($table) 
 		{
 			$table
-				->unsignedInteger('member_id')
 				->foreign('member_id')
 				->references('id')
 				->on('members');
 
 			$table
-				->unsignedInteger('project_id')
 				->foreign('project_id')
 				->references('id')
 				->on('projects');

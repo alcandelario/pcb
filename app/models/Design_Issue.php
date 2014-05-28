@@ -1,7 +1,7 @@
 <?php
 
-class PCB_Revision extends \Eloquent {
-	protected $table = 'pcb_revisions';
+class Design_Issue extends \Eloquent {
+	protected $table = 'design_issues';
 	protected $fillable = [];
 	
 	
@@ -9,4 +9,6 @@ class PCB_Revision extends \Eloquent {
 	{
 		return $this->belongsTo("Project");
 	}
+	
+	
 }

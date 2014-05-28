@@ -22,9 +22,7 @@ class CreateUsersTable extends Migration {
 				->default(null);
 
 			$table
-				->string("password")
-				->nullable()
-				->default(null);
+				->string("password");
 
 			$table
 				->string("email")

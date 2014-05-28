@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePCBRevisionsTable extends Migration {
+class CreateTextDocumentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,37 +12,30 @@ class CreatePCBRevisionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('pcb_revisions', function(Blueprint $table)
+		Schema::create('text_documents', function(Blueprint $table)
 		{
 			$table->increments("id");
 
 			$table->unsignedInteger('project_id');
 
-			$table
-				->string("revision")
-				->nullable()
-				->default(null);
+			$table->unsignedInteger('member_id');
 
-			$table
-				->string("schematic_name")
-				->nullable()
-				->default(null);
-
-			$table
-				->string("layout_name")
-				->nullable()
-				->default(null);
-
+			$table->text("document");
+			
 			$table->timestamps();
-
 		});
 
-		Schema::table('pcb_revisions', function($table) 
+		Schema::table('text_documents', function($table) 
 		{
 			$table
 				->foreign('project_id')
 				->references('id')
 				->on('projects');
+
+			$table
+				->foreign('member_id')
+				->references('id')
+				->on('members');
 		});
 	}
 
@@ -53,7 +46,7 @@ class CreatePCBRevisionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists("pcb_revisions");
+		Schema::dropIfExists("text_documents");
 	}
 
 }

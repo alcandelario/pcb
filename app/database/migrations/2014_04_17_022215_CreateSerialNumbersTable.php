@@ -16,6 +16,8 @@ class CreateSerialNumbersTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('project_id');
+
 			$table
 				->string("pcb")
 				->nullable()
@@ -62,7 +64,6 @@ class CreateSerialNumbersTable extends Migration {
 		Schema::table('serial_numbers', function($table){
 			
 			$table
-					->unsignedInteger('project_id')
 					->foreign('project_id')
 					->references('id')
 					->on('projects');
