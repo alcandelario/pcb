@@ -1,0 +1,16 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker"
+		}
+	],
+	"settings":
+	{
+		"xdebug":
+		{
+			"url": "http://localhost/pcbtracker/public/index.php"
+		}
+	}
+}

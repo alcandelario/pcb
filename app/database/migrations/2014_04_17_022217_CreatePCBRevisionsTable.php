@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
+class CreatePCBRevisionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,40 +12,36 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('users', function(Blueprint $table)
+		Schema::create('pcb_revisions', function(Blueprint $table)
 		{
 			$table->increments("id");
 
 			$table
-				->string("username")
+				->string("revision")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("password")
+				->string("schematic_name")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("email")
+				->string("layout_name")
 				->nullable()
 				->default(null);
 
-			$table
-				->string("created_at")
-				->nullable()
-				->default(null);
+			$table->timestamps();
 
-			$table
-				->string("updated_at")
-				->nullable()
-				->default(null);
+		});
 
+		Schema::table('pcb_revisions', function($table) 
+		{
 			$table
-				->boolean("admin")
-				->nullable()
-				->default(0);
-
+				->unsignedInteger('project_id')
+				->foreign('project_id')
+				->references('id')
+				->on('projects');
 		});
 	}
 
@@ -56,7 +52,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists("users");
+		Schema::dropIfExists("pcb_revisions");
 	}
 
 }

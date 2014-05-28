@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSerialNumberShippedTable extends Migration {
+class CreateTestAttemptsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,25 @@ class CreateSerialNumberShippedTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('serial_numbers_shipped', function(Blueprint $table)
+		Schema::create('test_attempts', function(Blueprint $table)
 		{
 			$table->increments("id");
 
+			$table
+				->string('final_result');
+				
+			$table
+				->date('date');
 		});
 
-		Schema::table('serial_numbers_shipped', function($table) 
+		Schema::table('test_attempts', function($table) 
 		{
+			$table
+				->unsignedInteger('project_id')
+				->foreign('project_id')
+				->references('id')
+				->on('projects');
+
 			$table
 				->unsignedInteger('serial_number_id')
 				->foreign('serial_number_id')
@@ -27,10 +38,10 @@ class CreateSerialNumberShippedTable extends Migration {
 				->on('serial_numbers');
 
 			$table
-				->unsignedInteger('shipping_form_id')
-				->foreign('shipping_form_id')
+				->unsignedInteger('member_id')
+				->foreign('member_id')
 				->references('id')
-				->on('shipping_forms');
+				->on('members');
 		});
 	}
 
@@ -41,9 +52,7 @@ class CreateSerialNumberShippedTable extends Migration {
 	 */
 	public function down()
 	{
-
-		Schema::dropIfExists("serial_numbers_shipped");
-
+		Schema::dropIfExists("test_attempts");
 	}
 
 }

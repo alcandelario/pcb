@@ -3,31 +3,26 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectsTable extends Migration {
+class CreateTestNamesTable extends Migration {
 
 	/**
 	 * Run the migrations.
+	 *
+	 * Messages related to project or serial number
+	 * along with replies
 	 *
 	 * @return void
 	 */
 	public function up()
 	{
-		Schema::create('projects', function(Blueprint $table)
+		Schema::create('test_names', function(Blueprint $table)
 		{
 			$table->increments("id");
 
 			$table
-				->string("name")
-				->nullable()
-				->default(null);
-
-			$table
-				->string("charge_code")
-				->nullable()
-				->default(null);
+				->string('test_name');
 
 			$table->timestamps();
-
 		});
 	}
 
@@ -38,7 +33,7 @@ class CreateProjectsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists("projects");
+		Schema::dropIfExists("test_names");
 	}
 
 }

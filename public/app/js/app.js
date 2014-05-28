@@ -8,7 +8,8 @@ var app = angular.module("projectTracker",[
                                            'ngCookies',
                                            'angularFileUpload',
                                            'ui.bootstrap',
-                                           'googlechart'
+                                           'googlechart',
+                                           'ui.bootstrap'
                                            ]
 );
 

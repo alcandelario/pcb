@@ -1,0 +1,653 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/controllers/ProjectController.php",
+			"settings":
+			{
+				"buffer_size": 482,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "pcbtracker.sublime-project",
+			"settings":
+			{
+				"buffer_size": 224,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Context",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Watch",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Stack",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "=> C:\\Bitnami\\wappstack-5.4.26-2\\apache2\\htdocs\\pcbtracker\\app\\controllers\\ProjectController.php\n	|+| 17\n",
+			"settings":
+			{
+				"buffer_size": 105,
+				"line_ending": "Windows",
+				"name": "Xdebug Breakpoint",
+				"read_only": true,
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 265.0,
+		"selected_items":
+		[
+			[
+				"xdebug",
+				"Xdebug: Start Debugging (Launch Browser)"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 228.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/pcbtracker.sublime-project",
+		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/Xdebug Client/Xdebug.sublime-settings",
+		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ProjectController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/app.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/controllers.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ImportedDataController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/directives.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/SerialNumberController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/php/php.ini",
+		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/Xdebug Client/Xdebug.sublime-settings",
+		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/User/Xdebug.sublime-settings",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/projects.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data-upload.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/test_results.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/serial_numbers.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/test_attempts.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data_upload_form.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/app.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/views/index.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/lib/DataManager.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/start/global.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/.git/config",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/routes.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/services/services.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/home.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/login.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/header.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/bootstrap/css/bootstrap.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/bootstrap-3.1.1-dist/css/bootstrap.min.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/bootstrap.min.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/bootstrap-3.1.1-dist/css/bootstrap.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/models/User.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/UserController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/models/Project.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/lib/angular/angular-file-upload.min.map",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/database.php",
+		"/C/AAA_WEB/pcb/.git/config",
+		"/C/AAA_WEB/pcb/.gitattributes",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/composer.json",
+		"/C/AAA_WEB/pcb/.project",
+		"/C/AAA_WEB/pcb/readme.md",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/readme.md",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/app.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/.htaccess",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/logs/error.log",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/laravel/composer.lock",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/bootstrap/paths.php",
+		"/C/Users/al.candelario/Desktop/New Text Document.txt",
+		"/E/Web Development/html_css_demo/VW_logo_css_demo.html",
+		"/C/AAA_WEB/pcb/public/app/js/app.js",
+		"/E/Web Development/Starter League/Week 6/CSS Logo/public_html/css/main.css",
+		"/E/Web Development/html_css_demo/index.html",
+		"/E/Web Development/html_css_demo/css/style.css",
+		"/E/Web Development/Starter League/Week 4/Responsive Weather Site/HAML_SASS_Weather_Site/public_html/css/style.css",
+		"/E/Web Development/Starter League/Responsive Weather Site/public_html/js/custom.js",
+		"/E/Web Development/Starter League/Responsive Weather Site/public_html/js/plugins.js",
+		"/Z/Stiletto-II/Returned Unit Debug_Al_04252014/Debug_history.txt",
+		"/E/Web Development/Starter League/Week 4/Responsive Weather Site/HAML_SASS_Weather_Site/public_html/js/script.js",
+		"/C/Users/al.candelario/Desktop/Stiletto +71.txt",
+		"/C/Users/al.candelario/Desktop/Stiletto +25.txt",
+		"/C/Users/al.candelario/Desktop/Stiletto______-18deg_log.txt",
+		"/C/Users/al.candelario/Desktop/CLASS Engr_Status_Report_FY14_MAR_FW12.docx",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/auth.php",
+		"/C/Users/al.candelario/Desktop/Stiletto_overnight_test.txt",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/phpinfo.php",
+		"/C/WAPP/apache2/htdocs/index.html",
+		"/C/Users/al.candelario/Desktop/New Text Document (2).txt",
+		"/C/WAPP/apache2/htdocs/pcbtracker/app/config/database.php",
+		"/C/Users/al.candelario/Desktop/stiletto_debug_04212014.txt",
+		"/C/Users/al.candelario/Desktop/stiletto_functioning_04212014.txt",
+		"/C/Users/al.candelario/Desktop/Stiletto_modemA.txt",
+		"/C/AAA_WEB/pcb/productdatatracking/views/serialnumbers/controller/serialnumbers.php",
+		"/C/AAA_WEB/pcb/productdatatracking/phpExcel/install.txt",
+		"/C/AAA_WEB/pcb/productdatatracking/phpExcel/composer.json",
+		"/C/AAA_WEB/pcb/productdatatracking/js/custom.js",
+		"/C/AAA_WEB/pcb/productdatatracking/AAA_Output_Files/MS_Excel/AWT_Test_Limits/default.txt",
+		"/C/Users/al.candelario/Desktop/misc/joomla/image_map_code.txt",
+		"/C/Sites/todo/public/javascripts/application.js",
+		"/C/Users/al.candelario/Desktop/misc/pcb/test.xml",
+		"/C/aaa_kite/Kite/js/kite.js",
+		"/E/app_cfg_FROM_GIT.txt",
+		"/C/Users/al.candelario/Desktop/stilleto_log.txt",
+		"/E/pc_app_cfg.txt",
+		"/T/Datasheets/Power related/Note on TI and Linear part.txt",
+		"//chifps03/designs/CLASS/Datasheets/Power related/Note on TI and Linear part.txt",
+		"/C/WAPP/apache2/htdocs/pcb/app/routes.php",
+		"/C/WAPP/apache2/htdocs/pcb/app/views/user.php",
+		"/C/WAPP/apache2/htdocs/pcb/app/controllers/UserController.php",
+		"/C/WAPP/apache2/htdocs/pcb/app/controllers/HomeController.php",
+		"/C/WAPP/apache2/htdocs/pcb/app/views/user",
+		"/C/WAPP/apache2/htdocs/pcb/composer.json",
+		"/C/WAPP/apache2/htdocs/pcb/app/views/hello.php",
+		"/C/WAPP/apache2/htdocs/pcb/server.php",
+		"/C/WAPP/apache2/htdocs/pcb/public/index.php",
+		"/C/WAPP/docs/README.txt",
+		"/C/WAPP/docs/phpinfo.php",
+		"/C/WAPP/docs/demo/htdocs/phpinfo.php",
+		"/C/WAPP/docs/demo/htdocs/index.php",
+		"/C/AAA_WEB/pcb/productdatatracking/php-login/1-minimal/_install/users.sql",
+		"/C/WAPP/php/php.ini",
+		"/C/AAA_WEB/pcb/productdatatracking/php-login/1-minimal/_install/sql_statements.txt",
+		"/C/cygwin64/home/al.candelario/.profile",
+		"/C/Users/al.candelario/Desktop/LM_Software/SOM/Image/Kernel/Revision History.txt",
+		"/C/ghs/int5011/edo-nexgen-at91sam9261/default.con",
+		"/C/Users/al.candelario/Desktop/GHS Multi/LTO_HAD_Dev/INTEGRITY_MONO_EDO_BOARD/default.gpj",
+		"/C/Users/al.candelario/Desktop/HAD Programming Files/Provisioning and Production Code plus Provisioning Tool/HAD Provisoning and Production Code v0104/SECOND_Flash Production Code/HAD_programCode.init",
+		"/C/Users/al.candelario/Desktop/FinalDraft/READ THIS FIRST.txt",
+		"/C/Users/al.candelario/AppData/Local/Microsoft/Windows/Temporary Internet Files/Content.Outlook/HPQ3PJRA/LTO network configuration.txt",
+		"/C/Users/al.candelario/Desktop/HAD Programming Files/Provisioning and Production Code plus Provisioning Tool/HAD Provisoning and Production Code v0104/FIRST_Flash Provision Code then use PC provision tool/HAD_programCode.init",
+		"/C/Users/al.candelario/Desktop/HAD Programming Files/HAD_programCode.init",
+		"/E/PIT001_potential BIT test data/BITFullLog2012-11-12_184800.txt",
+		"/E/PIT001_potential BIT test data/BITFullLog2012-11-12_142049.txt",
+		"/W/Test/PIT003_replacement_BIT_Test_Data_07302013/55C_LMAeroLog2013-07-30_180809.txt",
+		"/W/Test/PIT003_replacement_BIT_Test_Data_07302013/-40C_LMAeroLog2013-07-30_154154.txt",
+		"/W/Test/PIT002_replacement_BIT_Test_Data_07182013/25C_LMAeroLog2013-07-18_144541.txt",
+		"/W/Test/PIT002_replacement_BIT_Test_Data_07182013/55C_LMAeroLog2013-07-18_200554.txt",
+		"/W/Test/PIT002_replacement_BIT_Test_Data_07182013/BIT_25C_07182013.txt",
+		"/W/Test/PIT002_replacement_BIT_Test_Data_07182013/-40C_LMAeroLog2013-07-18_170725.txt",
+		"/W/Schematics and Layout/Modified GIMP/BOM/0FE96200",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/messages.php",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/users_model.php",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/users.php",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/index 2.php",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/bootstrap.css",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/view.php",
+		"/C/Users/al.candelario/AppData/Local/Temp/fz3temp-1/footer.php"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"org_profile",
+			"provider",
+			"pagination"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/controllers/ProjectController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 482,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								373,
+								304
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "pcbtracker.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								138,
+								138
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 105,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								105,
+								105
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.7,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 40.0
+	},
+	"project": "pcbtracker.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"17":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"18":
+				{
+					"group": 0,
+					"index": 1
+				},
+				"36":
+				{
+					"group": 0,
+					"index": 2
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						2,
+						1
+					],
+					[
+						0,
+						1,
+						1,
+						2
+					],
+					[
+						1,
+						1,
+						2,
+						2
+					]
+				],
+				"cols":
+				[
+					0.0,
+					0.5,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					0.623444976077,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 253.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

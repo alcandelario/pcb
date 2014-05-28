@@ -17,16 +17,6 @@ class CreateDesignChangesTable extends Migration {
 			$table->increments("id");
 
 			$table
-				->integer("project_id")
-
-			$table
-				->integer("pcb_revision_id")
-
-			$table
-				->integer("member_id")
-
-
-			$table
 				->string("change")
 				->nullable()
 				->default(null);
@@ -45,7 +35,30 @@ class CreateDesignChangesTable extends Migration {
 				->boolean("layout_required")
 				->nullable()
 				->default(0);
+				
+			$table->timestamps();
 
+		});
+
+		Schema::table('design_changes', function($table) 
+		{
+			$table
+				->unsignedInteger('project_id')
+				->foreign('project_id')
+				->references('id')
+				->on('projects');
+				
+			$table
+				->unsignedInteger('pcb_revision_id')
+				->foreign("pcb_revision_id")
+				->references('id')
+				->on('pcb_revisions');
+			
+			$table
+				->unsignedInteger('member_id')
+				->foreign("member_id")
+				->references('id')
+				->on('members');
 		});
 	}
 
@@ -56,10 +69,7 @@ class CreateDesignChangesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('design_changes', function(Blueprint $table)
-		{
-			Schema::dropIfExists("design_changes");
-		});
+		Schema::dropIfExists("design_changes");
 	}
 
 }

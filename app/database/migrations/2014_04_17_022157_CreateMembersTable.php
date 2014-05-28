@@ -3,60 +3,70 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAWTTestMetadataTable extends Migration {
+class CreateMembersTable extends Migration {
 
 	/**
-	 * Run the migrations.$table->increments("id");
+	 * Run the migrations.
 	 *
 	 * @return void
 	 */
 	public function up()
 	{
-		Schema::create('awt_test_metadata', function(Blueprint $table)
+		Schema::create('members', function(Blueprint $table)
 		{
 			$table->increments("id");
-			
+
 			$table
-				->string("inspector_number")
+				->string("position")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("tns_system")
+				->string("firstname")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("tns_software_version")
+				->string("lastname")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("test_program_set_build")
+				->string("ph_work")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("tps_version")
+				->string("ph_home")
 				->nullable()
 				->default(null);
 
 			$table
-				->string("path_loss_file_due")
+				->string("email_work")
 				->nullable()
 				->default(null);
+
+			$table
+				->string("email_home")
+				->nullable()
+				->default(null);
+
+			$table
+				->boolean("active")
+				->nullable()
+				->default(1);
 
 			$table->timestamps();
 
 		});
 
-		Schema::table("awt_test_metadata", function($table) 
+		Schema::table('members', function($table) 
 		{
 			$table
-				->unsignedInteger('test_attempt_id')
-				->foreign('test_attempt_id')
+				->unsignedInteger('user_id')
+				->foreign('user_id')
 				->references('id')
-				->on('test_attempts');
+				->on('users');
 		});
 	}
 
@@ -67,7 +77,7 @@ class CreateAWTTestMetadataTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists("awt_test_metadata");
+		Schema::dropIfExists("members");
 	}
 
 }
