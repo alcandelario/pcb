@@ -9,7 +9,7 @@ angular.module("projectTracker")
     	    $cookieStore.put("projectName", "");
             $cookieStore.put("projectID", "");
 
-            $scope.projects = Projects.query({projectID: "0"});
+            $scope.projects = Projects.get();
 
             $scope.projects.$promise.then(function (projects) {
             
