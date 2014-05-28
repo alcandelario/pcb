@@ -233,11 +233,13 @@ body
   background-color: rgba(200,200,200,0.1);
 }
 
-.new-project > a , .new-project > a:hover {
+.new-project > a {
   background-color: rgba(0,0,0,0);
   margin: 0 auto;
   cursor: pointer;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 
 

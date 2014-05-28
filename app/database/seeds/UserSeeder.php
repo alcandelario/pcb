@@ -61,6 +61,6 @@ extends DatabaseSeeder
             Member::create($member);
         }
 
-        $projects = Project::create(["name" => "Test Project"]);
+        // $projects = Project::create(["name" => "Test Project"]);
     }
 }

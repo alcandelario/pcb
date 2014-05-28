@@ -52,7 +52,7 @@ angular.module("projectTracker")
         
         $scope.projectName = $cookieStore.get("projectName");
 
-    	$scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
+        $scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
 
         $scope.serials.$promise.then(function(serials) {
            
@@ -62,15 +62,15 @@ angular.module("projectTracker")
                 $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
                 $cookieStore.put("projectName", $scope.projectName);
                 $scope.hideProjectHome = "false";
-            }
-            else
-            {
+           }
+           else
+           {
                 //No serials yet, but we still need the user-friendly project Name
             var $name = Projects.query({projectID: $stateParams.projectID});
                 $name.$promise.then(function(project){
                     $scope.projectName = project.name;
                 });
-            }
+           }
         });
 
         // $scope.hideProjectHome = "false";
@@ -469,6 +469,7 @@ angular.module("projectTracker")
 
     var newProjectCtrl = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
                 $scope.name = items;
+                $scope.alert = {};
                 
                 $scope.submit = function(name){
                     var project = Projects.save({
@@ -479,17 +480,23 @@ angular.module("projectTracker")
                         var url = DashUrl.makeUrl(data.name);
                         $cookieStore.put('projectName', data.name);
                         $cookieStore.put('projectID', data.id);
-                        $scope.alert =
-                        { type: 'success', msg: 'Success!' };
-                        setTimeout(function(){},5000);
-                        $modalInstance.dismiss('cancel');
-                        $state.go ('project.home', { projectID: data.id, projectName : url } )
-                    // }
-                    // function(response){
-                    // // couldn't create new Project
-                    // });
+                        
+                        $scope.alert = {type:'success',msg:'Project created!'};
+                        
+                        setTimeout(function()
+                        {
+                          $modalInstance.dismiss('cancel');
+                          $state.go ('project.home', { projectID: data.id, projectName : url } )
+                       },1000);
+                        
+                      // need an error handler
+
                     });
                 }    
+
+                $scope.closeAlert = function() {
+                  $scope.alert = {};
+                }
 
                 $scope.cancel = function(){
                     $modalInstance.dismiss('cancel');

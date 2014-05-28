@@ -6,9 +6,13 @@
         	<input id="textinput" name="textinput" type="text" placeholder="Project Name" class='form-control' ng-model="name">
         	<button class='btn' ng-click="submit(name)">Create</button>
 		</div>
-        <div class="modal-footer row">
-	        <alert class='col-xs-8' type="{{alert.type}}" close="closeAlert()" ng-bind="alert.msg"></alert>
-            <button class="col-xs-4 btn btn-warning" ng-click="cancel()">Cancel</button>
+        <div class="modal-footer">
+        	<div class='row'>
+   	        	<span class="center-block">
+   	        		<span class="col-xs-8 text-{{alert.type}}" ng-bind="alert.msg"></span>
+   	        		<button class="btn btn-warning btn-xs" ng-click="cancel()">Cancel</button>
+   	       		</span>
+	         </div>
         </div>
 </script>
 

@@ -7,12 +7,12 @@ angular.module("projectTracker")
     
     .factory("Projects", function($resource,$rootScope){
         return $resource($rootScope.rsrc_path +"projects/:projectID", 
-                {projectID:'@id'},
-                {'query': {method: 'GET', isArray: false},
-                 'get'  : {method: 'GET', isArray: true}
-
-                });
-
+                    {projectID:'@id'},
+                    {
+                    'query':{method: 'GET', isArray: false},
+                     'get' :{method: 'GET', isArray: true}, 
+                    }
+                );
     })
     
     .factory("Serial_Numbers", function($resource,$rootScope){

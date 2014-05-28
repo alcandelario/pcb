@@ -163,6 +163,9 @@ app.directive('closeMe', function() {
 		}
 
 	var linker = function(scope,element,attrs) {
+
+				// make sure this isn't visiable
+				scope.isCollapsed = "true";
 			
 				// Session expired handler will insert 'login' partial
 				// Will ignore a user logout action or a failed auth attempt (as reported by server)
@@ -172,8 +175,9 @@ app.directive('closeMe', function() {
 						var loader = getTemplate();
 
 						var promise = loader.success(function(html) {
+							
 							var compiled = $compile(html)(scope);
-							element.parent().next().prepend(compiled);
+							element.parent().next().prepend(compiled);							
 						})
 				})
 			}			
