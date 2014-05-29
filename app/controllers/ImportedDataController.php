@@ -209,9 +209,9 @@ class ImportedDataController extends BaseController {
     		
     		$foreign_key = array_search($name,$testNames);
     		
-    		$value['test_name_id'] = $foreign_key;
+    		$data[$key]['test_name_id'] = $foreign_key;
     		
-    		unset($value['test_name']);
+    		unset($data[$key]['test_name']);
     	}
     	
     }
