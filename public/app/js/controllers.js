@@ -164,7 +164,7 @@ angular.module("projectTracker")
 
             .success(function(data,status) 
             {
-                $this.parseResp(data);
+                $resp = parseResp(data);
             })
         }
 
@@ -181,7 +181,20 @@ angular.module("projectTracker")
             //                               "url": other-test,
             //                              "data": ["result","result",...,"result"]
             //                     }
-            //                  ]            
+            //                  ] 
+            var $tests = [];
+            for(var $i=0; $i < data.length; $i++)
+            {
+                $tests.push(data[$i].test_name);
+            } 
+
+            // now stuff results into an array for each test name
+            for(var $i=0;$i<data.length;$i++)
+            {
+                $test = data[$i].test_name;
+
+                $tests[$test].push({"c":[{"v": $i},{"v": data.actual},{"v":"data.actual"}]});
+            }          
         }
 
    
