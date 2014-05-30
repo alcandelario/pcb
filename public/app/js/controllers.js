@@ -183,6 +183,8 @@ angular.module("projectTracker")
             //                     }
             //                  ] 
             var $tests = [];
+            var $results = {};
+            var $temp = {};
             for(var $i=0; $i < data.length; $i++)
             {
                 $tests.push(data[$i].test_name);
@@ -191,9 +193,21 @@ angular.module("projectTracker")
             // now stuff results into an array for each test name
             for(var $i=0;$i<data.length;$i++)
             {
-                $test = data[$i].test_name;
+                var $test = data[$i].test_name;
+                var $value = data[$i].actual;
 
-                $tests[$test].push({"c":[{"v": $i},{"v": data.actual},{"v":"data.actual"}]});
+                //$tests[$test].push({"c":[{"v": $i},{"v": data.actual},{"v":"data.actual"}]});
+                var $row = {"c":[{"v": $i},{"v": data[$i].actual},{"v": data[$i].actual}]};
+                
+                if($test in $results){
+                	$results[$test].push($row);
+                }                
+                else{
+                	$results[$test] = [$row];
+                }
+                
+                delete $tests[$i];
+                
             }          
         }
 
