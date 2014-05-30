@@ -8,10 +8,17 @@ class TestResultController extends BaseController {
 	}
 	
 	public function show($id){
-		$resp = Test_Attempt::with('awt_test_metadata','test_result')->find($id);
-		$resp = Response::json($resp,201);
+		//$results = Test_Attempt::with('awt_test_metadata','test_result')->find($id);
+		
+		$results = DB::table("test_attempts")
+						->join('awt_test_metadata', 'test_attempts.id','=','awt_test_metadata.test_attempt_id')
+						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
+						->join('test_names', 'test_results.test_name_id','=','test_names.id')
+						->where("test_attempts.id",'=',$id)
+						->get();
 
-		return $resp;
+		return Response::json($results,201);
+
 	}
 
 	public function googleCharts(){
@@ -20,16 +27,21 @@ class TestResultController extends BaseController {
 		// sometimes we want charts for all serial numbers or 
 		// just for a single unit's test attempts
 		if(!strcmp($params['serialID'],'all')){
-			$resp = Test_Attempt::with('test_result')
-			->where('project_id','=',$params['projectID'])
-			->orderBy('date','ASC')
-			->get();
+
+			$resp = DB::table("test_attempts")
+						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
+						->join('test_names', 'test_results.test_name_id','=','test_names.id')
+						->where("test_attempts.project_id",'=',$params['projectID'])
+						->get();
 		}
 		else {
-			$resp = Test_Attempt::with('test_result')
-			->where('serial_number_id','=',$params['serialID'])
-			->orderBy('date','ASC')
-			->get();
+
+			$resp = DB::table("test_attempts")
+						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
+						->join('test_names', 'test_results.test_name_id','=','test_names.id')
+						->where("test_attempts.project_id",'=',$params['projectID'])
+						->where("test_attempts.serial_number_id",'=',$params['serialID'])
+						->get();
 		}
 		
 		return Response::json($resp,201);	

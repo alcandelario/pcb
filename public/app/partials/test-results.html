@@ -1,6 +1,6 @@
 
 <div class='col-md-12' ng-hide='hideTestResults'>
-	<h4 ng-bind="testData.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'"></h4>
+	<h4 ng-bind="testData[0].date | DT_filter | date: 'MMM d, yyyy (h:mm a)'"></h4>
 	<table class='table table-striped'>
 		<thead>
 			<tr>
@@ -8,7 +8,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="test in testData.test_result">
+			<tr ng-repeat="test in testData">
 			 	<td ng-bind="test.test_num"></td>
 			 	<td ng-bind="test.test_name"></td>
 			 	<td ng-bind="test.min"></td>

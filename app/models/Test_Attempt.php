@@ -30,6 +30,11 @@ class Test_Attempt extends \Eloquent {
 	{
 		return $this->hasMany("Test_Result","test_attempt_id");
 	}
-	
+
+	public function test_name()
+	{
+		return $this->hasManyThrough("Test_Name", "Test_Result","test_name_id","id");
+	}
+
 
 }

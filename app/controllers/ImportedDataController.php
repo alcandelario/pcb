@@ -58,7 +58,7 @@ class ImportedDataController extends BaseController {
 			}
 		}
 		
-		// insert our files in te dB and do some cleanup if necessary
+		// insert our files in the dB and do some cleanup if necessary
 		$this->importParsedPCBData($files);
 		
 		if($mode == 0){		// these are temp files, to be deleted
@@ -131,10 +131,11 @@ class ImportedDataController extends BaseController {
     }
     
 	private function insertFile($file){
-
 		foreach($file as $table => $data)	
     	{
-	    	switch($table) {
+    		// Should really be reading in these table names
+    		// programatically
+    		switch($table) {
 	    		case "projects":
 					$project = Project::firstOrCreate($data);
 					break;
@@ -148,9 +149,9 @@ class ImportedDataController extends BaseController {
 	    			$data['serial_number_id'] = $serial->id;
 	    			$data['project_id'] = $project->id;
 	    			$data["member_id"] = "1";
-// 	    			$data['date'] = strtotime($data['date']);
 	    			$attempt = Test_Attempt::firstOrNew($data);
-	    			$exists = $attempt->exists;
+	    			$exists = $attempt->exists;   // save this value for later  
+	    			
 	    			if(!$exists){
 	    				$attempt->save();
 	    			}
@@ -166,7 +167,7 @@ class ImportedDataController extends BaseController {
 	    		
 	    		case "test_results":
 	    			if(!$exists){
-	    				$this->insertTestNameIDs($data);
+	    				$data = $this->insertTestNameIDs($data);
 	    				
 	    				$attemptID = $attempt->id;
 	    			
@@ -197,22 +198,26 @@ class ImportedDataController extends BaseController {
     	
     	// collect the test names 
     	foreach($data as $key => $value){
-    		$testNames['test_names'][] = array("test_name" => $value['test_name']);
+    		$testNames[] = array("test_name" => $value['test_name']);
     	}	
-    	// insert into db if they don't exist
-    	
-    	// get primary keys for all these test-names
-    	
+    	// insert into db if they don't exist and save primary key
+    	foreach ($testNames as $key => $testName_record) {
+    		$result = Test_Name::firstOrCreate($testName_record);
+    		$fks[$result->id] = $result->test_name; 
+    	}
+
     	// stuff primary keys back into original array
     	foreach($data as $key => $value){
     		$name = $value['test_name'];
     		
-    		$foreign_key = array_search($name,$testNames);
+    		$foreign_key = array_search($name,$fks);
     		
     		$data[$key]['test_name_id'] = $foreign_key;
     		
     		unset($data[$key]['test_name']);
     	}
+    	
+    	return $data;
     	
     }
 }

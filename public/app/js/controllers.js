@@ -137,11 +137,15 @@ angular.module("projectTracker")
         var $path = "index.php?/#"+$location.path();
         $url = $url.replace($path,"/google-charts");
 
+        //test only
+        $url ="http://localhost/pcbtracker/public/google-charts";
+
         if($stateParams.projectID === 'all'){
             // don't support this for now. This link
             // came from a generic non-project related page
             // like for example, the mainpage 
         }
+
         else {
         	var serID = '';
         	
@@ -156,6 +160,11 @@ angular.module("projectTracker")
                               url: $url,
                            method: "POST",
                              data: {'projectID': $scope.projectID, 'serialID': serID },
+            })
+
+            .success(function(data,status) 
+            {
+                $this.parseResp(data);
             })
         }
 
@@ -175,11 +184,7 @@ angular.module("projectTracker")
             //                  ]            
         }
 
-   // 	results.success(function (data, status, headers, config) {
-           //parse response into arrays, each test gets it's
-           // own array of results
-         //  $scope.charts = $this.parseResp(data);
-
+   
            // $scope.charts = {
            //                  "test1": 
            //                          {

@@ -26,7 +26,7 @@ angular.module("projectTracker")
     .factory("Test_Results", function($resource,$rootScope){
     	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
     			{attemptID:'@id'},
-    			{'query': {method: 'GET', isArray: false},
+    			{'query': {method: 'GET', isArray: true},
     	});
     })
     .service('DashUrl', function() {

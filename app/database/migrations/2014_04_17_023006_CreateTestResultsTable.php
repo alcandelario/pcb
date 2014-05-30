@@ -50,7 +50,6 @@ class CreateTestResultsTable extends Migration {
 				->nullable()
 				->default(null);
 
-			$table->timestamps();
 		});
 
 		Schema::table('test_results', function($table) 

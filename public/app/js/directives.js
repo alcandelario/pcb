@@ -190,6 +190,9 @@ app.directive('closeMe', function() {
     	var $mode = "0"    //default upload mode
     	$url = $url.replace($path,"/service/upload_data");
     	
+    	// testing only
+    	$url = "http://localhost/pcbtracker/public/service/upload_data";
+    	
     	// create a uploader with options
         var uploader = $scope.uploader = $fileUploader.create({
                scope: $scope,                          // to automatically update the html. Default: $rootScope
