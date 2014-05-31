@@ -31,7 +31,10 @@ class TestResultController extends BaseController {
 			$resp = DB::table("test_attempts")
 						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
 						->join('test_names', 'test_results.test_name_id','=','test_names.id')
+						->join('serial_numbers', 'test_attempts.project_id','=',"serial_numbers.project_id")
 						->where("test_attempts.project_id",'=',$params['projectID'])
+						->orderBy("test_name")
+						// ->where("test_attempts.final_result" '!=','Incomplete')
 						->get();
 		}
 		else {
@@ -39,8 +42,10 @@ class TestResultController extends BaseController {
 			$resp = DB::table("test_attempts")
 						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
 						->join('test_names', 'test_results.test_name_id','=','test_names.id')
+						->join('serial_numbers', 'test_attempts.serial_number_id','=',$params['serialID'])
 						->where("test_attempts.project_id",'=',$params['projectID'])
 						->where("test_attempts.serial_number_id",'=',$params['serialID'])
+						// ->where("test_attempts.final_result" '!=','Incomplete')
 						->get();
 		}
 		

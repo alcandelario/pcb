@@ -6,13 +6,12 @@ angular.module("projectTracker")
 	 *
 	 **/
 	.controller('homeController', function($scope,$modal,$rootScope,Projects,SharedDataSvc,$cookieStore){
-    	    $cookieStore.put("projectName", "");
+    	      $cookieStore.put("projectName", "");
             $cookieStore.put("projectID", "");
 
             $scope.projects = Projects.get();
 
             $scope.projects.$promise.then(function (projects) {
-            
               // add a clean url segment for project home links
                 for(var count=0; count < projects.length; count++){
                     // extract one record and add to the array
@@ -23,9 +22,8 @@ angular.module("projectTracker")
                 $scope.projects = projects;
             }); 
 
-            
             $scope.createNewProject = function(){
-                
+                // create a model with our form
                 var modalInstance = $modal.open({
                         templateUrl: 'newproject_modal.html',
                          controller: 'newProjectCtrl',
@@ -36,27 +34,24 @@ angular.module("projectTracker")
                                }
                            }
                     });
-
             };
     })
-    
     /**
      * 
-     * individual project home
+     * individual project home 
      *
      **/
     .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
         $scope.hideNestedOne = 'true';
         $scope.hideNestedTwo = 'true';
         $scope.hideProjectHome = 'true';
-        
         $scope.projectName = $cookieStore.get("projectName");
 
         $scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
 
         $scope.serials.$promise.then(function(serials) {
            
-           if(serials.length > 0)
+           if(serials.length > 0)  // this project actually has serial nums 
            {
                 $scope.projectName = serials[0].project.name;
                 $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
@@ -65,43 +60,39 @@ angular.module("projectTracker")
            }
            else
            {
-                //No serials yet, but we still need the user-friendly project Name
+            //No serials yet, but we still need the user-friendly project Name
             var $name = Projects.query({projectID: $stateParams.projectID});
+                
                 $name.$promise.then(function(project){
                     $scope.projectName = project.name;
                 });
            }
         });
 
-        // $scope.hideProjectHome = "false";
         $scope.projectID = $stateParams.projectID;
         $cookieStore.put("projectID", $scope.projectID);
     })
-    
     /**
      * 
      * Unit under test (UUT) history of test attempts
      *
      **/
     .controller('testHistoryController',function($cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
-    	$rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
+    	  $rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
         $rootScope.hideNestedTwo = 'true';
-
         $scope.projectName = $cookieStore.get("projectName");
-    	$scope.projectID = $cookieStore.get("projectID");
+    	  $scope.projectID = $cookieStore.get("projectID");
         $scope.serialID = $stateParams.serialID;
     	
-    	$scope.history = Test_Attempts.query({serialID:$stateParams.serialID});
+      	$scope.history = Test_Attempts.query({serialID:$stateParams.serialID});
     	
-    	$scope.history.$promise.then(function(result){
-    		$scope.serialNumber = result[0].serial_number.pcb;
+    	  $scope.history.$promise.then(function(result){
+    		    $scope.serialNumber = result[0].serial_number.pcb;
             $cookieStore.put("serialNumber", $scope.serialNumber);
-    	});
+    	  });
     	
-    	$cookieStore.put("serialID", $stateParams.serialID);
-
+    	  $cookieStore.put("serialID", $stateParams.serialID);
     })
-    
     /** 
      * 
      * UUT test attempt results
@@ -111,27 +102,33 @@ angular.module("projectTracker")
     	$scope.hideTestResults='true';
 
     	$scope.testData = Test_Results.query({attemptID:$stateParams.resultID});
-        $scope.testData.$promise.then(function(result) {
+      
+      $scope.testData.$promise.then(function(result) {
             $scope.hideTestResults='false';
-        })
-    	    	
+      })
     })
-
     /** 
      * 
-     * Google charts API interfacing controller
+     * Google charts API interface controller
      *
      **/
     .controller('googleChartsController',function($cookieStore,$scope,$stateParams,$location,Test_Results,$http){
-        $scope.hideTestResults='true';
-        $scope.hideNestedTwo='false';
+        // configure the view
+        if($stateParams.serialID === 'all')
+        {
+          $scope.hideNestedOne = 'false';
+          //$scope.hideNestedTwo = 'true';
+        }
+        else{
+          $scope.hideNestedTwo = 'false';
+          $scope.serialID = $cookieStore.get("serialID");
+          $scope.serialNumber = $cookieStore.get("serialNumber");
+          $scope.hideTestResults='true';
+        }
 
         $scope.projectName = $cookieStore.get("projectName");
         $scope.projectID = $cookieStore.get("projectID");
-        $scope.serialID = $cookieStore.get("serialID");
-        $scope.serialNumber = $cookieStore.get("serialNumber");
-        
-        
+                
         // build the request URL
         var $url = $location.absUrl();
         var $path = "index.php?/#"+$location.path();
@@ -145,227 +142,234 @@ angular.module("projectTracker")
             // came from a generic non-project related page
             // like for example, the mainpage 
         }
-
-        else {
-        	var serID = '';
-        	
-        	if($stateParams.serialID !== 'all') {
-                serID = $scope.serialID;
+        // build charts for an individual serial number
+        else 
+        {
+            var serID = '';
+          	
+          	if($stateParams.serialID !== 'all') {
+                  serID = $scope.serialID;
             }
             else{
-                serID = 'all'
+                  serID = 'all'
             }
-
+            // get test data for this serial number
             var results = $http({
-                              url: $url,
-                           method: "POST",
-                             data: {'projectID': $scope.projectID, 'serialID': serID },
+                                url: $url,
+                             method: "POST",
+                               data: {'projectID': $scope.projectID, 'serialID': serID },
             })
 
             .success(function(data,status) 
             {
-                $resp = parseResp(data);
+                $resp = buildChartValues(data);
+                $scope.charts = buildChartObjects($resp);
             })
         }
+    
+        /**
+         * The return from parseResp is a collection of 
+         * test names with the results for each test arranged
+         * into it's own collection. 
+         *
+         * The url property will link the user back to the full
+         * test results where the individual test data came from
+         *
+           @return  {
+                          TEST_1: [
+                                    {
+                                        url: test_id_1
+                                       data: {
+                                              c: [
+                                                   {
+                                                    
+                                                   },
+                                                   {
+    
+                                                   },
+                                                   {
+    
+                                                   }   
+                                                 ]  
+                                             }
+                                    },
+                                    {
+                                       url: test_id_2
+                                      data: {...}
+                                    }
+                                  ]
+                          TEST_2: [
 
-        var parseResp = function(data){
-            // takes individual attempts and parses each
-            // test result into arrays. will return an 
-            // array like:
-            //               [
-            //                    "Test Name": {
-            //                              "url": test-name,
-            //                             "data": ["result","result",...,"result"]
-            //                     },
-            //                     "Other Test": {
-            //                               "url": other-test,
-            //                              "data": ["result","result",...,"result"]
-            //                     }
-            //                  ] 
+                                  ]
+                    }
+          **/
+        var buildChartValues = function(data){
             var $tests = [];
             var $results = {};
-            var $temp = {};
+
+            // extract all test names
             for(var $i=0; $i < data.length; $i++)
             {
                 $tests.push(data[$i].test_name);
             } 
 
-            // now stuff results into an array for each test name
+            // create the @return data structure
             for(var $i=0;$i<data.length;$i++)
             {
-                var $test = data[$i].test_name;
-                var $value = data[$i].actual;
+               var units = data[$i].units;
+               var min = data[$i].min;
+               var max = data[$i].max;
+               var res = data[$i].final_result.toLowerCase();
 
-                //$tests[$test].push({"c":[{"v": $i},{"v": data.actual},{"v":"data.actual"}]});
-                var $row = {"c":[{"v": $i},{"v": data[$i].actual},{"v": data[$i].actual}]};
-                
-                if($test in $results){
-                	$results[$test].push($row);
-                }                
-                else{
-                	$results[$test] = [$row];
+              if(  units === 'logic'         ||
+                   units === 'bool'          ||
+                 (!min && ((max + 0) == 1)) ||
+                   res === 'incomplete' 
+               )
+               {
+                // ignore any non-numeric test data
+               }
+               else
+               {
+                  var $test = data[$i].test_name;
+                  var $value = data[$i].actual;
+                  var $att_id = data[$i].test_attempt_id;
+                  var $minV = data[$i].min;
+                  var $maxV = data[$i].max;
+                  var $units = data[$i].units;
+                  var $tested = data[$i].date;
+                  var $serial = data[$i].pcb;
+                  var $result = data[$i].result;
+
+                  // if test name exists in @return object, add new result
+                  // to that object's array
+                  if($test in $results){
+                    var $index = $results[$test].length + 1;
+
+                    var $row = {"url": $att_id,
+                                "serial": $serial, 
+                                "minV": $minV,
+                                "maxV": $maxV,
+                                "units": $units,
+                                "tested": $tested, 
+                                "data": {"c":[{"v": $index},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
+                               }; 
+                  	
+                    $results[$test].push($row);
+                  }   
+                  // otherwise create a new object property in the @return object              
+                  else{
+                    var $row = {"url": $att_id, 
+                                "serial": $serial,
+                                "minV": $minV,
+                                "maxV": $maxV,
+                                "units": $units,
+                                "tested": $tested, 
+                                "data": {"c":[{"v": 1},{"v": data[$i].actual},{"v": data[$i].actual}]}
+                               }; 
+                  	$results[$test] = [$row];
+                  }
                 }
-                
-                delete $tests[$i];
-                
-            }          
+            }
+
+            return $results;
         }
 
-   
-           // $scope.charts = {
-           //                  "test1": 
-           //                          {
-           //                              "url": "test1",
-           //                              "data": {"1","2","3"}
-           //                          },
-           //                  "test2": 
-           //                          {
-           //                              "url": "test2",
-           //                              "data": {"4","5","6"}
-           //                          }
-           // }
+        /**
+         *
+         *  further parse the data into a chart object
+         *
+         */
+        var buildChartObjects = function($data){
+          /**
+           *
+           * Chart object prototype
+           */
+           var chart = function() {
 
-           // for($i=0; $i < $scope.charts.length; $i++){
-                    
-           // }
-           
-           var testdata = 
-                {        "rows": [
-                    // parser function will create the below structure
-                    // parser will return data as follows:
-                    // { "test-name1" : {the below structure},
-                    //   "test-name2" : {the below structure} 
-                    // }
+                return {"type": "ScatterChart",
+                        "displayed": false,
+                        "data": {
+                                 "cols": [
+                                           {    "id": "index",
+                                             "label": "Index",
+                                              "type": "number" 
+                                           },
+                                           {
+                                                "id": "actual",
+                                             "label": "Actual",
+                                              "type": "number"
+                                           },
+                                           {    "id":  '',
+                                              "type":  'string', 
+                                              'role':'tooltip',
+                                                 'p': {
+                                                       'role': "tooltip",
+                                                       'html': true
+                                                      }
+                                           }
+                                         ],
 
-                    // take $chartPrototype "
+                                 "rows": '',
+                               },
+                   "options": {
+                                "title": "",
+                                "isStacked": "true",
+                                "fill": 20,
+                                "displayExactValues": true,
+                                "vAxis": {
+                                          "title": "",
+                                          "minValue":"",
+                                          "maxValue":"",
+                                          "gridlines": {
+                                                        "count": 2
+                                                       }
+                                         },
+                                "legend": "none",
+                                "hAxis":   {
+                                            "title": "Attempt",
+                                            "viewWindowMode": 'maximized'
+                                           },
+                                "tooltip": {
+                                             "isHtml": true,
+                                            "trigger": "selection"
+                                           },
+                                "width":  300,
+                                "height": 200
+                              },
+                   "formatters": {},
+                   "view": {}
+                };
+              };
 
-                   {
-                      "c": [
-                           {
-                               "v": 0
-                           },
-                           {
-                               "v": 122
-                           },
-                           {
-                               "v": "122"
-                           }
-                       ]
-                   },
-                   {
-                      "c": [
-                           {
-                               "v": 1
-                           },
-                           {
-                               "v": 126
-                           },
-                           {
-                               "v": "126"
-                           }
-                       
-                       ]
-                   }
-               ]
-           }
+            var $ch_objects = {};
 
+            for(var $test_name in $data)
+            {
+                var $proto = chart();
+                var $temp = [];
+                var results = $data[$test_name]; // get all objects in that test's array
+                
+                // extract the columns from each test attempt
+                for($i = 0; $i < results.length; $i++)
+                {
+                  var row = results[$i].data
+                  $temp.push(row);  
+                }
+                
+                // populate the prototype with custom data
+                $proto.options.title = $test_name;
+                $proto.options.vAxis.title = $test_name;
+                $proto.options.vAxis.minValue = $data[$test_name][0].minV;
+                $proto.options.vAxis.maxValue = $data[$test_name][0].maxV;
+                $proto.data.rows = $temp;
 
-           $scope.chart = {
-               "type": "ScatterChart",
-               "displayed": false,
-               "data": {
-                   "cols": [
-                       {    "id": "index",
-                         "label": "Index",
-                          "type": "number" 
-                       },
-                       {
-                            "id": "actual",
-                         "label": "Actual",
-                          "type": "number"
-                       },
-                       {    "id":  '',
-                          "type":  'string', 
-                          'role':'tooltip',
-                             'p': {
-                                   'role': "tooltip",
-                                   'html': true
-                               }
-                       }
-                   ],
-                   "rows": [
-                    // parser function will create the below structure
-                    // parser will return data as follows:
-                    // { "test-name1" : {the below structure},
-                    //   "test-name2" : {the below structure} 
-                    // }
-
-                    // take $chartPrototype "
-
-                   {
-                      "c": [
-                           {
-                               "v": 0
-                           },
-                           {
-                               "v": 122
-                           },
-                           {
-                               "v": "122"
-                           }
-                       ]
-                   },
-                   {
-                      "c": [
-                           {
-                               "v": 1
-                           },
-                           {
-                               "v": 126
-                           },
-                           {
-                               "v": "126"
-                           }
-                       
-                       ]
-                   }
-               ]
-           },
-           "options": {
-               "title": "Average Sleep Current",
-               "isStacked": "true",
-               "fill": 20,
-               "displayExactValues": true,
-               "vAxis": {
-                   "title": "Avg Sleep Current (mA)",
-                   "gridlines": {
-                       "count": 2
-                   }
-               },
-               "legend": "none",
-               "hAxis": {
-                   "title": "Attempt"
-               },
-               "tooltip": {
-                   "isHtml": true,
-                  "trigger": "selection"
-               },
-               "width": 300,
-               "height": 200
-           },
-           "formatters": {},
-           "view": {}
-       }
-
-
-        	
-   // });
-    	
-    	results.error(function (data, status, headers, config) {
-            var b = 0;
-        });
-
-    })
+                
+                $ch_objects[$test_name] = $proto;
+            }
+            return $ch_objects;
+          }
+        })
     
     /**
      * 
@@ -375,19 +379,20 @@ angular.module("projectTracker")
     .controller('MainController', function($scope,$rootScope,$state,$sanitize,$location,Authenticate,SharedDataSvc,authService,Flash,$cookieStore) {
        	$defaultState = 'home';				// where to go after logging in
        	
-    	$scope.logout = function (){
-    		Authenticate.get({});  			// our index() server endpoint will logout the user
-    		$cookieStore.put('user_logged_in','false');
-    		$cookieStore.put('username', '');
-         	$cookieStore.put('email', '');
-    		
-    		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
-    		$state.go("login");
-    	}
+      	$scope.logout = function (){
+      		Authenticate.get({});  			// our index() server endpoint will logout the user
+      		$cookieStore.put('user_logged_in','false');
+      		$cookieStore.put('username', '');
+          $cookieStore.put('email', '');
+      		
+      		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
+      		$state.go("login");
+      	}
     	
         $scope.login = function(){
 	
-         	Authenticate.save({
+         	Authenticate.save(
+             {
                  'email': $sanitize($scope.email),
                  'password': $sanitize($scope.password)
              },
@@ -433,22 +438,22 @@ angular.module("projectTracker")
     	
     	// create a uploader with options
         var uploader = $scope.uploader = $fileUploader.create({
-               scope: $scope,                          // to automatically update the html. Default: $rootScope
-                 url: $url,
-            formData: [
-                       { id: $projectID}
-                              
-            ],
-            filters: [
-                function (item) {                     // first user filter
-                 
-                	return true;
-                }
-            ]
-        });
+                          scope: $scope,                          // to automatically update the html. Default: $rootScope
+                          url: $url,
+                          formData: [
+                                     { id: $projectID}
+                                            
+                          ],
+                          filters: [
+                              function (item) {                     // first user filter
+                               
+                              	return true;
+                              }
+                          ]
+            });
         
         
-     // REGISTER HANDLERS
+        // REGISTER HANDLERS
 
         uploader.bind('afteraddingfile', function (event, item) {
             console.info('After adding a file', item);
@@ -495,8 +500,6 @@ angular.module("projectTracker")
         uploader.bind('completeall', function (event, items) {
             console.info('Complete all', items);
         });
-
-    
     })
 
     var newProjectCtrl = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
@@ -533,7 +536,7 @@ angular.module("projectTracker")
                 $scope.cancel = function(){
                     $modalInstance.dismiss('cancel');
                 };
-	}
+	     }
 
 
     

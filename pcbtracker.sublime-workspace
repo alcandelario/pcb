@@ -7,6 +7,30 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "public/app/js/services/services.js",
+			"settings":
+			{
+				"buffer_size": 2076,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/controllers/ProjectController.php",
+			"settings":
+			{
+				"buffer_size": 1092,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/app/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 17534,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -52,6 +76,17 @@
 	},
 	"file_history":
 	[
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/app.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/controllers.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/directives.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ProjectController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/services.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/database.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/seeds/UserSeeder.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/project-home.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/projects.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data-upload.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_022215_CreateSerialNumbersTable.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_022157_CreateMembersTable.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_022357_CreateAWTTestMetadataTable.php",
@@ -81,28 +116,20 @@
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_022743_CreateShippingFormTable.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_023007_CreateTestNamesTable.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/migrations/2014_04_17_022639_CreateSerialNumberTable.php",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/project-home.html",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ProjectController.php",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/seeds/UserSeeder.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/pcbtracker.sublime-project",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/Xdebug Client/Xdebug.sublime-settings",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/app.js",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/controllers.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ImportedDataController.php",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/directives.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/SerialNumberController.php",
 		"/C/Bitnami/wappstack-5.4.26-2/php/php.ini",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/Xdebug Client/Xdebug.sublime-settings",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 2/Packages/User/Xdebug.sublime-settings",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/projects.html",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data-upload.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/test_results.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/serial_numbers.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/test_attempts.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data_upload_form.html",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/app.css",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/views/index.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/lib/DataManager.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/start/global.php",
@@ -120,7 +147,6 @@
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/UserController.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/models/Project.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/lib/angular/angular-file-upload.min.map",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/database.php",
 		"/C/AAA_WEB/pcb/.git/config",
 		"/C/AAA_WEB/pcb/.gitattributes",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/composer.json",
@@ -177,9 +203,7 @@
 		"/C/WAPP/apache2/htdocs/pcb/app/views/user",
 		"/C/WAPP/apache2/htdocs/pcb/composer.json",
 		"/C/WAPP/apache2/htdocs/pcb/app/views/hello.php",
-		"/C/WAPP/apache2/htdocs/pcb/server.php",
-		"/C/WAPP/apache2/htdocs/pcb/public/index.php",
-		"/C/WAPP/docs/README.txt"
+		"/C/WAPP/apache2/htdocs/pcb/server.php"
 	],
 	"find":
 	{
@@ -217,6 +241,100 @@
 	"groups":
 	[
 		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "public/app/js/services/services.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2076,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								477,
+								477
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/controllers/ProjectController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1092,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								248,
+								248
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/app/js/controllers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17534,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2374,
+								2374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
 			"sheets":
 			[
 			]
@@ -242,25 +360,32 @@
 			[
 				0,
 				0,
-				1,
+				2,
 				1
 			],
 			[
-				1,
 				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
 				2,
-				1
+				2
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.192316091837,
+			0.5,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
+			0.7,
 			1.0
 		]
 	},
@@ -310,14 +435,69 @@
 			"hide_conflict": false,
 			"restore_index":
 			{
-				"17":
+				"16":
 				{
 					"group": 0,
 					"index": 0
 				},
-				"19":
+				"17":
 				{
 					"group": 0,
+					"index": 1
+				},
+				"18":
+				{
+					"group": 0,
+					"index": 2
+				},
+				"20":
+				{
+					"group": 0,
+					"index": 3
+				},
+				"23":
+				{
+					"group": 0,
+					"index": 8
+				},
+				"24":
+				{
+					"group": 0,
+					"index": 4
+				},
+				"25":
+				{
+					"group": 0,
+					"index": 5
+				},
+				"26":
+				{
+					"group": 0,
+					"index": 7
+				},
+				"27":
+				{
+					"group": 0,
+					"index": 6
+				},
+				"30":
+				{
+					"group": 2,
+					"index": 1
+				},
+				"31":
+				{
+					"group": 1,
+					"index": 0
+				},
+				"32":
+				{
+					"group": 2,
+					"index": 0
+				},
+				"33":
+				{
+					"group": 1,
 					"index": 1
 				}
 			},
@@ -353,7 +533,7 @@
 				"rows":
 				[
 					0.0,
-					0.542105263158,
+					0.57987987988,
 					1.0
 				]
 			}
@@ -363,7 +543,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 387.0,
+	"side_bar_width": 283.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

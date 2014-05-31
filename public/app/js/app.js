@@ -87,13 +87,23 @@ app.config(function($stateProvider,$urlRouterProvider){
 			url: '/analyis/:projectID'
 		})
 
+		.state('charts.unit-test-data', {
+			url:'/unit/test-data/:serialID',
+			views: {
+				'viewContent': {templateUrl: 'app/partials/project-home.html',
+								 controller: 'googleChartsController'},
+				'nestedOne@charts.unit-test-data': {templateUrl: "app/partials/serial-history.html"},
+				'nestedTwo@charts.unit-test-data': {templateUrl: "app/partials/google-charts.html"}
+			   									
+			}
+		})
+
 		.state('charts.test-data', {
 			url:'/test-data/:serialID',
 			views: {
 				'viewContent': {templateUrl: 'app/partials/project-home.html',
 								 controller: 'googleChartsController'},
-				'nestedOne@charts.test-data': {templateUrl: "app/partials/serial-history.html"},
-				'nestedTwo@charts.test-data': {templateUrl: "app/partials/google-charts.html"}
+				'nestedOne@charts.test-data': {templateUrl: "app/partials/google-charts.html"}
 			   									
 			}
 		})

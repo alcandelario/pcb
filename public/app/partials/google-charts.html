@@ -1,3 +1,5 @@
-<div google-chart chart="chart" style="{{cssStyle}}"></div>
-<div google-chart chart="chart" style="{{cssStyle}}"></div>
-<div>charts partial</div>
+<section class='col-md-12'>
+	<h3>AWT test data</h3>
+	<div ng-repeat="(testname,chartObj) in charts" class="pull-left" google-chart chart="charts[testname]" style="{{cssStyle}}"></div>
+
+</section>
