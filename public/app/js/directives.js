@@ -5,7 +5,7 @@
  * and prompt user to login
  * 
  **/
-app.directive('ifLoginRequired', ['$compile','$http','$templateCache','Flash','authService','$cookieStore', function($compile,$http,$templateCache,Flash,authService,$cookieStore) {
+app.directive('ifLoginRequired', ['$rootScope','$compile','$http','$templateCache','Flash','authService','$cookieStore', function($rootScope,$compile,$http,$templateCache,Flash,authService,$cookieStore) {
 	
 		var getTemplate = function(){
 			return $http.get("app/partials/login.html", {cache: $templateCache});
@@ -17,6 +17,7 @@ app.directive('ifLoginRequired', ['$compile','$http','$templateCache','Flash','a
 				// Session expired handler will insert 'login' partial
 				// Will ignore a user logout action or a failed auth attempt (as reported by server)
 				scope.$on('event:auth-loginRequired', function(event,message) {
+					$cookieStore.put('sessionExpired','true');
 								  
 					if(message.data.flash != 'userLogout' && message.data.flash != "Authentication failed"){
 						
@@ -32,12 +33,12 @@ app.directive('ifLoginRequired', ['$compile','$http','$templateCache','Flash','a
 							element = compiled;
 						})
 						
-						Flash.show("login_flash", "Your session expired. Please log the fuck back in");
+						Flash.show("login_flash", "Your session expired. Please log back in");
 					}
 
 					// For failed login attempts, just show a flash message to user
 					else if(message.data.flash == 'Authentication failed'){
-						authService.loginCancelled();  // dump any buffered http requests
+						//authService.loginCancelled();  // dump any buffered http requests
 						Flash.show("login_flash","Sorry but your email/password combo did not work. Try again");
 					}
 				})
@@ -45,7 +46,6 @@ app.directive('ifLoginRequired', ['$compile','$http','$templateCache','Flash','a
 				
 				// Successful login handler will remove 'login' partial		        
 				scope.$on('event:auth-loginConfirmed', function($rootScope) {
-					$cookieStore.put('sessionExpired', 'false');
 					var compiled = $compile('<div></div>')(scope);
 					element.replaceWith(compiled);
 					element = compiled;
@@ -71,8 +71,9 @@ app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$root
 		// The default, non-event driven state of this directive
 		$rootScope.userLoggedIn = $cookieStore.get('user_logged_in');
 		$rootScope.username = $cookieStore.get('username');
+		var $sessionExpired = $cookieStore.get('sessionExpired');
 		
-		if($rootScope.userLoggedIn === "true"){
+		if($rootScope.userLoggedIn === "true" && $sessionExpired === 'false'){
 			var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
 			element.replaceWith(compiled);
 			element = compiled;
@@ -81,9 +82,13 @@ app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$root
 
 		// Successful login handler. Will insert header partial
 		scope.$on('event:auth-loginConfirmed', function() {
-			var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
-			element.replaceWith(compiled);
-			element = compiled;
+			if($sessionExpired === 'false'){
+				var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
+				element.replaceWith(compiled);
+				element = compiled;
+			}
+
+			$cookieStore.put('sessionExpired','false');
 		})
 		
 	    // User logout handler will remove header partial

@@ -168,13 +168,7 @@ angular.module("projectTracker")
         }
     
         /**
-         * The return from parseResp is a collection of 
-         * test names with the results for each test arranged
-         * into it's own collection. 
-         *
-         * The url property will link the user back to the full
-         * test results where the individual test data came from
-         *
+         * Format the data for use with Google Charts directive
            @return  {
                           TEST_1: [
                                     {
@@ -223,8 +217,10 @@ angular.module("projectTracker")
 
               if(  units === 'logic'         ||
                    units === 'bool'          ||
-                 (!min && ((max + 0) == 1)) ||
-                   res === 'incomplete' 
+                   units === 'none'          ||
+                 (!min && ((max + 0) == 1))  ||
+                   res === 'incomplete'      ||
+                   res === 'completed'
                )
                {
                 // ignore any non-numeric test data
@@ -265,7 +261,7 @@ angular.module("projectTracker")
                                 "maxV": $maxV,
                                 "units": $units,
                                 "tested": $tested, 
-                                "data": {"c":[{"v": 1},{"v": data[$i].actual},{"v": data[$i].actual}]}
+                                "data": {"c":[{"v": 1},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
                                }; 
                   	$results[$test] = [$row];
                   }
@@ -332,10 +328,10 @@ angular.module("projectTracker")
                                            },
                                 "tooltip": {
                                              "isHtml": true,
-                                            "trigger": "selection"
+                                            // "trigger": "selection"
                                            },
-                                "width":  300,
-                                "height": 200
+                                "width":  440,
+                                "height": 400
                               },
                    "formatters": {},
                    "view": {}
@@ -383,7 +379,7 @@ angular.module("projectTracker")
       		Authenticate.get({});  			// our index() server endpoint will logout the user
       		$cookieStore.put('user_logged_in','false');
       		$cookieStore.put('username', '');
-          $cookieStore.put('email', '');
+            $cookieStore.put('email', '');
       		
       		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
       		$state.go("login");
