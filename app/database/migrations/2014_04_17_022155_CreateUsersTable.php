@@ -44,6 +44,10 @@ class CreateUsersTable extends Migration {
 				->nullable()
 				->default(0);
 
+			$table
+				->text("remember_token")
+				->nullable();
+
 		});
 	}
 

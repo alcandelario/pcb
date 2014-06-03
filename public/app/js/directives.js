@@ -11,14 +11,13 @@ app.directive('ifLoginRequired', ['$rootScope','$compile','$http','$templateCach
 			return $http.get("app/partials/login.html", {cache: $templateCache});
 		}
 	
-	
 		var linker = function(scope,element,attrs) {
 			
 				// Session expired handler will insert 'login' partial
-				// Will ignore a user logout action or a failed auth attempt (as reported by server)
 				scope.$on('event:auth-loginRequired', function(event,message) {
 					$cookieStore.put('sessionExpired','true');
 								  
+					// insert a login partial if user didn't try to log-out, or had a failed log-in attempt
 					if(message.data.flash != 'userLogout' && message.data.flash != "Authentication failed"){
 						
 						var loader = getTemplate();
@@ -61,40 +60,33 @@ app.directive('ifLoginRequired', ['$rootScope','$compile','$http','$templateCach
 
 
 /**
- * To handle conditional nav bar display based on authentication status
+ * Controls the app's main nav-bar functionality
  * 
  **/
 app.directive('loggedInNav', ['$compile','$http','$templateCache','Flash','$rootScope','$cookieStore', function($compile,$http,$templateCache,Flash,$rootScope,$cookieStore) {
 
 	var linker = function(scope,element,attrs) {
 		
-		// The default, non-event driven state of this directive
-		$rootScope.userLoggedIn = $cookieStore.get('user_logged_in');
+		$loggedIn = $cookieStore.get('userLoggedIn');
+		$sessionExpired = $cookieStore.get('sessionExpired');
 		$rootScope.username = $cookieStore.get('username');
-		var $sessionExpired = $cookieStore.get('sessionExpired');
-		
-		if($rootScope.userLoggedIn === "true" && $sessionExpired === 'false'){
+				
+		// default handler for display ofthe app's main nav-bar
+		if($loggedIn === "true" && $sessionExpired === 'false'){
 			var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
 			element.replaceWith(compiled);
 			element = compiled;
 		}
-
-
-		// Successful login handler. Will insert header partial
+		// handler for a first-time, fresh log in
 		scope.$on('event:auth-loginConfirmed', function() {
-			if($sessionExpired === 'false'){
+			if(typeof $rootScope.sessionExpired === 'undefined' ){
 				var compiled = $compile('<header class="main-nav" ng-include=\'"app/partials/header.html"\'></header>')(scope);
 				element.replaceWith(compiled);
 				element = compiled;
 			}
-
-			$cookieStore.put('sessionExpired','false');
 		})
-		
-	    // User logout handler will remove header partial
-	    // Ignores any "session expired" events
+	    // handler for user-initiated logout
 		scope.$on('event:auth-loginRequired', function(event,message) {
-			
 			if(message.data.flash == 'userLogout'){
 				var e = element.next();
 				e.remove();

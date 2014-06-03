@@ -29,27 +29,37 @@ class TestResultController extends BaseController {
 		if(!strcmp($params['serialID'],'all')){
 
 			$resp = DB::table("test_attempts")
-						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
-						->join('test_names', 'test_results.test_name_id','=','test_names.id')
-						->join('serial_numbers', 'test_attempts.project_id','=',"serial_numbers.project_id")
+						->leftJoin('test_results','test_results.test_attempt_id','=','test_attempts.id')
+						//->leftJoin('test_names', 'test_names.id','=','test_results.test_name_id')
+						//->leftJoin('serial_numbers', "serial_numbers.project_id",'=','test_attempts.project_id')
 						->where("test_attempts.project_id",'=',$params['projectID'])
-						->orderBy("test_name")
+ 						//->orderBy("test_name")
 						// ->where("test_attempts.final_result" '!=','Incomplete')
 						->get();
+			
+			$tests = Test_Attempt::with("serial_number","test_name","test_result")
+								->where("test_attempts.project_id",'=',$params['projectID'])
+								->get();
+// 			$names = Test_Result::with("test_name")
+// 								->where("test_results.project_id",'=',$params["projectID"]) 
+// 								->get();
+// 			$results = array_merge($tests,$names);
+			
 		}
 		else {
 
 			$resp = DB::table("test_attempts")
-						->join('test_results','test_attempts.id','=','test_results.test_attempt_id')
-						->join('test_names', 'test_results.test_name_id','=','test_names.id')
-						->join('serial_numbers', 'test_attempts.serial_number_id','=',"serial_numbers.id")
+						->join('test_results','test_results.test_attempt_id','=','test_attempts.id')
+						->join('test_names', 'test_names.id','=','test_results.test_name_id')
+						->join('serial_numbers', "serial_numbers.project_id",'=','test_attempts.project_id')
 						->where("test_attempts.project_id",'=',$params['projectID'])
 						->where("test_attempts.serial_number_id",'=',$params['serialID'])
 						// ->where("test_attempts.final_result" '!=','Incomplete')
+						->orderBy("test_name")
 						->get();
 		}
 		
-		return Response::json($resp,201);	
+		return Response::json($tests,201);	
 	
 	}
 

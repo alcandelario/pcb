@@ -39,10 +39,10 @@ angular.module("projectTracker")
      	var shareddata = {};
     	
     	return {
-    		getShared: function(){
+    		get: function(){
     	  			return shareddata;
     		},
-    		setShared: function($key,value){
+    		set: function($key,value){
     		
     			shareddata[$key] = value;
     		}

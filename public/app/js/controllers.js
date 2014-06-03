@@ -6,6 +6,7 @@ angular.module("projectTracker")
 	 *
 	 **/
 	.controller('homeController', function($scope,$modal,$rootScope,Projects,SharedDataSvc,$cookieStore){
+
     	      $cookieStore.put("projectName", "");
             $cookieStore.put("projectID", "");
 
@@ -377,12 +378,13 @@ angular.module("projectTracker")
        	
       	$scope.logout = function (){
       		Authenticate.get({});  			// our index() server endpoint will logout the user
-      		$cookieStore.put('user_logged_in','false');
+      		$cookieStore.put('userLoggedIn','false');
       		$cookieStore.put('username', '');
-            $cookieStore.put('email', '');
+          $cookieStore.put('email', '');
       		
       		$rootScope.$broadcast('event:auth-loginRequired', {data: {flash: 'userLogout'}});
-      		$state.go("login");
+          delete $rootScope.sessionExpired;
+          $state.go("login");
       	}
     	
         $scope.login = function(){
@@ -395,30 +397,28 @@ angular.module("projectTracker")
              
              function(data) {
     
-            	// broadcast a successful login event
-             	authService.loginConfirmed();
-             	
-             	// store user profile data
-             	$cookieStore.put('user_logged_in', 'true');
-             	$cookieStore.put('username', data.user.username);
-             	$cookieStore.put('email', data.user.email);
-                $rootScope.username = data.user.username;  // to populate header 
-        		
-               // go to our default state if its NOT an expired session
-                if($rootScope.sessionExpired == false || typeof $rootScope.sessionExpired === 'undefined'){
-                	$state.go($defaultState);
-                }
-                // otherwise just reset the session flag and stay in current state
-                else{
-                	$cookieStore.put('sessionExpired', 'false');
+               	// store user profile data
+               	$cookieStore.put('userLoggedIn', 'true');
+               	$cookieStore.put('username', data.user.username);
+               	$cookieStore.put('email', data.user.email);
+                $rootScope.username = data.user.username;  // to populate header
+                 
+                // broadcast a successful login event
+                authService.loginConfirmed(); 
+                
+                // go to our default state if its a fresh log in
+                if(typeof $rootScope.sessionExpired === 'undefined'){
+                  $rootScope.sessionExpired = 'false';
+                  $cookieStore.put('sessionExpired', 'false');
+                  $state.go($defaultState);
                 }
              },
              
              function(response){
                 // this "auth failed" block won't execute if
-            	// the "http-auth-interceptor" module is running. In that case,
-            	// use $scope.$on(event:loginRequired) to catch failed logins
-             	authService.loginCancelled();
+            	  // the "http-auth-interceptor" module is running. In that case,
+            	  // use $scope.$on(event:loginRequired) to catch failed logins
+             	  authService.loginCancelled();
                 Flash.show("Sorry but your login credentials aren't working. Try again.");
              });
          }

@@ -12,7 +12,7 @@ class Test_Result extends \Eloquent {
 	
 	public function test_name()
 	{
-		return $this->hasMany("Test_Name", "test_name_id");
+		return $this->hasOne("Test_Name");
 	}
 
 	
