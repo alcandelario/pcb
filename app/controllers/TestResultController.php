@@ -26,40 +26,27 @@ class TestResultController extends BaseController {
 		
 		// sometimes we want charts for all serial numbers or 
 		// just for a single unit's test attempts
-		if(!strcmp($params['serialID'],'all')){
+		$query = 'SELECT test_attempts.id,date,final_result,pcb,test_name,min,max,actual,units,result FROM test_attempts 
+					INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
+					INNER JOIN test_names ON test_results.test_name_id = test_names.id
+					INNER JOIN serial_numbers ON test_attempts.serial_number_id = serial_numbers.id
+					WHERE test_attempts.project_id = '.$params['projectID'].' ';
 
-			$resp = DB::table("test_attempts")
-						->leftJoin('test_results','test_results.test_attempt_id','=','test_attempts.id')
-						//->leftJoin('test_names', 'test_names.id','=','test_results.test_name_id')
-						//->leftJoin('serial_numbers', "serial_numbers.project_id",'=','test_attempts.project_id')
-						->where("test_attempts.project_id",'=',$params['projectID'])
- 						//->orderBy("test_name")
-						// ->where("test_attempts.final_result" '!=','Incomplete')
-						->get();
-			
-			$tests = Test_Attempt::with("serial_number","test_name","test_result")
-								->where("test_attempts.project_id",'=',$params['projectID'])
-								->get();
-// 			$names = Test_Result::with("test_name")
-// 								->where("test_results.project_id",'=',$params["projectID"]) 
-// 								->get();
-// 			$results = array_merge($tests,$names);
-			
+
+		if(!strcmp($params['serialID'],'all')){
+			// do nothing
 		}
 		else {
-
-			$resp = DB::table("test_attempts")
-						->join('test_results','test_results.test_attempt_id','=','test_attempts.id')
-						->join('test_names', 'test_names.id','=','test_results.test_name_id')
-						->join('serial_numbers', "serial_numbers.project_id",'=','test_attempts.project_id')
-						->where("test_attempts.project_id",'=',$params['projectID'])
-						->where("test_attempts.serial_number_id",'=',$params['serialID'])
-						// ->where("test_attempts.final_result" '!=','Incomplete')
-						->orderBy("test_name")
-						->get();
+			// add the serial number clause for charting an individual unit's data
+			$query = $query.'AND test_attempts.serial_number_id = '.$params['serialID'];
 		}
+
+		// build the rest of the query and add the ORDER clause
+		$query = $query.' ORDER BY test_name';
 		
-		return Response::json($tests,201);	
+		$results = DB::select( DB::raw($query) );
+		
+		return Response::json($results,201);	
 	
 	}
 

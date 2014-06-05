@@ -8,26 +8,34 @@
 	"buffers":
 	[
 		{
-			"file": "public/app/js/services/services.js",
-			"settings":
-			{
-				"buffer_size": 2076,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/controllers/ProjectController.php",
-			"settings":
-			{
-				"buffer_size": 1092,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "public/app/js/controllers.js",
 			"settings":
 			{
-				"buffer_size": 17534,
+				"buffer_size": 20715,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/app/js/app.js",
+			"settings":
+			{
+				"buffer_size": 4014,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/controllers/TestResultController.php",
+			"settings":
+			{
+				"buffer_size": 1695,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/app/partials/google-charts.html",
+			"settings":
+			{
+				"buffer_size": 195,
 				"line_ending": "Windows"
 			}
 		}
@@ -76,14 +84,16 @@
 	},
 	"file_history":
 	[
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/app.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/serial-history.html",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/project-home.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/controllers.js",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/directives.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/controllers/ProjectController.php",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/services/services.js",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/css/app.css",
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/directives.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/services.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/config/database.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/database/seeds/UserSeeder.php",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/project-home.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/projects.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/data-upload.html",
@@ -135,7 +145,6 @@
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/start/global.php",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/.git/config",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/app/routes.php",
-		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/js/services/services.js",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/home.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/login.html",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/header.html",
@@ -202,8 +211,7 @@
 		"/C/WAPP/apache2/htdocs/pcb/app/controllers/HomeController.php",
 		"/C/WAPP/apache2/htdocs/pcb/app/views/user",
 		"/C/WAPP/apache2/htdocs/pcb/composer.json",
-		"/C/WAPP/apache2/htdocs/pcb/app/views/hello.php",
-		"/C/WAPP/apache2/htdocs/pcb/server.php"
+		"/C/WAPP/apache2/htdocs/pcb/app/views/hello.php"
 	],
 	"find":
 	{
@@ -241,82 +249,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/app/js/services/services.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2076,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								477,
-								477
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/controllers/ProjectController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1092,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								248,
-								248
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "public/app/js/controllers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17534,
+						"buffer_size": 20715,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2374,
-								2374
+								0,
+								0
 							]
 						],
 						"settings":
@@ -325,23 +275,99 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 720.0,
+						"translation.x": 94.0,
+						"translation.y": 3400.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/app/js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4014,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2653,
+								2653
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1165.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/controllers/TestResultController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1695,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1695,
+								1695
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 276.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/app/partials/google-charts.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 195,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								195,
+								195
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
 				}
-			]
-		},
-		{
-			"sheets":
-			[
-			]
-		},
-		{
-			"sheets":
-			[
 			]
 		}
 	],
@@ -360,32 +386,18 @@
 			[
 				0,
 				0,
-				2,
+				1,
 				1
-			],
-			[
-				0,
-				1,
-				1,
-				2
-			],
-			[
-				1,
-				1,
-				2,
-				2
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.7,
 			1.0
 		]
 	},
@@ -440,65 +452,20 @@
 					"group": 0,
 					"index": 0
 				},
-				"17":
-				{
-					"group": 0,
-					"index": 1
-				},
 				"18":
 				{
 					"group": 0,
-					"index": 2
+					"index": 1
 				},
 				"20":
 				{
 					"group": 0,
+					"index": 2
+				},
+				"21":
+				{
+					"group": 0,
 					"index": 3
-				},
-				"23":
-				{
-					"group": 0,
-					"index": 8
-				},
-				"24":
-				{
-					"group": 0,
-					"index": 4
-				},
-				"25":
-				{
-					"group": 0,
-					"index": 5
-				},
-				"26":
-				{
-					"group": 0,
-					"index": 7
-				},
-				"27":
-				{
-					"group": 0,
-					"index": 6
-				},
-				"30":
-				{
-					"group": 2,
-					"index": 1
-				},
-				"31":
-				{
-					"group": 1,
-					"index": 0
-				},
-				"32":
-				{
-					"group": 2,
-					"index": 0
-				},
-				"33":
-				{
-					"group": 1,
-					"index": 1
 				}
 			},
 			"restore_layout":
@@ -508,32 +475,25 @@
 					[
 						0,
 						0,
-						2,
+						1,
 						1
 					],
 					[
+						1,
 						0,
-						1,
-						1,
-						2
-					],
-					[
-						1,
-						1,
 						2,
-						2
+						1
 					]
 				],
 				"cols":
 				[
 					0.0,
-					0.5,
+					0.889506308962,
 					1.0
 				],
 				"rows":
 				[
 					0.0,
-					0.57987987988,
 					1.0
 				]
 			}
