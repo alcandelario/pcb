@@ -38,7 +38,7 @@
 	"require-dev": {
     	"way/generators": "2.*",
     	"chh/bob": "master-dev",
-    	"phpoffice/phpexcel": "dev-master"
+    	"maatwebsite/excel": "1.*"
 	}
 
 }

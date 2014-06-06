@@ -1,5 +1,8 @@
 <section class='col-md-12'>
 	<h3>AWT test data</h3>
+	<nav class='row project-toolbar'>
+			  	<a ng-click='saveExcel()'>Save to Excel file</a>
+	</nav>
 	<div ng-repeat="(testname,chartObj) in charts" class="pull-left" google-chart chart="charts[testname]" style="{{cssStyle}}"></div>
 
 </section>

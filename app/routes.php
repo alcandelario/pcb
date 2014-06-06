@@ -43,7 +43,8 @@ Route::group(["before" => "auth"], function()
 // 				"uses" => "UserController@logoutAction"
 // 	]);
 	
-	Route::post('google-charts','TestResultController@googleCharts');
+	Route::post('chart-test-limits','TestResultController@chartTestLimits');
+	Route::get('save-excel','TestResultController@saveExcel');
 	
 // 	Route::get('projects/{id?}','ProjectController@get_projects');
 	

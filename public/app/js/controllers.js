@@ -133,10 +133,10 @@ angular.module("projectTracker")
         // build the request URL
         var $url = $location.absUrl();
         var $path = "index.php?/#"+$location.path();
-        $url = $url.replace($path,"/google-charts");
+        $url = $url.replace($path,"/chart-test-limits");
 
         //test only
-        $url ="http://localhost/pcbtracker/public/google-charts";
+        $url ="http://localhost/pcbtracker/public/chart-test-limits";
 
         if($stateParams.projectID === 'all'){
             // don't support this for now. This link
@@ -167,7 +167,34 @@ angular.module("projectTracker")
                 $scope.charts = buildChartObjects($resp);
             })
         }
+
+        /** 
+         *
+         * Save the results to an Excel file
+         *
+         */
+        $scope.saveExcel = function() {
+          // build the request URL
+          var $url = $location.absUrl();
+          var $path = "index.php?/#"+$location.path();
+          $url = $url.replace($path,"/save-excel");
+
+          //test only
+          $url ="http://localhost/pcbtracker/public/save-excel";
+
+          var results = $http({
+                                url: $url,
+                             method: "GET",
+                               data: {},
+          })
+          .success(function(data,status) 
+           {
+               $resp = buildChartValues(data);
+               $scope.charts = buildChartObjects($resp);
+           })
+        }
     
+        
         /**
          * Format the data for use with Google Charts directive
            @return  {
