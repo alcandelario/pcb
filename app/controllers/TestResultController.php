@@ -57,75 +57,97 @@ class TestResultController extends BaseController {
 	 */
 	public function saveExcel(){
 		
-		Excel::create('Laravel Excel', function($excel) {
+		$excel = Excel::create('Laravel Excel', function($excel) {
 
         		// get our most recent data
 				$results = Session::get('test_results_data');
         
         		$excel->getProperties()
         		      ->setCreator("PHPExcel")
-                	  ->setTitle("AWT Test Data")
+                	  ->setTitle("AWT_Test_Data")
                 	  ->setDescription("AWT Test Data generated using phpExcel");
 
                 // where do we want raw data to start being populated in the worksheet
-       			$columnStart = 'A';
-          		$rowStart = 4;
+       			$colStart = 'B';
+          		$rowStart = 7;
           		$sheetIndex = 0;
-          		$prevSheetName = null;
+          		$prevSheetTitle = null;
           		
           		foreach($results as $index => $result){
           			$sheetTitle = $result->test_name;
+
+          			//short the name
+					$sheetTitle = substr($sheetTitle,0,30);
 					
-					if($prevSheetName === null || strcmp($sheetTitle, $prevSheetName) == 0){
-						$prevSheetName = $sheetTitle;
-						
-						//short the name
-						$sheetTitle = substr($sheetTitle,0,30);
-
-	          			// get the min/max
-    	      			$lowLim = $result->min;
-        	  			$upLim = $result->max;
-          		  	
-          		  		$excel->sheet($sheetTitle, function($sheet) {
-	          		  		// name the worksheet and add the column labels
-	          		  		$sheet->setActiveSheetIndex($sheetIndex)
-				                 ->setTitle($sheetTitle)
-				                 ->setCellValue('A1',$sheetTitle)
-				                 ->setCellValue('B1',"Unit Serial Number")
-				                 ->setCellValue('C1',"Date Tested")
-				                 ->setCellValue('D1',"Result")
-			        		// add this test's lower limit to the top of the "Actual Value" column         
-				                 ->setCellValue('A2',$lowLim)
-				                 ->setCellValue('B2',"TEST LOW LIMIT")
-				                 ->setCellValue('A3',$upLim)
-				                 ->setCellValue('B3',"TEST UPPER LIMIT");
-
-				            // format the header row  a bit
-    		   				$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
-        			
-        					$sheet->getActiveSheet()->getStyle('A1:D1')->applyFromArray($style);                
-       				
-	       					// extract raw data into cells
-					        $rowIndex = $rowStart;
-				    	    foreach($results as $key => $value){
-				        	        $columns = explode(",",$value);
-				            	   $colIndex = $columnStart;
-				            	// populate cells for this row
-				            	foreach($columns as $cellValue){
-				               		// set the cell where this data goes
-				                	$cell = $colIndex.$rowIndex;
-				                	$excelDoc->setActiveSheetIndex($sheetIndex)
-				                      	   	 ->setCellValue($cell,$cellValue);
-				                	$colIndex++;
-				            	}
-				            	$rowIndex++;
-				        	}
-          		  		});
+					if($prevSheetTitle === null){
+						$init = false;	// need to initialize this sheet with a header
+						$prevSheetTitle = $sheetTitle;
 					}
-          		}
-    		
-		})->export('xls');
-	}
+					elseif(strcmp($sheetTitle, $prevSheetTitle) !== 0){
+						// we've got a new sheet
+						$sheetIndex++;
+						$init = false;
+						$prevSheetTitle = $sheetTitle;
+					}
 
+	          		if($init === false){
+	          			// get the min/max
+	          			$lowLim = $result->min;
+	          			$upLim = $result->max;
+	          			
+          		  		$sheet = $excel->sheet($sheetTitle, function($sheet) {return $sheet;});
+		          	  		// name the worksheet and add the column labels
+		          	  		$sheet->setActiveSheetIndex($sheetIndex)
+					                // ->setTitle($sheetTitle)
+					                ->setCellValue('A1',$sheetTitle)
+					                ->setCellValue('B6',"Unit Serial Number")
+					                ->setCellValue('C6',"Date Tested")
+					                ->setCellValue('D6',"Result")
+				       		// add this test's lower limit to the top of the "Actual Value" column         
+					                ->setCellValue('B3',$lowLim)
+					                ->setCellValue('A3',"Lower Limit")
+					                ->setCellValue('B4',$upLim)
+					                ->setCellValue('A4',"Upper Limit");
+	
+					        // format the header row  a bit
+	    		   			$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
+        			
+	   //     				$sheet->getActiveSheet()->getStyleArray('A1:D1')->applyFromArray($style);                
+    	      			    $rowIndex = $rowStart;
+							$init = true;
+          			}	
+					
+          		  	//insert one row
+          			$colIndex = $colStart;
+          		  	for($i=0; $i<3; $i++)
+					{
+					  	$cell = $colIndex.$rowIndex;
+	          		  	switch ($i){
+	          		  		case 0: 
+	          		  			$cellValue = $result->pcb;
+	          		  			break;
+	          		  		case 1:
+	          		  			$cellValue = $result->date;
+	          		  			break;
+	          		  		case 2:
+	          		  			$cellValue = $result->actual;
+	          		  			break;
+	          		  	}
 
+	          			$excel->setActiveSheetIndex($sheetIndex)
+	                   		  ->setCellValue($cell,$cellValue);
+	               		
+	          			$colIndex++;
+	               	}
+
+	               	$rowIndex++;
+				}
+			})->store('xls',false, true);
+
+			$file = url("app/storage/exports/".$excel['file']);
+			$url = link_to($file,$excel['file']);
+			
+			return Response::json($url,201);
+			
+   		}
 }

@@ -17,6 +17,7 @@
 			<div class="main-nav" logged-in-nav></div>
 			<div class='container main-inner'>
 				<div class='row' ng-bind-html="flash" ng-show='showFlash'></div>
+				<alert ng-repeat="alert in $rootScope.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 				<section class="content-cont row" ui-view='viewContent'></section>
 				<footer class='row' ui-view='viewFooter'></footer>
 			</div>

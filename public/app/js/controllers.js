@@ -189,8 +189,8 @@ angular.module("projectTracker")
           })
           .success(function(data,status) 
            {
-               $resp = buildChartValues(data);
-               $scope.charts = buildChartObjects($resp);
+               var alert = {'type': 'success','msg': 'Click '+data+' to download your file.'};
+               $rootScope.alerts.push(alert);
            })
         }
     
@@ -402,7 +402,14 @@ angular.module("projectTracker")
      **/
     .controller('MainController', function($scope,$rootScope,$state,$sanitize,$location,Authenticate,SharedDataSvc,authService,Flash,$cookieStore) {
        	$defaultState = 'home';				// where to go after logging in
-       	
+        $rootScope.alerts = [];
+
+       	var $loggedIn = $cookieStore.get('userLoggedIn');
+
+        if($loggedIn === 'true'){
+          $state.go('home');
+        }
+
       	$scope.logout = function (){
       		Authenticate.get({});  			// our index() server endpoint will logout the user
       		$cookieStore.put('userLoggedIn','false');
@@ -448,6 +455,10 @@ angular.module("projectTracker")
              	  authService.loginCancelled();
                 Flash.show("Sorry but your login credentials aren't working. Try again.");
              });
+         }
+
+         $scope.closeAlert = function(index) {
+              $rootScope.alerts.splice(index, 1);
          }
     })
     
