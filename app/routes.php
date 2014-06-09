@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -28,6 +27,7 @@ Route::group(array('prefix' => 'service'), function() {
 	Route::resource('test_attempts', 'TestAttemptController');
 	Route::resource('test_results', 'TestResultController');
 	Route::resource('upload_data','ImportedDataController');
+	Route::resource('test_names','TestNameController');
 });
 
 // USER MUST BE LOGGED IN TO GET TO THESE ROUTES
@@ -38,22 +38,11 @@ Route::group(["before" => "auth"], function()
 // 				"uses"	=> 'UserController@profile'
 // 	]);
 	
-// 	Route::any("/logout", [
-// 				"as"   => "user/logout",
-// 				"uses" => "UserController@logoutAction"
-// 	]);
-	
 	Route::post('chart-test-limits','TestResultController@chartTestLimits');
 	Route::get('save-excel','TestResultController@saveExcel');
 	
 // 	Route::get('projects/{id?}','ProjectController@get_projects');
-	
 // 	Route::get('serial_numbers/{proj_id?}/{serial_id?}','SerialNumberController@get_serial_numbers');
-	
-// 	// an overview of this serial number's test attempts
-// 	Route::get('test_attempts/{proj_id}/{serial_id?}','TestAttemptController@get_test_attempts');
-	
-// 	Route::get('test_results/{attempt_id}/{type_of?}','TestAttemptController@get_attempt_results');
 
 });
 	

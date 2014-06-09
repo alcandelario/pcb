@@ -108,6 +108,26 @@ app.config(function($stateProvider,$urlRouterProvider){
 			}
 		})
 
+		.state('print-labels', {
+		 	  url: '/print-labels',
+			views: {
+				'viewContent': {templateUrl: 'app/partials/print-labels.html',
+								controller: 'labelSetupController'
+							   }
+			}
+		})
+
+		.state('print-labels.project', {
+			  url: '/print-labels/:projectID',
+			views: {
+				'viewContent': {
+					templateUrl: 'app/partials/project-home.html',
+					// controller: 'labelSetupController'
+				},
+				'nestedOne@print-labels': {templateUrl:'app/partials/print-labels.html'}		
+			}
+		})
+
 });
 
 
@@ -127,7 +147,8 @@ app.run(
 		[        '$rootScope', '$state', '$stateParams','DashUrl',
 		 function($rootScope, $state, $stateParams,DashUrl) {
 			$rootScope.$state = $state;
-			$rootScope.$stateParams = $stateParams;		
+			$rootScope.$stateParams = $stateParams;	
+			$rootScope.alerts = [];	
 			$rootScope.DashUrl = DashUrl;	
 		}])
 // convert pgSQL dates into js Date() objects

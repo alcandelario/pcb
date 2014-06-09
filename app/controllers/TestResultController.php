@@ -61,30 +61,31 @@ class TestResultController extends BaseController {
 
         		// get our most recent data
 				$results = Session::get('test_results_data');
-        
+        		$date = date("mdy_Hi");
+
         		$excel->getProperties()
         		      ->setCreator("PHPExcel")
-                	  ->setTitle("AWT_Test_Data")
+                	  ->setTitle("AWT_Test_Data_".$date)
                 	  ->setDescription("AWT Test Data generated using phpExcel");
 
                 // where do we want raw data to start being populated in the worksheet
        			$colStart = 'B';
-          		$rowStart = 7;
+          		$rowStart =  6;
           		$sheetIndex = 0;
           		$prevSheetTitle = null;
           		
           		foreach($results as $index => $result){
           			$sheetTitle = $result->test_name;
 
-          			//short the name
+          			//shorten the name
 					$sheetTitle = substr($sheetTitle,0,30);
 					
 					if($prevSheetTitle === null){
-						$init = false;	// need to initialize this sheet with a header
+						$init = false;	// initialize the very first sheet
 						$prevSheetTitle = $sheetTitle;
 					}
 					elseif(strcmp($sheetTitle, $prevSheetTitle) !== 0){
-						// we've got a new sheet
+						// initialize a new sheet
 						$sheetIndex++;
 						$init = false;
 						$prevSheetTitle = $sheetTitle;
@@ -98,26 +99,27 @@ class TestResultController extends BaseController {
           		  		$sheet = $excel->sheet($sheetTitle, function($sheet) {return $sheet;});
 		          	  		// name the worksheet and add the column labels
 		          	  		$sheet->setActiveSheetIndex($sheetIndex)
-					                // ->setTitle($sheetTitle)
-					                ->setCellValue('A1',$sheetTitle)
-					                ->setCellValue('B6',"Unit Serial Number")
-					                ->setCellValue('C6',"Date Tested")
-					                ->setCellValue('D6',"Result")
+					                ->setCellValue('A5',$sheetTitle)
+					                ->setCellValue('B5',"Unit Serial Number")
+					                ->setCellValue('C5',"Date Tested")
+					                ->setCellValue('D5',"Result")
 				       		// add this test's lower limit to the top of the "Actual Value" column         
-					                ->setCellValue('B3',$lowLim)
-					                ->setCellValue('A3',"Lower Limit")
-					                ->setCellValue('B4',$upLim)
-					                ->setCellValue('A4',"Upper Limit");
+					                ->setCellValue('B1',$lowLim)
+					                ->setCellValue('A1',"Lower Limit")
+					                ->setCellValue('B2',$upLim)
+					                ->setCellValue('A2',"Upper Limit");
 	
-					        // format the header row  a bit
-	    		   			$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
-        			
-	   //     				$sheet->getActiveSheet()->getStyleArray('A1:D1')->applyFromArray($style);                
-    	      			    $rowIndex = $rowStart;
+		          	  		// format the header row  a bit
+		          	  		$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
+		          	  		 
+					        $sheet->getActiveSheet()->getStyle('A6:D6')->setStyle($style);                
+	        				
+    	      			    $rowIndex = $rowStart; //default row at which data gets written
+							
 							$init = true;
           			}	
 					
-          		  	//insert one row
+          		  	//insert a row of data
           			$colIndex = $colStart;
           		  	for($i=0; $i<3; $i++)
 					{
@@ -142,12 +144,12 @@ class TestResultController extends BaseController {
 
 	               	$rowIndex++;
 				}
-			})->store('xls',false, true);
+			})->store('xls','app/storage/exports/', true);
 
 			$file = url("app/storage/exports/".$excel['file']);
-			$url = link_to($file,$excel['file']);
+// 			$url = link_to($file,$excel['file']);
 			
-			return Response::json($url,201);
+			return Response::json($file,201);
 			
    		}
 }

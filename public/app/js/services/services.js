@@ -22,12 +22,18 @@ angular.module("projectTracker")
     .factory("Test_Attempts", function($resource,$rootScope){
     	return $resource($rootScope.rsrc_path +"test_attempts/:serialID", {serialID:'@id'})
     })
+
+    .factory("Test_Names",function($resource,$rootScope) {
+        return $resource($rootScope.rsrc_path +"test_names/:id",{id:''},
+                        {'get': {method:'GET', isArray: true}
+               })
+    })
     
     .factory("Test_Results", function($resource,$rootScope){
     	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
     			{attemptID:'@id'},
     			{'query': {method: 'GET', isArray: true},
-    	});
+    });
     })
     .service('DashUrl', function() {
         this.makeUrl = function(rawString){
@@ -58,8 +64,8 @@ angular.module("projectTracker")
             		$rootScope.showLoginFlash = true;
             		break;
             	case 'flash':
-            		$rootScope.flash = message;
-            		$rootScope.showFlash = true;
+            		$rootScope.alerts.push(message);
+            		//$rootScope.showFlash = true;
             		break;
             	}
             },

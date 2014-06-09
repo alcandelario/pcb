@@ -241,5 +241,12 @@ body
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
+.modal {
+  display: block;
+}
 
+/**********************************************************************Test Results table */
+.test-results{
+  background-color: white;
+}
 

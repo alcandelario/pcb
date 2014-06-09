@@ -27,10 +27,16 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="attempt in history">
+							<!-- DISPLAY RESULTS IN-LINE -->
 							<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'" ></a>
 							</td>
 							<td><a ui-sref='history.serial.awt-data({resultID: attempt.id})' ng-bind="attempt.final_result"></a>
+
+							<!-- DISPLAY RESULTS AS MODAL  -->
+							<!-- <td><a ng-click='resultsModal(attempt.id)' ng-bind="attempt.date | DT_filter | date: 'MMM d, yyyy (h:mm a)'" ></a>
 							</td>
+							<td><a ng-click='resultsModal(attempt.id)' ng-bind="attempt.final_result"></a>
+							</td> -->
 						</tr>
 					</tbody>
 				</table>

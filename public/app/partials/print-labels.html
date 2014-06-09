@@ -1,0 +1,30 @@
+<div class = 'col-md-6' ng-show='showSelect'>
+	<select  class='form-control' ng-model="projectID" ng-options="project.id as project.name for project in projects">
+	      <option value="">-- Select Project --</option>
+	</select>
+	<button class='btn' ng-click='gotoProject(projectID)'>Submit</button>
+</div>
+
+<form ng-hide='showSelect'>
+	<div class='col-md-6'>
+		<h4>Select Serial Numbers to Print</h4>
+		<label ng-repeat="serial in serials">
+		  <input
+		    type="checkbox"
+		    name="selectedSerials[]"
+		    value="{{serial.id}}"
+		   >{{serial.pcb}}
+		</label>
+	</div>
+	<div class='col-md-6'>
+		<h4>Select data to include (you can customize labels later)</h4>
+		<label ng-repeat="test in tests">
+		  <input
+		    type="checkbox"
+		    name="selectedTests[]"
+		    value="{{test.id}}"
+		   >{{test.test_name}}
+		</label>
+	</div>	
+
+</form>

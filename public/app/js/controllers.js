@@ -7,42 +7,42 @@ angular.module("projectTracker")
 	 **/
 	.controller('homeController', function($scope,$modal,$rootScope,Projects,SharedDataSvc,$cookieStore){
 
-    	      $cookieStore.put("projectName", "");
-            $cookieStore.put("projectID", "");
+      $cookieStore.put("projectName", "");
+      $cookieStore.put("projectID", "");
 
-            $scope.projects = Projects.get();
+      $scope.projects = Projects.get();
 
-            $scope.projects.$promise.then(function (projects) {
-              // add a clean url segment for project home links
-                for(var count=0; count < projects.length; count++){
-                    // extract one record and add to the array
-                    var project = projects[count];
-                    var name = project['name'];
-                    projects[count]['projectUrl'] = $scope.DashUrl.makeUrl(name);
-                }
-                $scope.projects = projects;
-            }); 
+      $scope.projects.$promise.then(function (projects) {
+        // add a clean url segment for project home links
+          for(var count=0; count < projects.length; count++){
+              // extract one record and add to the array
+              var project = projects[count];
+              var name = project['name'];
+              projects[count]['projectUrl'] = $scope.DashUrl.makeUrl(name);
+          }
+          $scope.projects = projects;
+      }); 
 
-            $scope.createNewProject = function(){
-                // create a model with our form
-                var modalInstance = $modal.open({
-                        templateUrl: 'newproject_modal.html',
-                         controller: 'newProjectCtrl',
-                               size: 'sm',
-                            resolve: {
-                               items: function(){
-                                return $scope.name = '';
-                               }
-                           }
-                    });
-            };
+      $scope.createNewProject = function(){
+          // create a model with our form
+          var modalInstance = $modal.open({
+                  templateUrl: 'newproject_modal.html',
+                   controller: 'modalController',
+                         size: 'sm',
+                      resolve: {
+                         items: function(){
+                          return $scope.name = '';
+                         }
+                     }
+              });
+      };
     })
     /**
      * 
      * individual project home 
      *
      **/
-    .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
+  .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
         $scope.hideNestedOne = 'true';
         $scope.hideNestedTwo = 'true';
         $scope.hideProjectHome = 'true';
@@ -78,7 +78,7 @@ angular.module("projectTracker")
      * Unit under test (UUT) history of test attempts
      *
      **/
-    .controller('testHistoryController',function($cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
+  .controller('testHistoryController',function(Test_Results,$modal,$cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
     	  $rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
         $rootScope.hideNestedTwo = 'true';
         $scope.projectName = $cookieStore.get("projectName");
@@ -93,7 +93,29 @@ angular.module("projectTracker")
     	  });
     	
     	  $cookieStore.put("serialID", $stateParams.serialID);
-    })
+
+        $scope.resultsModal = function (id){
+          var testID = id;
+          $testData = Test_Results.query({attemptID:id});
+                           
+          $testData.$promise.then(function(results){
+              $scope.testData = results;
+              $scope.hideTestResults = 'false';
+
+              var modalInstance = $modal.open({
+                  templateUrl: 'app/partials/test-results.html',
+                   controller: 'modalController',
+                         size: 'lg',
+                    backdrop: 'true',
+                      resolve: {
+                        items: function(){
+                           return result;                          
+                         }
+                     }
+              }); 
+          }); 
+        }
+  })
     /** 
      * 
      * UUT test attempt results
@@ -104,16 +126,41 @@ angular.module("projectTracker")
 
     	$scope.testData = Test_Results.query({attemptID:$stateParams.resultID});
       
-      $scope.testData.$promise.then(function(result) {
+        $scope.testData.$promise.then(function(result) {
             $scope.hideTestResults='false';
       })
     })
+    /**
+     *
+     *Setup to print shipping labels
+     *
+     */
+     .controller('labelSetupController',function($state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
+          var $project = $stateParams.projectID;
+          if(typeof $project === 'undefined'){
+            $scope.projects = Projects.get();
+            $scope.showSelect = 'true';
+          } 
+          else{
+            $scope.serials = Serial_Numbers.query({projectID:$project});
+            $scope.tests = Test_Names.get();
+          }
+      
+          $scope.submit = function(){
+            $a =0;
+          }
+
+          $scope.gotoProject = function(id){
+            $state.go('print-labels.project',{projectID:id});
+          }
+     })
+
     /** 
      * 
      * Google charts API interface controller
      *
      **/
-    .controller('googleChartsController',function($cookieStore,$scope,$stateParams,$location,Test_Results,$http){
+    .controller('googleChartsController',function(Flash,$cookieStore,$scope,$stateParams,$location,Test_Results,$http){
         // configure the view
         if($stateParams.serialID === 'all')
         {
@@ -189,12 +236,11 @@ angular.module("projectTracker")
           })
           .success(function(data,status) 
            {
-               var alert = {'type': 'success','msg': 'Click '+data+' to download your file.'};
-               $rootScope.alerts.push(alert);
+               var alert = {'type': 'success','msg': 'Click <a class="alert-link" href='+data+'>HERE</a> to download your file.'};
+               Flash.show('flash',alert);
            })
         }
     
-        
         /**
          * Format the data for use with Google Charts directive
            @return  {
@@ -257,7 +303,7 @@ angular.module("projectTracker")
                {
                   var $test = data[$i].test_name;
                   var $value = data[$i].actual;
-                  var $att_id = data[$i].test_attempt_id;
+                  var $att_id = data[$i].id;
                   var $minV = data[$i].min;
                   var $maxV = data[$i].max;
                   var $units = data[$i].units;
@@ -289,7 +335,7 @@ angular.module("projectTracker")
                                 "maxV": $maxV,
                                 "units": $units,
                                 "tested": $tested, 
-                                "data": {"c":[{"v": 1},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
+                                "data": {"c":[{"v": $index},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
                                }; 
                   	$results[$test] = [$row];
                   }
@@ -356,7 +402,7 @@ angular.module("projectTracker")
                                            },
                                 "tooltip": {
                                              "isHtml": true,
-                                            // "trigger": "selection"
+                                             // "trigger": "selection"
                                            },
                                 "width":  440,
                                 "height": 400
@@ -536,8 +582,9 @@ angular.module("projectTracker")
         });
     })
 
-    var newProjectCtrl = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
+    var modalController = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
                 $scope.name = items;
+                $scope.testData = items;
                 $scope.alert = {};
                 
                 $scope.submit = function(name){
@@ -571,6 +618,10 @@ angular.module("projectTracker")
                     $modalInstance.dismiss('cancel');
                 };
 	     }
+
+       var showResults = function(id){
+          $a = 0;
+       }
 
 
     
