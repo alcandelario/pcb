@@ -135,7 +135,7 @@ angular.module("projectTracker")
      *Setup to print shipping labels
      *
      */
-     .controller('labelSetupController',function($state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
+     .controller('labelSetupController',function($http,$state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
           var $project = $stateParams.projectID;
           $formData = {};
           $formData.selectedSerials = [];
@@ -171,7 +171,25 @@ angular.module("projectTracker")
             var $selectedTests = $scope.formData.selectedTests;
             // retrieve test data for selected serials and selected Tests
             // considering turning this into one controller for print setup and printing,
-            // use ng-show/ng-hide or collapse to collapse the various sections  
+            // use ng-show/ng-hide or collapse to collapse the various sections 
+            // build the request URL
+            var $url = $location.absUrl();
+            var $path = "index.php?/#"+$location.path();
+            $url = $url.replace($path,"/print-labels");
+
+            //test only
+            $url ="http://localhost/pcbtracker/public/print-labels";
+
+            var results = $http({
+                                  url: $url,
+                               method: "POST",
+                                 data: {'serials': $selectedSerials,'tests': $selectedTests},
+            })
+            .success(function(data,status) 
+             {
+                $a=0;
+             })
+
             $state.go('label-print',{projectID: id})
           }
      })

@@ -40,6 +40,7 @@ Route::group(["before" => "auth"], function()
 	
 	Route::post('chart-test-limits','TestResultController@chartTestLimits');
 	Route::get('save-excel','TestResultController@saveExcel');
+	Route::post('print-labels','TestResultController@printLabels');
 	
 // 	Route::get('projects/{id?}','ProjectController@get_projects');
 // 	Route::get('serial_numbers/{proj_id?}/{serial_id?}','SerialNumberController@get_serial_numbers');
