@@ -23,12 +23,48 @@ class TestResultController extends BaseController {
 
 	public function printLabels(){
 		$params = Input::all();
+		$serials = $params['serials'];
+		$tests = $params['tests'];
 
-		$query = 'SELECT date,pcb,test_name,actual,units FROM test_attempts 
-					INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
-					INNER JOIN test_names ON test_results.test_name_id = test_names.id
-					INNER JOIN serial_numbers ON test_attempts.serial_number_id = serial_numbers.id
-					WHERE test_attempts.project_id = '.$params['projectID'].' ';
+		$index = 1;
+
+		foreach ($serials as $serialID)
+		{
+			if($index === 1)
+			{
+				$serial_where = 'serial_numbers.id = '.$serialID;
+				$index++;
+			}
+			else
+			{
+				$serial_where = $serial_where." OR serial_numbers.id = ".$serialID;
+			}
+		}
+
+		$index = 1;
+		
+		foreach ($tests as $testID){
+			if($index === 1){
+				$test_where = 'test_names.id = '.$testID;
+				$index++;
+			}
+			else{
+				$test_where = $test_where." OR test_names.id = ".$testID;
+			}
+		}
+
+		echo $serial_where;
+	//	echo $test_where;
+
+		 $query = 'SELECT date, test_attempts.created_at,pcb,test_name,actual,units FROM test_attempts 
+		 			INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
+		 			INNER JOIN test_names ON test_results.test_name_id = test_names.id
+		 			INNER JOIN serial_numbers ON test_attempts.serial_number_id = serial_numbers.id
+		 			WHERE '.$serial_where;
+
+		 $results = DB::select( DB::raw($query) );
+
+		 return Response::json($results,201);
 	}
 
 	public function chartTestLimits(){
@@ -66,16 +102,17 @@ class TestResultController extends BaseController {
 	 *
 	 */
 	public function saveExcel(){
-		
-		$excel = Excel::create('Laravel Excel', function($excel) {
+		$title = 'AWT-test-data_'.date("mdy_Hi");
+
+		$excel = Excel::create($title, function($excel) {
 
         		// get our most recent data
 				$results = Session::get('test_results_data');
-        		$date = date("mdy_Hi");
+        		$title = 'AWT-test-data_'.date("mdy_Hi");
 
         		$excel->getProperties()
         		      ->setCreator("PHPExcel")
-                	  ->setTitle("AWT_Test_Data_".$date)
+                	  ->setTitle($title)
                 	  ->setDescription("AWT Test Data generated using phpExcel");
 
                 // where do we want raw data to start being populated in the worksheet
@@ -122,8 +159,10 @@ class TestResultController extends BaseController {
 		          	  		// format the header row  a bit
 		          	  		$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
 		          	  		 
-					        $sheet->getActiveSheet()->getStyle('A6:D6')->setStyle($style);                
+					       // $sheet->getActiveSheet()->getStyle('A6:D6')->setStyle($style);                
 	        				
+	        				$sheet->cells('A5:D5')->setStyle($style);
+
     	      			    $rowIndex = $rowStart; //default row at which data gets written
 							
 							$init = true;
