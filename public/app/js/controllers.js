@@ -364,7 +364,7 @@ angular.module("projectTracker")
                                 "maxV": $maxV,
                                 "units": $units,
                                 "tested": $tested, 
-                                "data": {"c":[{"v": $index},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
+                                "data": {"c":[{"v": 1},{"v": data[$i].actual},{"v": "PCB: "+$serial+'<br>Tested: '+$tested+'<br> Final Result: '+$value+' ('+$result+')'}]}
                                }; 
                   	$results[$test] = [$row];
                   }

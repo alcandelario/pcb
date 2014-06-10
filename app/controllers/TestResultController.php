@@ -144,6 +144,8 @@ class TestResultController extends BaseController {
 
 	               	$rowIndex++;
 				}
+				$excel->setActiveSheetIndex(0);
+				
 			})->store('xls','app/storage/exports/', true);
 
 			$file = url("app/storage/exports/".$excel['file']);
