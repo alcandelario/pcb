@@ -9,7 +9,7 @@ class TestNameController extends BaseController {
 	}
 	
 	public function index(){
-		$test_names = Test_Name::get();
+		$test_names = Test_Name::orderBy('test_name')->get();
 
 		return Response::json($test_names,201);
 	}

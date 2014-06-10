@@ -1,0 +1,42 @@
+<section class='row'>
+	<form class = 'form-inline row' role="form">
+		<h4>Print labels </h4>
+		<select  class='form-control print-label-dropdown col-md-4 pull-left' ng-model="projectID" ng-options="project.id as project.name for project in projects">
+		      <option value="">-- Select Project --</option>
+		</select>
+		<button class='btn pull-left col-md-offset-1' ui-sref='label-setup({projectID: projectID})'>Submit</button>
+	</form>
+	
+	<form ng-hide='hideForm' class='row print-labels clearfix'>
+		<div class='label-select-form'>
+			<div class='col-md-6 label-serials-form'>
+				<h4>Select Serial Numbers to Print</h4>
+			
+				<label ng-repeat="serial in serials">
+				  <input 
+				  type="checkbox" 
+				  name="formData.selectedSerials" 
+				  value='serial.id'
+				  ng-click='formData.selectedSerials.push(serial.id)'> {{serial.pcb}}
+				</label>
+			</div>
+			<div class='col-md-6 label-tests-form'>
+				<h4>Select data to include <span style="font-size: 14px">(you can customize them later on too)</span></h4>
+			    <label ng-repeat="test in tests">
+				  <input
+				    type="checkbox"
+				    name="formData.selectedTests"
+				    value='test.id'
+				    ng-click='formData.selectedTests.push(test.id)'
+				   >{{test.test_name}}
+				</label>
+			</div>
+		</div>	
+		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels(projectID)'> Print Labels</button>
+	</form>
+
+	<div ng-hide='hidePrint'>
+
+	</div>
+
+</section>

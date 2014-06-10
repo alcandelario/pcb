@@ -108,26 +108,23 @@ app.config(function($stateProvider,$urlRouterProvider){
 			}
 		})
 
-		.state('print-labels', {
-		 	  url: '/print-labels',
+		.state('label-setup', {
+		 	  url: '/label-setup/:projectID',
 			views: {
-				'viewContent': {templateUrl: 'app/partials/print-labels.html',
+				'viewContent': {templateUrl: 'app/partials/label-setup.html',
 								controller: 'labelSetupController'
 							   }
 			}
 		})
 
-		.state('print-labels.project', {
-			  url: '/print-labels/:projectID',
-			views: {
-				'viewContent': {
-					templateUrl: 'app/partials/project-home.html',
-					// controller: 'labelSetupController'
-				},
-				'nestedOne@print-labels': {templateUrl:'app/partials/print-labels.html'}		
+		.state('label-print', {
+		  	  url: '/label-print/:projectID',
+	        views: {
+					'viewContent': {templateUrl: 'app/partials/label-print.html',
+								     controller: 'labelPrintController'
+								   }
 			}
 		})
-
 });
 
 

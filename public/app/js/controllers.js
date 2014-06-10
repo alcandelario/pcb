@@ -137,24 +137,53 @@ angular.module("projectTracker")
      */
      .controller('labelSetupController',function($state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
           var $project = $stateParams.projectID;
-          if(typeof $project === 'undefined'){
+          $formData = {};
+          $formData.selectedSerials = [];
+          $formData.selectedTests =[];
+          $scope.formData = $formData;
+
+          if($project === 'all'){
+           // just show a drop down to which project user wants
+            $scope.hideForm = 'true';
             $scope.projects = Projects.get();
-            $scope.showSelect = 'true';
+            $scope.projects.$promise.then(function(results) {
+              $cookieStore.put('projects',results);
+            })
           } 
           else{
+            // show a list of serial numbers and tests to include on labels
+            $scope.hideForm = 'true';
             $scope.serials = Serial_Numbers.query({projectID:$project});
             $scope.tests = Test_Names.get();
+            $scope.projectID = $project;
+            $scope.projects = $cookieStore.get('projects');
+            $scope.tests.$promise.then(function(results){
+              $scope.hideForm = 'false';
+            })
           }
       
-          $scope.submit = function(){
-            $a =0;
+          $scope.gotoProject = function(id){
+            $state.go('labels-setup',{projectID:id});
           }
 
-          $scope.gotoProject = function(id){
-            $state.go('print-labels.project',{projectID:id});
+          $scope.printLabels = function(id){
+            var $selectedSerials = $scope.formData.selectedSerials;
+            var $selectedTests = $scope.formData.selectedTests;
+            // retrieve test data for selected serials and selected Tests
+            // considering turning this into one controller for print setup and printing,
+            // use ng-show/ng-hide or collapse to collapse the various sections  
+            $state.go('label-print',{projectID: id})
           }
      })
+     /**
+      *
+      * Label final setup and print controller
+      */
+     .controller('labelPrintController',function($state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
+        $a=0;
 
+     })
+     
     /** 
      * 
      * Google charts API interface controller

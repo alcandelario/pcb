@@ -246,7 +246,20 @@ body
 }
 
 /**********************************************************************Test Results table */
-.test-results{
+.test-results,.print-labels{
   background-color: white;
 }
 
+.print-labels {
+  margin-top: 10px;
+}
+
+.print-label-dropdown {
+  width: 300px;
+}
+
+/**********************************************************************Print Labels related CSS */
+.label-serials-form, .label-tests-form {
+    max-height: 700px;
+    overflow-y: auto;
+}
