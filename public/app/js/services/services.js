@@ -5,54 +5,57 @@ angular.module("projectTracker")
         return $resource($rootScope.rsrc_path +"authenticate/")
     })
     
-    .factory("Projects", function($resource,$rootScope){
+    .factory("Projects", function($cacheFactory,$resource,$rootScope){
         return $resource($rootScope.rsrc_path +"projects/:projectID", 
                     {projectID:'@id'},
                     {
-                    'query':{method: 'GET', isArray: false},
-                     'get' :{method: 'GET', isArray: true}, 
+                    'query':{method: 'GET', cache: true, isArray: false},
+                     'get' :{method: 'GET', cache: true, isArray: true}, 
                     }
                 );
     })
     
-    .factory("Serial_Numbers", function($resource,$rootScope){
-    	return $resource($rootScope.rsrc_path +"serial_numbers/:projectID",{projectID:'@id'})
+    .factory("Serial_Numbers", function($cacheFactory,$resource,$rootScope){
+    	return $resource($rootScope.rsrc_path +"serial_numbers/:projectID",
+                    {projectID:'@id'},
+                    {
+                        'query': {method: 'GET', cache: true, isArray:true},
+                          'get': {method: 'GET', cache: true}
+                    }
+                )
     })
     
-    .factory("Test_Attempts", function($resource,$rootScope){
-    	return $resource($rootScope.rsrc_path +"test_attempts/:serialID", {serialID:'@id'})
+    .factory("Test_Attempts", function($cacheFactory,$resource,$rootScope){
+    	return $resource($rootScope.rsrc_path +"test_attempts/:serialID", 
+                        {serialID:'@id'},
+                        {
+                            'query':{method: 'GET', cache: true, isArray: true},
+                            'get' :{method: 'GET', cache: true, isArray: true}, 
+                        }
+                );
     })
 
-    .factory("Test_Names",function($resource,$rootScope) {
+    .factory("Test_Names",function($cacheFactory,$resource,$rootScope) {
         return $resource($rootScope.rsrc_path +"test_names/:id",{id:''},
-                        {'get': {method:'GET', isArray: true}
+                        {'get': {method:'GET', cache: true, isArray: true}
                })
     })
     
     .factory("Test_Results", function($resource,$rootScope){
     	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
     			{attemptID:'@id'},
-    			{'query': {method: 'GET', isArray: true},
-    });
+    			{'query': {method: 'GET', cache: true, isArray: true},
+                });
     })
+
+    .factory('Cache', function($cacheFactory) {
+        return $cacheFactory('appData');
+    })
+
     .service('DashUrl', function() {
         this.makeUrl = function(rawString){
            return rawString.replace(/\s+/g, '-').toLowerCase(); 
         }
-    })
-    
-    .service('SharedDataSvc', function(){
-     	var shareddata = {};
-    	
-    	return {
-    		get: function(){
-    	  			return shareddata;
-    		},
-    		set: function($key,value){
-    		
-    			shareddata[$key] = value;
-    		}
-    	}
     })
     
     .service('Flash', function($rootScope){

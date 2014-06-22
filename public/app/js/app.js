@@ -110,10 +110,14 @@ app.config(function($stateProvider,$urlRouterProvider){
 
 		.state('label-setup', {
 		 	  url: '/label-setup/:projectID',
+			
+		})
+
+		.state('label-setup.serial', {
+			url: '/:serialID',
 			views: {
 				'viewContent': {templateUrl: 'app/partials/label-setup.html',
-								controller: 'labelSetupController'
-							   }
+			  			         controller: 'labelSetupController'}
 			}
 		})
 

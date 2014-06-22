@@ -1,23 +1,38 @@
 <section class='row'>
-	<form class = 'form-inline row' role="form">
-		<h4>Print labels </h4>
+	<nav class='row'>
+		<button class="btn btn-default col-md-4" ng-click="reset()">Select Project</button>
+		<button class="btn btn-default col-md-4" ng-click="labelSetup('open')">Label Setup</button>
+		<button class="btn btn-default col-md-4">Print</button>
+
+	</nav>
+	<br><br>
+	<form collapse="step1" class = 'form-inline row' role="form">
 		<select  class='form-control print-label-dropdown col-md-4 pull-left' ng-model="projectID" ng-options="project.id as project.name for project in projects">
 		      <option value="">-- Select Project --</option>
 		</select>
-		<button class='btn pull-left col-md-offset-1' ui-sref='label-setup({projectID: projectID})'>Submit</button>
+		<button class='btn pull-left col-md-offset-1' ng-click='labelSetup(projectID)'>Submit</button>
 	</form>
 	
-	<form ng-hide='hideForm' class='row print-labels clearfix'>
+	<form collapse='step2' class='row print-labels clearfix'>
 		<div class='label-select-form'>
 			<div class='col-md-6 label-serials-form'>
 				<h4>Select Serial Numbers to Print</h4>
-			
+				<label >
+				  <input 
+				  type="checkbox" 
+				  ng-click='toggleAll(toggleState)'
+ 				  ng-model='toggleState'
+ 				  ng-init='toggleState = false'>Select All Serials
+				</label>
+
 				<label ng-repeat="serial in serials">
 				  <input 
 				  type="checkbox" 
-				  name="formData.selectedSerials" 
+				  name="selectedSerials" 
 				  value='serial.id'
-				  ng-click='formData.selectedSerials.push(serial.id)'> {{serial.pcb}}
+				  ng-click='selectedSerials.push(serial.id)'
+				  ng-checked='serial.isChecked'> {{serial.pcb}}
+				  
 				</label>
 			</div>
 			<div class='col-md-6 label-tests-form'>
@@ -25,18 +40,20 @@
 			    <label ng-repeat="test in tests">
 				  <input
 				    type="checkbox"
-				    name="formData.selectedTests"
+				    name="selectedTests"
 				    value='test.id'
-				    ng-click='formData.selectedTests.push(test.id)'
+				    ng-click='selectedTests.push(test.id)'
+				    ng-checked='test.isChecked'
 				   >{{test.test_name}}
 				</label>
 			</div>
 		</div>	
-		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels(projectID)'> Print Labels</button>
+		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels()'> Print Labels</button>
 	</form>
 
-	<div ng-hide='hidePrint'>
-
+	<div collapse="step3">
+		Serials: {{selectedSerials}}<br>
+		Tests: {{selectedTests}}
 	</div>
 
 </section>

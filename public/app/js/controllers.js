@@ -5,23 +5,27 @@ angular.module("projectTracker")
      * overview of all user projects
 	 *
 	 **/
-	.controller('homeController', function($scope,$modal,$rootScope,Projects,SharedDataSvc,$cookieStore){
+	.controller('homeController', function(Cache,$scope,$modal,$rootScope,Projects,$cookieStore){
+      
+      $scope.projects = Cache.get('allProjects');
 
-      $cookieStore.put("projectName", "");
-      $cookieStore.put("projectID", "");
+      if(typeof $scope.projects === 'undefined')
+      {  
+        $scope.projects = Projects.get();
 
-      $scope.projects = Projects.get();
-
-      $scope.projects.$promise.then(function (projects) {
-        // add a clean url segment for project home links
-          for(var count=0; count < projects.length; count++){
-              // extract one record and add to the array
-              var project = projects[count];
-              var name = project['name'];
-              projects[count]['projectUrl'] = $scope.DashUrl.makeUrl(name);
-          }
-          $scope.projects = projects;
-      }); 
+        $scope.projects.$promise.then(function (projects) {
+          
+          // add a clean url segment for project home links
+            for($i=0; $i < projects.length; $i++){
+                var project = projects[$i];
+                var name = project['name'];
+                projects[$i]['projectUrl'] = $scope.DashUrl.makeUrl(name);
+            }
+          
+            $scope.projects = projects;
+            Cache.put('allProjects', projects)
+        });
+      }
 
       $scope.createNewProject = function(){
           // create a model with our form
@@ -37,62 +41,85 @@ angular.module("projectTracker")
               });
       };
     })
-    /**
-     * 
-     * individual project home 
-     *
-     **/
-  .controller('projectHomeController',function($cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers,SharedDataSvc){
+  
+  /**
+    * 
+    * individual project home 
+    *      
+   **/
+  .controller('projectHomeController',function(Cache,$cookieStore,$rootScope,$scope,$stateParams,$location,Projects,Serial_Numbers){
         $scope.hideNestedOne = 'true';
         $scope.hideNestedTwo = 'true';
         $scope.hideProjectHome = 'true';
-        $scope.projectName = $cookieStore.get("projectName");
+        var params = {};
+        
+        project = Cache.get('project');
 
+        if(typeof project !== 'undefined' && project.projectID !== $stateParams.projectID)
+        {
+            // re-init the cache object and re-populate as needed
+            Cache.remove('project'); 
+        }
+        
         $scope.serials = Serial_Numbers.query({projectID:$stateParams.projectID});
-
+        
         $scope.serials.$promise.then(function(serials) {
-           
-           if(serials.length > 0)  // this project actually has serial nums 
+          
+           project = Cache.get('project');
+
+           if(serials.length > 0)  // this project actually has serials 
            {
                 $scope.projectName = serials[0].project.name;
-                $scope.projectUrl =  $scope.DashUrl.makeUrl($scope.projectName);
-                $cookieStore.put("projectName", $scope.projectName);
-                $scope.hideProjectHome = "false";
            }
            else
            {
-            //No serials yet, but we still need the user-friendly project Name
-            var $name = Projects.query({projectID: $stateParams.projectID});
+             // We still need the user-friendly project Name
+             $name = Projects.query({projectID: $stateParams.projectID});
                 
-                $name.$promise.then(function(project){
-                    $scope.projectName = project.name;
-                });
+             $name.$promise.then(function(project){
+                 $scope.projectName = project.name;
+             });
            }
-        });
 
-        $scope.projectID = $stateParams.projectID;
-        $cookieStore.put("projectID", $scope.projectID);
+           project.projectName = $scope.projectName;
+           Cache.put('project',project);   
+         });
+
+         params.projectID = $stateParams.projectID;
+         params.projectUrl = $stateParams.projectName;
+         Cache.put('project',params);
+         
+         $scope.projectID = $stateParams.projectID;
+       
     })
     /**
      * 
      * Unit under test (UUT) history of test attempts
      *
      **/
-  .controller('testHistoryController',function(Test_Results,$modal,$cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts,SharedDataSvc){
-    	  $rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
+  .controller('testHistoryController',function(Cache,Test_Results,$modal,$cookieStore,$scope,$rootScope,$stateParams,Serial_Numbers,Test_Attempts){
+    	  project = Cache.get('project');
+        $rootScope.hideNestedOne = 'false';  // make this available to directives that may need it
         $rootScope.hideNestedTwo = 'true';
-        $scope.projectName = $cookieStore.get("projectName");
-    	  $scope.projectID = $cookieStore.get("projectID");
+        $scope.projectName = project.projectName;
+    	  $scope.projectID = project.projectID;
         $scope.serialID = $stateParams.serialID;
     	
       	$scope.history = Test_Attempts.query({serialID:$stateParams.serialID});
     	
     	  $scope.history.$promise.then(function(result){
-    		    $scope.serialNumber = result[0].serial_number.pcb;
-            $cookieStore.put("serialNumber", $scope.serialNumber);
+    		    project = Cache.get('project');
+
+            $scope.serialNumber = result[0].serial_number.pcb;
+            
+            project.serialNumber =  $scope.serialNumber;
+            
+            Cache.put('project',project);
     	  });
     	
-    	  $cookieStore.put("serialID", $stateParams.serialID);
+    	  project.serialID = $stateParams.serialID;
+
+        Cache.put('project',project);
 
         $scope.resultsModal = function (id){
           var testID = id;
@@ -116,82 +143,137 @@ angular.module("projectTracker")
           }); 
         }
   })
-    /** 
-     * 
-     * UUT test attempt results
-     *
-     **/
-    .controller('testResultsController',function($scope,$stateParams,$location,Serial_Numbers,Test_Attempts,Test_Results,SharedDataSvc){
-    	$scope.hideTestResults='true';
+  /** 
+   * 
+   * UUT test attempt results
+   *
+   **/
+  .controller('testResultsController',function($scope,$stateParams,$location,Serial_Numbers,Test_Attempts,Test_Results){
+  	$scope.hideTestResults='true';
 
-    	$scope.testData = Test_Results.query({attemptID:$stateParams.resultID});
-      
-        $scope.testData.$promise.then(function(result) {
-            $scope.hideTestResults='false';
-      })
+  	$scope.testData = Test_Results.query({attemptID:$stateParams.resultID});
+    
+      $scope.testData.$promise.then(function(result) {
+          $scope.hideTestResults='false';
     })
-    /**
-     *
-     *Setup to print shipping labels
-     *
-     */
-     .controller('labelSetupController',function($http,$state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
-          var $project = $stateParams.projectID;
-          $formData = {};
-          $formData.selectedSerials = [];
-          $formData.selectedTests =[];
-          $scope.formData = $formData;
+  })
+  /**
+   *
+   *Setup to print shipping labels
+   *
+   */
+   .controller('labelSetupController',function(Cache,$rootScope,$http,$state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
+        Cache.put('serialInUrl', $scope.serialID);
+        $scope.serialID = parseInt($stateParams.serialID,10)
+        $scope.projectID = $stateParams.projectID;
+        $scope.selectedSerials = [];
+        $scope.selectedTests =[];
+        $scope.step2 = true;
+        $scope.step3 = true;
 
-          if($project === 'all'){
-           // just show a drop down to which project user wants
-            $scope.hideForm = 'true';
-            $scope.projects = Projects.get();
-            $scope.projects.$promise.then(function(results) {
-              $cookieStore.put('projects',results);
-            })
-          } 
-          else{
-            // show a list of serial numbers and tests to include on labels
-            $scope.hideForm = 'true';
-            $scope.serials = Serial_Numbers.query({projectID:$project});
-            $scope.tests = Test_Names.get();
-            $scope.projectID = $project;
-            $scope.projects = $cookieStore.get('projects');
-            $scope.tests.$promise.then(function(results){
-              $scope.hideForm = 'false';
-            })
+        $scope.projects = Projects.get();
+        $scope.projects.$promise.then(function(projects) {
+            Cache.put('projects',projects);
+            if($scope.projectID === 'all'){
+                // just show the project select
+            } 
+            else{
+                // get tests and pre-check the boxes if user is coming back heres to include on labels
+                $scope.labelSetup($scope.projectID);
+                $scope.step1 = true;
+            }
+        });
+          
+        $scope.labelSetup = function(id){
+              $scope.step1 = true;
+              $scope.step3 = true;
+              if(id !== 'open')
+              {
+                  $scope.selectedSerials = [];
+                  $scope.selectedTests = [];
+                  $scope.tests = Test_Names.get();
+                  $scope.serials = Serial_Numbers.query({projectID:id});
+                  $scope.serials.$promise.then(function(serials) {
+                      $scope.serials = preCheckSerial($scope.serialID,$scope.serials);
+                      $scope.step2 = false;  
+                  });
+              }
+              else {
+                $scope.step2 = false;
+              }
+        }
+
+        $scope.reset = function(){
+          $scope.step2 = true;
+          $scope.step3 = true;
+          $scope.step1 = false;
+        }
+
+        preCheckSerial = function(id,serials)
+        {
+            if(id !== 'all'){
+                for($i=0; $i<serials.length; $i++) {
+                    var serial = serials[$i];
+                    if(serial.id === id){
+                      serial.isChecked = true
+                    }
+                    else{
+                      serial.isChecked = false
+                    }
+                    serials[$i] = serial;
+                }
+            }
+            return serials;
+        }
+       
+        $scope.toggleAll = function(state){
+            for($i=0; $i < $scope.serials.length; $i++) {
+                serial = $scope.serials[$i];
+                serial.isChecked = !state;
+                $scope.serials[$i] = serial;
+                if(state === false){
+                  $scope.selectedSerials.push(serial.id)
+                }
+                else if(state === true){
+                  index = $scope.selectedSerials.indexOf(serial.id)
+                  if (index > -1){
+                    $scope.selectedSerials.splice(index,1)
+                  }
+                }
+            }
+        }
+          
+        $scope.printLabels = function(){
+          $scope.step2 = true;
+          $scope.step3 = false;
+
+          if($stateParams.serialID !== 'all' && $stateParams.serialID !== ""){
+            $scope.selectedSerials.push(Cache.get('serialInUrl'));
           }
-      
-          $scope.gotoProject = function(id){
-            $state.go('labels-setup',{projectID:id});
-          }
+          
+          // retrieve test data for selected serials and selected Tests
+          // considering turning this into one controller for print setup and printing,
+          // use ng-show/ng-hide or collapse to collapse the various sections 
+          // build the request URL
+          var $url = $location.absUrl();
+          var $path = "index.php?/#"+$location.path();
+          $url = $url.replace($path,"/print-labels");
 
-          $scope.printLabels = function(id){
-            var $selectedSerials = $scope.formData.selectedSerials;
-            var $selectedTests = $scope.formData.selectedTests;
-            // retrieve test data for selected serials and selected Tests
-            // considering turning this into one controller for print setup and printing,
-            // use ng-show/ng-hide or collapse to collapse the various sections 
-            // build the request URL
-            var $url = $location.absUrl();
-            var $path = "index.php?/#"+$location.path();
-            $url = $url.replace($path,"/print-labels");
+          //test only
+          $url ="http://localhost/pcbtracker/public/print-labels";
 
-            //test only
-            $url ="http://localhost/pcbtracker/public/print-labels";
+          var results = $http({
+                                url: $url,
+                             method: "POST",
+                               data: {'serials': $scope.selectedSerials,'tests': $scope.selectedTests},
+          })
+          .success(function(data,status) 
+           {
+              $a=0;
+           })
 
-            var results = $http({
-                                  url: $url,
-                               method: "POST",
-                                 data: {'serials': $selectedSerials,'tests': $selectedTests},
-            })
-            .success(function(data,status) 
-             {
-                $a=0;
-             })
-
-            $state.go('label-print',{projectID: id})
-          }
+          $state.go('label-print',{projectID: id})
+        }
      })
      /**
       *
@@ -493,7 +575,7 @@ angular.module("projectTracker")
      * Control app wide functions (i.e. Authentication)
      *
      **/
-    .controller('MainController', function($scope,$rootScope,$state,$sanitize,$location,Authenticate,SharedDataSvc,authService,Flash,$cookieStore) {
+    .controller('MainController', function($scope,$rootScope,$state,$sanitize,$location,Authenticate,authService,Flash,$cookieStore) {
        	$defaultState = 'home';				// where to go after logging in
         $rootScope.alerts = [];
 
@@ -629,7 +711,7 @@ angular.module("projectTracker")
         });
     })
 
-    var modalController = function($sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
+    var modalController = function(Cache,$sanitize,DashUrl,Projects,$state,$cookieStore,$scope,$modalInstance,items){
                 $scope.name = items;
                 $scope.testData = items;
                 $scope.alert = {};
@@ -640,6 +722,13 @@ angular.module("projectTracker")
                     });
              
                     project.$promise.then(function(data){
+                        // update our cache data with the new project
+                        $projects = Cache.get('allProjects');
+                        var url = DashUrl.makeUrl(data.name);
+                        data.projectUrl = url;
+                        $projects.push(data);
+                        Cache.put('allProjects',$projects);
+
                         var url = DashUrl.makeUrl(data.name);
                         $cookieStore.put('projectName', data.name);
                         $cookieStore.put('projectID', data.id);
