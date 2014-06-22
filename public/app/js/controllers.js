@@ -163,8 +163,8 @@ angular.module("projectTracker")
    *
    */
    .controller('labelSetupController',function(Cache,$rootScope,$http,$state,Flash,$cookieStore,$scope,$stateParams,$location,Projects,Serial_Numbers,Test_Attempts,Test_Results,Test_Names) {
-        Cache.put('serialInUrl', $scope.serialID);
         $scope.serialID = parseInt($stateParams.serialID,10)
+        Cache.put('serialInUrl', $scope.serialID);
         $scope.projectID = $stateParams.projectID;
         $scope.selectedSerials = [];
         $scope.selectedTests =[];
@@ -189,6 +189,7 @@ angular.module("projectTracker")
               $scope.step3 = true;
               if(id !== 'open')
               {
+                  $scope.toggleState = false;
                   $scope.selectedSerials = [];
                   $scope.selectedTests = [];
                   $scope.tests = Test_Names.get();
@@ -216,6 +217,7 @@ angular.module("projectTracker")
                     var serial = serials[$i];
                     if(serial.id === id){
                       serial.isChecked = true
+                      $scope.selectedSerials.push(serial.id)
                     }
                     else{
                       serial.isChecked = false
@@ -246,10 +248,6 @@ angular.module("projectTracker")
         $scope.printLabels = function(){
           $scope.step2 = true;
           $scope.step3 = false;
-
-          if($stateParams.serialID !== 'all' && $stateParams.serialID !== ""){
-            $scope.selectedSerials.push(Cache.get('serialInUrl'));
-          }
           
           // retrieve test data for selected serials and selected Tests
           // considering turning this into one controller for print setup and printing,
