@@ -54,7 +54,6 @@ class TestResultController extends BaseController {
 		}
 
 		 $query = 'SELECT 
-		 				DISTINCT ON (test_name)
 		 				date, serial_numbers.id, test_attempts.id,
 		 				final_result, serial_numbers.pcb, test_name, actual, units,test_attempts.serial_number_id
 		 			FROM  test_attempts
