@@ -2,7 +2,7 @@
 
 class Test_Name extends \Eloquent {
 	protected $table = 'test_names';
-	protected $fillable = array('test_name');
+	protected $fillable = array('test_name','project_id');
 
 	
 	public function test_result()

@@ -167,7 +167,7 @@ class ImportedDataController extends BaseController {
 	    		
 	    		case "test_results":
 	    			if(!$exists){
-	    				$data = $this->insertTestNameIDs($data);
+	    				$data = $this->insertTestNameIDs($data,$project->id);
 	    				
 	    				$attemptID = $attempt->id;
 	    			
@@ -186,19 +186,20 @@ class ImportedDataController extends BaseController {
     }
     
     /**
-     * Test Names are kept in separate tables. We must
-     * get these test names in the dB and stuff their 
-     * primary keys into the array
+     *
+     * Extract test names and insert into their own table 
+     * Insert test name IDs into test results table 
+     * 
      * 
      * @param Array $data
      * @return Array $dataWithTestNameFK
      */
-    private function insertTestNameIDs($data){
+    private function insertTestNameIDs($data,$projectID){
     	$testNames = array();
     	
     	// collect the test names 
     	foreach($data as $key => $value){
-    		$testNames[] = array("test_name" => $value['test_name']);
+    		$testNames[] = array("test_name" => $value['test_name'],'project_id' => $projectID);
     	}	
     	// insert into db if they don't exist and save primary key
     	foreach ($testNames as $key => $testName_record) {

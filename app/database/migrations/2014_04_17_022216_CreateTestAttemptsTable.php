@@ -24,7 +24,7 @@ class CreateTestAttemptsTable extends Migration {
 			
 			$table->string('final_result');
 				
-			$table->date('date');
+			$table->dateTime('date');
 
 			$table->timestamps();
 		});

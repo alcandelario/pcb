@@ -36,9 +36,12 @@ angular.module("projectTracker")
     })
 
     .factory("Test_Names",function($cacheFactory,$resource,$rootScope) {
-        return $resource($rootScope.rsrc_path +"test_names/:id",{id:''},
-                        {'get': {method:'GET', cache: true, isArray: true}
-               })
+        return $resource($rootScope.rsrc_path +"test_names/:id",
+                        {id:'@id'},
+                        {'get':   {method:'GET', cache: true, isArray: true},
+                         'query': {method:'GET', cache: true, isArray: true}
+                        }
+               );
     })
     
     .factory("Test_Results", function($resource,$rootScope){
@@ -50,6 +53,46 @@ angular.module("projectTracker")
 
     .factory('Cache', function($cacheFactory) {
         return $cacheFactory('appData');
+    })
+
+    .service('GoogleChart', function() {
+        return {"type": "ScatterChart",
+                        "displayed": false,
+                        "data": {
+                                 "cols": [
+                                           {    "id": "index",
+                                             "label": "Index",
+                                              "type": "number" 
+                                           },
+                                           {    "id": "actual",
+                                             "label": "Actual",
+                                              "type": "number"
+                                           },
+                                           {    "id":  '',
+                                              "type":  'string', 
+                                              'role':'tooltip',
+                                                 'p': {'role': "tooltip", 'html': true}
+                                           }
+                                         ],
+                                 "rows": '',
+                               },
+                   "options": {
+                                "title": "",
+                                "isStacked": "true",
+                                "fill": 20,
+                                "displayExactValues": true,
+                                "vAxis": {"title": "", "minValue":"", "maxValue":"", 
+                                          "gridlines": {"count": 2}
+                                         },
+                                "legend": "none",
+                                "hAxis":   {"title": "Attempt", "viewWindowMode": 'maximized'},
+                                "tooltip": {"isHtml": true},
+                                "width":  440,
+                                "height": 400
+                              },
+                   "formatters": {},
+                   "view": {}
+                };
     })
 
     .service('DashUrl', function() {

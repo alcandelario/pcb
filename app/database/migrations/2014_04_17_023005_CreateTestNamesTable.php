@@ -19,9 +19,19 @@ class CreateTestNamesTable extends Migration {
 		{
 			$table->increments("id");
 
+			$table->unsignedInteger('project_id');
+
 			$table->string('test_name');
 
 			$table->timestamps();
+		});
+
+		Schema::table('test_names', function($table){
+			
+			$table
+					->foreign('project_id')
+					->references('id')
+					->on('projects');
 		});
 	}
 

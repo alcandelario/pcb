@@ -53,12 +53,10 @@ class TestResultController extends BaseController {
 			}
 		}
 
-	//	echo $serial_where;
-	//	echo $test_where;
-
-		 $query = 'SELECT date, serial_numbers.id, test_attempts.id,
-		 						final_result, test_attempts.created_at,
-		 						pcb, test_name, actual, units 
+		 $query = 'SELECT 
+		 				DISTINCT ON (test_name)
+		 				date, serial_numbers.id, test_attempts.id,
+		 				final_result, serial_numbers.pcb, test_name, actual, units,test_attempts.serial_number_id
 		 			FROM  test_attempts
 		 			INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
 					INNER JOIN (SELECT * FROM test_names WHERE '.$test_where.') test_names 

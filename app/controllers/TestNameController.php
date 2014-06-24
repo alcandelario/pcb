@@ -15,6 +15,10 @@ class TestNameController extends BaseController {
 	}
 
 	public function show($id){
-	
+		$test_names = Test_Name::where('project_id','=',$id)
+					->orderBy('test_name')
+					->get();
+
+		return Response::json($test_names,201);
 	}
 }

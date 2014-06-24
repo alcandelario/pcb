@@ -15,40 +15,43 @@
 	
 	<form collapse='step2' class='row print-labels clearfix'>
 		<div class='label-select-form'>
-			<div class='col-md-6 label-serials-form'>
+			<div class='col-md-6'>
 				<h4>Select Serial Numbers to Print</h4>
-				<label >
-				  <input 
-				  type="checkbox" 
-				  ng-click='toggleAll(toggleState)'
- 				  ng-model='toggleState'
- 				  ng-init='toggleState = false'>Select All Serials
-				</label>
-
+				<div class='label-serials-form'>
+					<label >
+					  <input 
+					  type="checkbox" 
+					  ng-click='toggleAll(toggleState)'
+	 				  ng-model='toggleState'
+	 				  ng-init='toggleState = false'>Select All Serials
+					</label>
+				</div>		
 				<label ng-repeat="serial in serials">
 				  <input 
 				  type="checkbox" 
 				  name="selectedSerials" 
 				  value='serial.id'
-				  ng-click='selectedSerials.push(serial.id)'
+				  ng-click='toggleSerial(serial.id)'
 				  ng-checked='serial.isChecked'> {{serial.pcb}}
 				  
 				</label>
 			</div>
-			<div class='col-md-6 label-tests-form'>
-				<h4>Select data to include <span style="font-size: 14px">(you can customize them later on too)</span></h4>
-			    <label ng-repeat="test in tests">
-				  <input
-				    type="checkbox"
-				    name="selectedTests"
-				    value='test.id'
-				    ng-click='selectedTests.push(test.id)'
-				    ng-checked='test.isChecked'
-				   >{{test.test_name}}
-				</label>
+			<div class='col-md-6'>
+				<h4>Select data to include <span style="font-size: 14px">(you can change this later on too)</span></h4>
+				<div class='label-tests-form'>
+			  	  <label ng-repeat="test in tests">
+					  <input
+					    type="checkbox"
+					    name="selectedTests"
+					    value='test.id'
+					    ng-click='toggleTest(test.id)'
+					    ng-checked='test.isChecked'
+					   >{{test.test_name}}
+					</label>
+				</div>
 			</div>
 		</div>	
-		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels()'> Print Labels</button>
+		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels()'> Final Step >>></button>
 	</form>
 
 	<div collapse="step3">
