@@ -27,22 +27,24 @@ class TestResultController extends BaseController {
 		$tests = $params['tests'];
 
 		$index = 1;
-
+		// build the where clause for serial number related queries
 		foreach ($serials as $serialID)
 		{
 			if($index === 1)
 			{
 				$serial_where = 'serial_numbers.id = '.$serialID;
+				$attempt_where = 'test_attempts.serial_number_id = '.$serialID;
 				$index++;
 			}
 			else
 			{
 				$serial_where = $serial_where." OR serial_numbers.id = ".$serialID;
+				$attempt_where = $attempt_where.'OR test_attempts.serial_number_id = '.$serialID;
 			}
 		}
 
 		$index = 1;
-		
+		// build the where clause for test data related query
 		foreach ($tests as $testID){
 			if($index === 1){
 				$test_where = 'test_names.id = '.$testID;
@@ -52,18 +54,40 @@ class TestResultController extends BaseController {
 				$test_where = $test_where." OR test_names.id = ".$testID;
 			}
 		}
-
-		 $query = 'SELECT 
+		// limit our test data search to the latest attempt that passed
+		$query = 'SELECT DISTINCT ON (test_attempts.serial_number_id) 
+						test_attempts.id 
+						from test_attempts 
+						WHERE '.$attempt_where.' AND test_attempts.final_result LIKE \'Pass\'';
+		
+		$results = DB::select( DB::raw($query) );
+		
+		$index= 1;
+		// build the where clause for test data related query
+		foreach($results as $key => $value){
+		if($index === 1)
+			{
+				$attempt_where = 'test_attempts.id = '.$value->id;
+				$index++;
+			}
+			else
+			{
+				$attempt_where = $attempt_where.' OR test_attempts.id = '.$value->id;
+			} 
+		}
+		// get the specific test result data for a specific group of serial numbers when they
+		// were last tested and passed all tests
+		$query = 'SELECT
 		 				date, serial_numbers.id, test_attempts.id,
 		 				final_result, serial_numbers.pcb, test_name, actual, units,test_attempts.serial_number_id
 		 			FROM  test_attempts
 		 			INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
-					INNER JOIN (SELECT * FROM test_names WHERE '.$test_where.') test_names 
+					INNER JOIN (SELECT * FROM test_names WHERE '.$test_where.') test_names
 		 						ON test_results.test_name_id = test_names.id
-		 			INNER JOIN (SELECT * FROM serial_numbers WHERE '.$serial_where.') serial_numbers 
+		 			INNER JOIN (SELECT * FROM serial_numbers WHERE '.$serial_where.') serial_numbers
 		 					   ON test_attempts.serial_number_id = serial_numbers.id
-		 			WHERE test_attempts.final_result LIKE \'Pass\'';
-
+		 			WHERE '.$attempt_where;
+		
 		 $results = DB::select( DB::raw($query) );
 
 		 return Response::json($results,201);
