@@ -144,8 +144,35 @@ app.directive('closeMe', function() {
 						element.parent().remove();	
 					})
 			  }
+	
 	}
 });
+app.directive('serialNumber', ['$compile', function($compile) {
+	return {
+		restrict: 'A',
+		    link: function(scope,element,attrs){
+		    	
+		    	var update = function(type){
+		    		var compiled = $compile("<span ng-bind='label.serials."+type+"''></span>")(scope);
+					element.replaceWith(compiled);
+					element = compiled;
+		    	}
+		    	
+		    	//update the serial number shown
+		    	scope.$watch('type',function(newV,oldV){
+		    		if(typeof newV === 'undefined' &&
+		    		   typeof oldV === 'undefined'){
+		    			//init this direective
+		    			value = 'pcb'
+		    		}
+		    		else{
+		    			value = newV
+		    		}
+		    		update(value);
+		    	})
+		    }
+	}
+}])
 
 /**
  *

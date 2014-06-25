@@ -181,36 +181,54 @@ angular.module("projectTracker")
             }
         });
 
+        // manage a list of checked serial numbers 
+        // to generate labels for
         $scope.toggleSerial = function(id){
             var index = $scope.selectedSerials.indexOf(id);
-
             // needs to be removed
             if(index > -1){
               $scope.selectedSerials.splice(index,1);
             }
-
             // needs to be added
             else{
               $scope.selectedSerials.push(id);
             }
-
         }
-
+        // manage a list of checked test data 
+        // to include on the label
         $scope.toggleTest = function(id){
             var index = $scope.selectedTests.indexOf(id);
-
             // needs to be removed
             if(index > -1){
               $scope.selectedTests.splice(index,1);
             }
-
             // needs to be added
             else{
               $scope.selectedTests.push(id);
             }
-
         }
-          
+        // select/deselect all serial numbers
+        $scope.toggleAll = function(state){
+            $scope.selectedSerials = []; // empty the list
+
+            for($i=0; $i < $scope.serials.length; $i++) {
+                serial = $scope.serials[$i];
+                serial.isChecked = !state;
+                $scope.serials[$i] = serial;
+                if(state === false){
+                  $scope.selectedSerials.push(serial.id)
+                }
+                else if(state === true){
+                  index = $scope.selectedSerials.indexOf(serial.id)
+                  if (index > -1){
+                    $scope.selectedSerials.splice(index,1)
+                  }
+                }
+            }
+            $scope.toggleState = !$scope.toggleState;
+        }
+        // retrieve a list of test names and serial
+        // numbers to include on a label  
         $scope.labelSetup = function(id){
               $scope.step1 = true;
               $scope.step3 = true;
@@ -231,19 +249,18 @@ angular.module("projectTracker")
                 $scope.step2 = false;
               }
         }
-
+        // go back to the first-step, project select form
         $scope.reset = function(){
-          // show the projec select view
           $scope.step2 = true;
           $scope.step3 = true;
           $scope.step1 = false;
         }
-
+        // check the appropriate checkbox if we were
+        // given a serial number id in the URI segment
         preCheckSerial = function(id,serials)
         {
-            // check the appropriate checkbox if we came here
-            // from an individual serial number view
             if(id !== 'all'){
+                // set the is "isChecked" property as needed
                 for($i=0; $i<serials.length; $i++) {
                     var serial = serials[$i];
                     if(serial.id === id){
@@ -258,41 +275,16 @@ angular.module("projectTracker")
             }
             return serials;
         }
-       
-        $scope.toggleAll = function(state){
-            // toggle all serial numbers
-            for($i=0; $i < $scope.serials.length; $i++) {
-                serial = $scope.serials[$i];
-                serial.isChecked = !state;
-                $scope.serials[$i] = serial;
-                if(state === false){
-                  $scope.selectedSerials.push(serial.id)
-                }
-                else if(state === true){
-                  index = $scope.selectedSerials.indexOf(serial.id)
-                  if (index > -1){
-                    $scope.selectedSerials.splice(index,1)
-                  }
-                }
-            }
-            $scope.toggleState = !$scope.toggleState;
-        }
           
         $scope.printLabels = function(){
           $scope.step2 = true;
           $scope.step3 = false;
-          
-          // retrieve test data for selected serials and selected Tests
-          // considering turning this into one controller for print setup and printing,
-          // use ng-show/ng-hide or collapse to collapse the various sections 
-          // build the request URL
+          // API endpoint to retrieve data for the label
           var $url = $location.absUrl();
           var $path = "index.php?/#"+$location.path();
           $url = $url.replace($path,"/print-labels");
-
-          //test only
+          //*******test only************
           $url ="http://localhost/pcbtracker/public/print-labels";
-
           var results = $http({
                                 url: $url,
                              method: "POST",
@@ -300,10 +292,14 @@ angular.module("projectTracker")
           })
           .success(function(data,status) 
            {
-              $a=0;
+              $scope.labels = data;
            })
-
-          $state.go('label-print',{projectID: id})
+        }
+        
+        $scope.serialType = function(type){
+           
+           $scope.type = 'label.serials.'+type;
+           $scope.$digest(); 
         }
      })
      /** 
@@ -590,7 +586,8 @@ angular.module("projectTracker")
             console.info('Progress: ' + progress, item);
         });
         uploader.bind('success', function (event, xhr, item, response) {
-        	$scope.upload_status = {msg: "Your data was saved successfully!", type:'success'};
+        	$scope.upload_status = {type:"success", msg:"Your data was saved successfully!"};
+          $scope.showUploadFlash = true;
           console.info('Success', xhr, item, response);
           
           $projects = Projects.get();

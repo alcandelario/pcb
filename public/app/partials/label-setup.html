@@ -54,9 +54,27 @@
 		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels()'> Final Step >>></button>
 	</form>
 
-	<div collapse="step3">
-		Serials: {{selectedSerials}}<br>
-		Tests: {{selectedTests}}
+	<div collapse="step3" class='row'>
+		<nav class='navbar col-md-12 clearfix'>
+			<h5>Serial to show:</h5> 
+			<span class='pull-left'> 
+				<input type='radio' ng-model="type" value='pcb' ng-checked='true'>PCB</span>
+		
+			<span class='pull-left'>
+				<input type='radio' ng-model="type" value='housing' >Housing</span>
+			
+			<span class='pull-left'>
+				<input type='radio' ng-model="type" value='imei'>IMEI</span>
+		</nav>
+		<BR>
+		<div ng-repeat='label in labels' class='label-container col-md-6'>
+			Serial Number: <span serial-number>{{label.serials.pcb}}</span>
+			<table>
+				<tr ng-repeat='test in label.tests' class='label_data'>
+					<td  contenteditable="true" ng-bind='test.name'></td><td  contenteditable="true">{{test.result}}&nbsp;({{test.units}})
+				</tr>
+			</table>
+		</div>
 	</div>
 
 </section>

@@ -42,69 +42,105 @@ class TestResultController extends BaseController {
 				$attempt_where = $attempt_where.'OR test_attempts.serial_number_id = '.$serialID;
 			}
 		}
-
-		$index = 1;
-		// build the where clause for test data related query
-		foreach ($tests as $testID){
-			if($index === 1){
-				$test_where = 'test_names.id = '.$testID;
-				$index++;
+		// if no tests were selected just return the selected serial numbers
+		if(count($tests) === 0){
+			$query = 'SELECT * FROM  serial_numbers WHERE '.$serial_where. ' ORDER BY pcb';
+			
+			 $results = DB::select( DB::raw($query) );
+		}
+		elseif(count($tests) !== 0){
+			$index = 1;
+			// build the where clause for test data related query
+			foreach ($tests as $testID){
+				if($index === 1){
+					$test_where = 'test_names.id = '.$testID;
+					$index++;
+				}
+				else{
+					$test_where = $test_where." OR test_names.id = ".$testID;
+				}
+			}
+			// limit our test data search to the latest attempt that passed
+			$query = 'SELECT DISTINCT ON (test_attempts.serial_number_id) 
+							test_attempts.id 
+							from test_attempts 
+							WHERE '.$attempt_where.' AND test_attempts.final_result LIKE \'Pass\'';
+			
+			$results = DB::select( DB::raw($query) );
+			
+			$index= 1;
+			// build the where clause for test data related query
+			foreach($results as $key => $value){
+			if($index === 1)
+				{
+					$attempt_where = 'test_attempts.id = '.$value->id;
+					$index++;
+				}
+				else
+				{
+					$attempt_where = $attempt_where.' OR test_attempts.id = '.$value->id;
+				} 
+			}
+			// Build query to fetch selected data for selected serials
+			$query = 'SELECT test_name, date, serial_numbers.id, test_attempts.id,final_result, 
+					  pcb,housing,imei,ip,mac,phone,sim,actual,units,test_attempts.serial_number_id
+			 		  FROM  test_attempts
+			 		  INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
+			 		  INNER JOIN (SELECT * FROM test_names WHERE '.$test_where.') test_names
+			 					   ON test_results.test_name_id = test_names.id
+			 		  INNER JOIN (SELECT * FROM serial_numbers WHERE '.$serial_where.') serial_numbers
+			 					   ON test_attempts.serial_number_id = serial_numbers.id
+			 		  WHERE '.$attempt_where;
+			 	
+		
+			 $results = DB::select( DB::raw($query) );
+		}
+		$results = $this->createObjectArray($results);
+		 return Response::json($results,201);
+	}
+	
+	private function createObjectArray($results) {
+		$array = array();
+		foreach($results as $key => $value){
+			$id = $value->id;
+			$test = $value->test_name;
+			
+			if(array_key_exists($id,$array)){
+				// add this test data to the tests array 
+				$array[$id]['tests'][] = array('name' 	=> $test, 
+											 'result' 	=> $value->actual, 
+											  'units' 	=> $value->units
+											);
 			}
 			else{
-				$test_where = $test_where." OR test_names.id = ".$testID;
+				// create a new entry for this serial number
+				$array[$id] = array('serials' => 
+									 	array('pcb'  	=> $value->pcb,
+									 		  'housing'	=> $value->housing,
+									 		  'imei'	=> $value->imei,
+									 		  'ip'	    => $value->ip,
+									 		  'phone' 	=> $value->phone
+									 		 ),
+									'tests'	  =>array( 
+										array( 'name' 	=> $test,
+											   'result' => $value->actual,
+											   'units'	=> $value->units
+											))
+				);
 			}
 		}
-		// limit our test data search to the latest attempt that passed
-		$query = 'SELECT DISTINCT ON (test_attempts.serial_number_id) 
-						test_attempts.id 
-						from test_attempts 
-						WHERE '.$attempt_where.' AND test_attempts.final_result LIKE \'Pass\'';
-		
-		$results = DB::select( DB::raw($query) );
-		
-		$index= 1;
-		// build the where clause for test data related query
-		foreach($results as $key => $value){
-		if($index === 1)
-			{
-				$attempt_where = 'test_attempts.id = '.$value->id;
-				$index++;
-			}
-			else
-			{
-				$attempt_where = $attempt_where.' OR test_attempts.id = '.$value->id;
-			} 
-		}
-		// get the specific test result data for a specific group of serial numbers when they
-		// were last tested and passed all tests
-		$query = 'SELECT
-		 				date, serial_numbers.id, test_attempts.id,
-		 				final_result, serial_numbers.pcb, test_name, actual, units,test_attempts.serial_number_id
-		 			FROM  test_attempts
-		 			INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
-					INNER JOIN (SELECT * FROM test_names WHERE '.$test_where.') test_names
-		 						ON test_results.test_name_id = test_names.id
-		 			INNER JOIN (SELECT * FROM serial_numbers WHERE '.$serial_where.') serial_numbers
-		 					   ON test_attempts.serial_number_id = serial_numbers.id
-		 			WHERE '.$attempt_where;
-		
-		 $results = DB::select( DB::raw($query) );
-
-		 return Response::json($results,201);
+		return $array;
 	}
 
 	public function chartTestLimits(){
 		$params = Input::all();
-		
 		// sometimes we want to chart data for an entire project
-		// worth of AWT test limits or sometimes just for a single
-		// serial number
+		// worth of AWT data or sometimes a single serial number
 		$query = 'SELECT test_attempts.id,date,final_result,pcb,test_name,min,max,actual,units,result FROM test_attempts 
 					INNER JOIN test_results ON test_attempts.id = test_results.test_attempt_id
 					INNER JOIN test_names ON test_results.test_name_id = test_names.id
 					INNER JOIN serial_numbers ON test_attempts.serial_number_id = serial_numbers.id
 					WHERE test_attempts.project_id = '.$params['projectID'].' ';
-
 
 		if(!strcmp($params['serialID'],'all')){
 			// do nothing
@@ -116,11 +152,8 @@ class TestResultController extends BaseController {
 
 		// build the rest of the query and add the ORDER clause
 		$query = $query.' ORDER BY test_name';
-		
 		$results = DB::select( DB::raw($query) );
-		
 		Session::put('test_results_data',$results);
-		
 		return Response::json($results,201);
 	}
 	/**
@@ -129,10 +162,8 @@ class TestResultController extends BaseController {
 	 */
 	public function saveExcel(){
 		$title = 'AWT-test-data_'.date("mdy_Hi");
-
 		$excel = Excel::create($title, function($excel) {
-
-        		// get our most recent data
+				// get our most recent data
 				$results = Session::get('test_results_data');
         		$title = 'AWT-test-data_'.date("mdy_Hi");
 
@@ -146,13 +177,10 @@ class TestResultController extends BaseController {
           		$rowStart =  6;
           		$sheetIndex = 0;
           		$prevSheetTitle = null;
-          		
           		foreach($results as $index => $result){
           			$sheetTitle = $result->test_name;
-
-          			//shorten the name
+		  			//shorten the name
 					$sheetTitle = substr($sheetTitle,0,30);
-					
 					if($prevSheetTitle === null){
 						$init = false;	// initialize the very first sheet
 						$prevSheetTitle = $sheetTitle;
@@ -163,13 +191,11 @@ class TestResultController extends BaseController {
 						$init = false;
 						$prevSheetTitle = $sheetTitle;
 					}
-
-	          		if($init === false){
+		      		if($init === false){
 	          			// get the min/max
 	          			$lowLim = $result->min;
 	          			$upLim = $result->max;
-	          			
-          		  		$sheet = $excel->sheet($sheetTitle, function($sheet) {return $sheet;});
+	      		  		$sheet = $excel->sheet($sheetTitle, function($sheet) {return $sheet;});
 		          	  		// name the worksheet and add the column labels
 		          	  		$sheet->setActiveSheetIndex($sheetIndex)
 					                ->setCellValue('A5',$sheetTitle)
@@ -181,20 +207,15 @@ class TestResultController extends BaseController {
 					                ->setCellValue('A1',"Lower Limit")
 					                ->setCellValue('B2',$upLim)
 					                ->setCellValue('A2',"Upper Limit");
-	
 		          	  		// format the header row  a bit
 		          	  		$style = array('font' => array('bold' => true, 'size' => 12,'italic' => true));
 		          	  		 
-					       // $sheet->getActiveSheet()->getStyle('A6:D6')->setStyle($style);                
-	        				
+					        // $sheet->getActiveSheet()->getStyle('A6:D6')->setStyle($style);                
 	        				$sheet->cells('A5:D5')->setStyle($style);
-
-    	      			    $rowIndex = $rowStart; //default row at which data gets written
-							
+						    $rowIndex = $rowStart; //default row at which data gets written
 							$init = true;
           			}	
-					
-          		  	//insert a row of data
+					//insert a row of data
           			$colIndex = $colStart;
           		  	for($i=0; $i<3; $i++)
 					{
@@ -216,15 +237,15 @@ class TestResultController extends BaseController {
 	               		
 	          			$colIndex++;
 	               	}
-
+	               	// advance to a new row
 	               	$rowIndex++;
 				}
+				// set the default view
 				$excel->setActiveSheetIndex(0);
 
 			})->store('xls','app/storage/exports/', true);
 
 			$file = url("app/storage/exports/".$excel['file']);
-// 			$url = link_to($file,$excel['file']);
 			
 			return Response::json($file,201);
 			
