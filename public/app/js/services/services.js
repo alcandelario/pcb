@@ -2,11 +2,11 @@
 angular.module("projectTracker")
 	
 	.factory("Authenticate", function($resource,$rootScope){
-        return $resource($rootScope.rsrc_path +"authenticate/")
+        return $resource($rootScope.endpoint +"authenticate/")
     })
     
     .factory("Projects", function($cacheFactory,$resource,$rootScope){
-        return $resource($rootScope.rsrc_path +"projects/:projectID", 
+        return $resource($rootScope.endpoint +"projects/:projectID", 
                     {projectID:'@id'},
                     {
                     'query':{method: 'GET', cache: true, isArray: false},
@@ -16,7 +16,7 @@ angular.module("projectTracker")
     })
     
     .factory("Serial_Numbers", function($cacheFactory,$resource,$rootScope){
-    	return $resource($rootScope.rsrc_path +"serial_numbers/:projectID",
+    	return $resource($rootScope.endpoint +"serial_numbers/:projectID",
                     {projectID:'@id'},
                     {
                         'query': {method: 'GET', cache: true, isArray:true},
@@ -26,7 +26,7 @@ angular.module("projectTracker")
     })
     
     .factory("Test_Attempts", function($cacheFactory,$resource,$rootScope){
-    	return $resource($rootScope.rsrc_path +"test_attempts/:serialID", 
+    	return $resource($rootScope.endpoint +"test_attempts/:serialID", 
                         {serialID:'@id'},
                         {
                             'query':{method: 'GET', cache: true, isArray: true},
@@ -36,7 +36,7 @@ angular.module("projectTracker")
     })
 
     .factory("Test_Names",function($cacheFactory,$resource,$rootScope) {
-        return $resource($rootScope.rsrc_path +"test_names/:id",
+        return $resource($rootScope.endpoint +"test_names/:id",
                         {id:'@id'},
                         {'get':   {method:'GET', cache: true, isArray: true},
                          'query': {method:'GET', cache: true, isArray: true}
@@ -45,7 +45,7 @@ angular.module("projectTracker")
     })
     
     .factory("Test_Results", function($resource,$rootScope){
-    	return $resource($rootScope.rsrc_path +"test_results/:attemptID", 
+    	return $resource($rootScope.endpoint +"test_results/:attemptID", 
     			{attemptID:'@id'},
     			{'query': {method: 'GET', cache: true, isArray: true},
                 });

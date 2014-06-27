@@ -1,3 +1,7 @@
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjord+One' rel='stylesheet' type='text/css' />
+<link href='./app/css/default-label.css' rel='stylesheet' />
+
 <section class='row'>
 	<nav class='row'>
 		<button class="btn btn-default col-md-4" ng-click="reset()">Select Project</button>
@@ -67,14 +71,34 @@
 				<input type='radio' ng-model="type" value='imei'>IMEI</span>
 		</nav>
 		<BR>
+
+		
 		<div ng-repeat='label in labels' class='label-container col-md-6'>
-			Serial Number: <span serial-number>{{label.serials.pcb}}</span>
-			<table>
-				<tr ng-repeat='test in label.tests' class='label_data'>
-					<td  contenteditable="true" ng-bind='test.name'></td><td  contenteditable="true">{{test.result}}&nbsp;({{test.units}})
-				</tr>
-			</table>
+			
+			<div class='row'>
+				<div class='meta-data'>
+					<input type='text' value='Serial Number:'>
+					<input type='text' serial-number  value=''>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class='meta-data'  ng-repeat='meta in metadata'>
+					<input type='text' value='{{meta.name}}'>
+					<input type='text' value='{{meta.value}}'>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='test-data' ng-repeat='test in label.tests'>
+					<input type='text' value='{{test.name}}'>
+					<input type='text' value='{{test.result}}&nbsp;({{test.units}})'>
+				</div>
+			</div>
+
 		</div>
+
+		<pagination items-per-page='perPage' total-items="totalItems" ng-model="currentPage"></pagination>
 	</div>
 
 </section>

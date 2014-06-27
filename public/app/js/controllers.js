@@ -279,6 +279,7 @@ angular.module("projectTracker")
         $scope.printLabels = function(){
           $scope.step2 = true;
           $scope.step3 = false;
+          $scope.meta
           // API endpoint to retrieve data for the label
           var $url = $location.absUrl();
           var $path = "index.php?/#"+$location.path();
@@ -292,6 +293,9 @@ angular.module("projectTracker")
           })
           .success(function(data,status) 
            {
+              $scope.totalItems = Object.keys(data).length;
+              $scope.currentPage = 1;
+              $scope.perPage = 6;
               $scope.labels = data;
            })
         }

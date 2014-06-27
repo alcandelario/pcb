@@ -153,7 +153,7 @@ app.directive('serialNumber', ['$compile', function($compile) {
 		    link: function(scope,element,attrs){
 		    	
 		    	var update = function(type){
-		    		var compiled = $compile("<span ng-bind='label.serials."+type+"''></span>")(scope);
+		    		var compiled = $compile("<input type='text' value='{{label.serials."+type+"}}'>")(scope);
 					element.replaceWith(compiled);
 					element = compiled;
 		    	}

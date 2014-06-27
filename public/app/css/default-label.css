@@ -1,0 +1,129 @@
+/*
+    Document   : 19-Row Label Template
+    Created on : May 23, 2013, 4:45:35 PM
+    Author     : Al.Candelario
+    Description:
+
+*/
+
+/* ****************SERIAL NUMBERS***************************/
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+     font-style: normal;
+}
+
+header {
+            margin: 0 auto;
+    padding-bottom: 10px;
+             width: 1000px;
+}
+
+footer {
+       padding: 50px 10px 10px 10px;
+    text-align: center;
+}
+
+body {
+        padding: 20px;
+          width: 1400px;
+    padding-top: 10px;
+}
+
+.print_nav_cont {
+    margin-bottom: 10px;
+}
+.print_nav{
+    margin-right: 10px;
+}
+
+.leftCol, .rightCol {
+    width: 660px;
+}
+
+.label-container {
+    margin: 0 0 40px 0;
+     width: 450px;
+}
+.meta-data, .test-data, .custom-data {
+    height: 20px;
+}
+
+.meta-data>input, .test-data>input, .custom-data>input {
+           margin: 0;
+           border: 1px solid black;
+            width: 220px;
+        font-size: 0.8em;
+      font-family: 'Roboto';
+      font-weight: bold;
+   letter-spacing: 0.2em;
+      padding-top: 0;
+     padding-left: 3px;
+           height: 20px;
+            float: left;
+            clear: none;
+}
+
+.labelCol1, .labelCol2 {
+           padding: 0;
+            margin: 0;
+    border-spacing: 0;
+             width: 240px;
+       line-height: 100%;
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+
+    header, footer, .print_nav_cont {
+        display: none;
+    }
+
+    body {
+             margin: 72px 10px 0px 5px;
+              width: 1400px;
+            padding: 10px 0 0 10px;
+    }
+
+    .leftCol, .rightCol {
+        width: 573px;
+    }
+
+    /***********NEW STYLES*****************/
+    .label-container {
+        margin: 0 0 157px 0;
+         width: 500px;
+    }
+
+    .meta-data, .test-data, .custom-data {
+          height: 17px;
+    }
+
+    .labelCol1, .labelCol2 {
+              padding: 0;
+               margin: 0;
+       border-spacing: 0;
+                width: 130px;
+    }
+
+    .meta-data>input, .test-data>input, .custom-data>input {
+                 border: 1px solid black;
+                 margin: 0;
+                  width: 245px;
+              font-size: 12px;
+            font-family: /*"Fjord One"*/ Roboto;
+            font-weight: bold;
+         letter-spacing: 0.1em;
+                 height: 17px;
+    }
+
+}
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+

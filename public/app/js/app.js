@@ -138,7 +138,7 @@ app.run(function($http,CSRF_TOKEN){
 
 // application config
 app.run(function($rootScope) {
-	$rootScope.rsrc_path = '/pcbtracker/public/service/';
+	$rootScope.endpoint = '/pcbtracker/public/service/';
 	$rootScope.showFlash = false;
 	$rootScope.showLoginFlash = false;
 });
