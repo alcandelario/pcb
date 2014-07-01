@@ -73,7 +73,7 @@
 		<BR>
 
 		
-		<div ng-repeat='label in labels' class='label-container col-md-6'>
+		<div ng-repeat='label in filteredLabels' class='label-container col-md-6'>
 			
 			<div class='row'>
 				<div class='meta-data'>
@@ -81,14 +81,14 @@
 					<input type='text' serial-number  value=''>
 				</div>
 			</div>
-			
+
 			<div class='row'>
-				<div class='meta-data'  ng-repeat='meta in metadata'>
-					<input type='text' value='{{meta.name}}'>
-					<input type='text' value='{{meta.value}}'>
+				<div class ='meta-data' ng-repeat='(key,value) in metaData'>
+						<input type='text' value='{{key}}'>
+						<input type='text' value="{{metaData[key]}}" ng-bind='metaData[key]'>
 				</div>
 			</div>
-
+			
 			<div class='row'>
 				<div class='test-data' ng-repeat='test in label.tests'>
 					<input type='text' value='{{test.name}}'>
@@ -96,9 +96,15 @@
 				</div>
 			</div>
 
+			<div class='row'>
+				<div class='meta-data' ng-repeat='emptyField in empty'>
+					<input type='text' value=''>
+					<input type='text' value=''>
+				</div>
+			</div>
 		</div>
 
-		<pagination items-per-page='perPage' total-items="totalItems" ng-model="currentPage"></pagination>
+		<pagination class='col-md-12' total-items='totalLabels' ng-model="currentPage" items-per-page='perPage' ng-change="setPage(currentPage)"></pagination>
 	</div>
 
 </section>

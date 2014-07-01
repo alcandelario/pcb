@@ -103,30 +103,43 @@ class TestResultController extends BaseController {
 		$array = array();
 		foreach($results as $key => $value){
 			$id = $value->id;
-			$test = $value->test_name;
 			
-			if(array_key_exists($id,$array)){
-				// add this test data to the tests array 
-				$array[$id]['tests'][] = array('name' 	=> $test, 
-											 'result' 	=> $value->actual, 
-											  'units' 	=> $value->units
-											);
+			if(property_exists($value,'test_name')){
+				$test = $value->test_name;
+					
+				if(array_key_exists($id,$array)){
+					// add this test data to the tests array 
+					$array[$id]['tests'][] = array('name' 	=> $test, 
+												 'result' 	=> $value->actual, 
+												  'units' 	=> $value->units
+												);
+				}
+				else{
+					// create a new entry for this serial number
+					$array[$id] = array('serials' => 
+										 	array('pcb'  	=> $value->pcb,
+										 		  'housing'	=> $value->housing,
+										 		  'imei'	=> $value->imei,
+										 		  'ip'	    => $value->ip,
+										 		  'phone' 	=> $value->phone
+										 		 ),
+										'tests'	  =>array( 
+											array( 'name' 	=> $test,
+												   'result' => $value->actual,
+												   'units'	=> $value->units
+												))
+					);
+				}
 			}
 			else{
-				// create a new entry for this serial number
-				$array[$id] = array('serials' => 
-									 	array('pcb'  	=> $value->pcb,
-									 		  'housing'	=> $value->housing,
-									 		  'imei'	=> $value->imei,
-									 		  'ip'	    => $value->ip,
-									 		  'phone' 	=> $value->phone
-									 		 ),
-									'tests'	  =>array( 
-										array( 'name' 	=> $test,
-											   'result' => $value->actual,
-											   'units'	=> $value->units
-											))
-				);
+				$array[$id] = array('serials' =>
+									array('pcb'  	=> $value->pcb,
+											'housing'	=> $value->housing,
+											'imei'	=> $value->imei,
+											'ip'	    => $value->ip,
+											'phone' 	=> $value->phone
+									)
+							  );
 			}
 		}
 		return $array;

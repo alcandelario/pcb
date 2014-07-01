@@ -293,17 +293,55 @@ angular.module("projectTracker")
           })
           .success(function(data,status) 
            {
-              $scope.totalItems = Object.keys(data).length;
+              $scope.totalLabels = Object.keys(data).length;
               $scope.currentPage = 1;
               $scope.perPage = 6;
-              $scope.labels = data;
+              $scope.labels = [];
+              $scope.filteredLabels = [];
+              
+              for (var key in data){
+                if(data.hasOwnProperty(key)) {
+                  $scope.labels.push(data[key]);
+                }
+              }
+
+              $scope.addMetaData(data);
+
+              $scope.setPage($scope.currentPage);
            })
         }
-        
+        // add meta data to each label
+        $scope.addMetaData = function(data){
+         var itemsPerLabel = 18; // not including one field for the serial number
+         $scope.metaData = {"Part Number"   :''   , 
+                            "Tested"        :'',
+                            "CP Version"    :'',
+                            "DSP Version"   :'',
+                            "ASIC Version"  :'', 
+                            "NVM Version"   :'',
+                            "BOOT Version"  :''
+                          };
+          var $emptyFields = itemsPerLabel - (Object.keys($scope.metaData).length + 
+                                              $scope.selectedTests.length);
+          $scope.empty = [];
+
+          for($i=0;$i<$emptyFields;$i++){
+            $scope.empty.push("");
+          }
+
+        }
+        // Set the type of serial number to be displayed
+        // Currently support "pcb", "housing", "IMEI"
         $scope.serialType = function(type){
-           
            $scope.type = 'label.serials.'+type;
            $scope.$digest(); 
+        }
+
+        $scope.setPage = function(pageNum){
+          $scope.currentPage = pageNum;
+          var begin = (($scope.currentPage - 1) * $scope.perPage);
+          var end = begin + $scope.perPage;
+          $scope.filteredLabels = $scope.labels.slice(begin, end);
         }
      })
      /** 
