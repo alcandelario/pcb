@@ -325,8 +325,12 @@ angular.module("projectTracker")
                                               $scope.selectedTests.length);
           $scope.custom = [];
 
-          for(var $i=0;$i<$emptyFields;$i++){
-            $scope.custom.push({"name": ''});
+          if($emptyFields >= 0)
+          {  
+            for(var $i=0;$i<$emptyFields;$i++)
+            {
+              $scope.custom.push({"name": ''});
+            }
           }
 
         }
