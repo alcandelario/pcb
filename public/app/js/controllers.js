@@ -313,20 +313,20 @@ angular.module("projectTracker")
         // add meta data to each label
         $scope.addMetaData = function(data){
          var itemsPerLabel = 18; // not including one field for the serial number
-         $scope.metaData = {"Part Number"   :''   , 
-                            "Tested"        :'',
-                            "CP Version"    :'',
-                            "DSP Version"   :'',
-                            "ASIC Version"  :'', 
-                            "NVM Version"   :'',
-                            "BOOT Version"  :''
-                          };
+         $scope.metaData = [{ "name": "Part Number","val":''    }, 
+                            { "name": "Tested","val":''         },
+                            { "name": "CP Version","val":''     },
+                            { "name": "DSP Version","val":''    },
+                            { "name": "ASIC Version","val":''   }, 
+                            { "name": "NVM Version","val":''    },
+                            { "name": "BOOT Version","val":''   }
+                          ];
           var $emptyFields = itemsPerLabel - (Object.keys($scope.metaData).length + 
                                               $scope.selectedTests.length);
-          $scope.empty = [];
+          $scope.custom = [];
 
-          for($i=0;$i<$emptyFields;$i++){
-            $scope.empty.push("");
+          for(var $i=0;$i<$emptyFields;$i++){
+            $scope.custom.push({"name": ''});
           }
 
         }

@@ -3,20 +3,28 @@
 <link href='./app/css/default-label.css' rel='stylesheet' />
 
 <section class='row'>
-	<nav class='row'>
+	
+	<!-- Lavel Setup Navigation -->
+
+	<nav class='row label-setup-nav'>
 		<button class="btn btn-default col-md-4" ng-click="reset()">Select Project</button>
 		<button class="btn btn-default col-md-4" ng-click="labelSetup('open')">Label Setup</button>
 		<button class="btn btn-default col-md-4">Print</button>
 
 	</nav>
 	<br><br>
-	<form collapse="step1" class = 'form-inline row' role="form">
+
+	<!-- STEP1: Project Select Form -->
+
+	<form collapse="step1" class='form-inline row' role="form">
 		<select  class='form-control print-label-dropdown col-md-4 pull-left' ng-model="projectID" ng-options="project.id as project.name for project in projects">
 		      <option value="">-- Select Project --</option>
 		</select>
 		<button class='btn pull-left col-md-offset-1' ng-click='labelSetup(projectID)'>Submit</button>
 	</form>
 	
+	<!-- STEP2: Serial Number and Test Data Select Form -->
+
 	<form collapse='step2' class='row print-labels clearfix'>
 		<div class='label-select-form'>
 			<div class='col-md-6'>
@@ -58,8 +66,10 @@
 		<button class='btn btn-lg btn-block btn-primary' ng-click='printLabels()'> Final Step >>></button>
 	</form>
 
-	<div collapse="step3" class='row'>
-		<nav class='navbar col-md-12 clearfix'>
+	<!-- STEP3: Final label setup and print -->
+
+	<div collapse="step3" class='row final-label'>
+		<nav class='navbar col-md-12 clearfix step3-nav'>
 			<h5>Serial to show:</h5> 
 			<span class='pull-left'> 
 				<input type='radio' ng-model="type" value='pcb' ng-checked='true'>PCB</span>
@@ -83,9 +93,9 @@
 			</div>
 
 			<div class='row'>
-				<div class ='meta-data' ng-repeat='(key,value) in metaData'>
-						<input type='text' value='{{key}}'>
-						<input type='text' value="{{metaData[key]}}" ng-bind='metaData[key]'>
+				<div class ='meta-data' ng-repeat='item in metaData'>
+						<input type='text' value='{{item.name}}'>
+						<input type='text' value="{{item.val}}" ng-model='item.val'>
 				</div>
 			</div>
 			
@@ -97,14 +107,14 @@
 			</div>
 
 			<div class='row'>
-				<div class='meta-data' ng-repeat='emptyField in empty'>
-					<input type='text' value=''>
+				<div class='meta-data' ng-repeat='(key,value) in custom'>
+					<input type='text' value='{{value.name}}' ng-model='value.name'>
 					<input type='text' value=''>
 				</div>
 			</div>
 		</div>
 
-		<pagination class='col-md-12' total-items='totalLabels' ng-model="currentPage" items-per-page='perPage' ng-change="setPage(currentPage)"></pagination>
+		<pagination class='col-md-12 label-pages' total-items='totalLabels' ng-model="currentPage" items-per-page='perPage' ng-change="setPage(currentPage)"></pagination>
 	</div>
 
 </section>

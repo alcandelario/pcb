@@ -43,7 +43,7 @@ body {
 
 .label-container {
     margin: 0 0 40px 0;
-     width: 450px;
+     /*width: 450px;*/
 }
 .meta-data, .test-data, .custom-data {
     height: 20px;
@@ -52,7 +52,7 @@ body {
 .meta-data>input, .test-data>input, .custom-data>input {
            margin: 0;
            border: 1px solid black;
-            width: 220px;
+            width: 245px;
         font-size: 0.8em;
       font-family: 'Roboto';
       font-weight: bold;
@@ -78,7 +78,7 @@ body {
        (min-resolution: 120dpi) {
     /* Style adjustments for high resolution devices */
 
-    header, footer, .print_nav_cont {
+    header, footer, .label-setup-nav, .step3-nav,.label-pages{
         display: none;
     }
 
@@ -92,9 +92,13 @@ body {
         width: 573px;
     }
 
+    .final-label {
+      width: 1146px;
+    }
+
     /***********NEW STYLES*****************/
     .label-container {
-        margin: 0 0 157px 0;
+        margin: 0 73px 157px 0;
          width: 500px;
     }
 

@@ -258,6 +258,10 @@ body
   width: 300px;
 }
 
+.step3-nav span {
+  margin-right: 20px;
+}
+
 /**********************************************************************Print Labels related CSS */
 .label-serials-form, .label-tests-form {
     max-height: 700px;

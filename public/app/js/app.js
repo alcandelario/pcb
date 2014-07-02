@@ -9,8 +9,8 @@ var app = angular.module("projectTracker",[
                                            'angularFileUpload',
                                            'ui.bootstrap',
                                            'googlechart',
-                                           'ui.bootstrap'
-                                           ]
+                                           'ui.bootstrap',
+                                          ]
 );
 
 
@@ -121,14 +121,14 @@ app.config(function($stateProvider,$urlRouterProvider){
 			}
 		})
 
-		.state('label-print', {
-		  	  url: '/label-print/:projectID',
-	        views: {
-					'viewContent': {templateUrl: 'app/partials/label-print.html',
-								     controller: 'labelPrintController'
-								   }
-			}
-		})
+		// .state('label-print', {
+		//   	  url: '/label-print/:projectID',
+	 //        views: {
+		// 			'viewContent': {templateUrl: 'app/partials/label-print.html',
+		// 						     controller: 'labelPrintController'
+		// 						   }
+		// 	}
+		// })
 });
 
 
