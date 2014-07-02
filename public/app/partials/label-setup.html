@@ -4,7 +4,7 @@
 
 <section class='row'>
 	
-	<!-- Lavel Setup Navigation -->
+	<!-- Label Setup Navigation -->
 
 	<nav class='row label-setup-nav'>
 		<button class="btn btn-default col-md-4" ng-click="reset()">Select Project</button>
@@ -50,15 +50,17 @@
 			</div>
 			<div class='col-md-6'>
 				<h4>Select data to include <span style="font-size: 14px">(you can change this later on too)</span></h4>
+				<h6 class='text-{{remainAlert}}'><strong>Remaining:&nbsp;<span ng-bind='remainingTests'></span></strong></h6>
 				<div class='label-tests-form'>
-			  	  <label ng-repeat="test in tests">
+			  	  <label ng-repeat="(key,test) in tests">
 					  <input
 					    type="checkbox"
 					    name="selectedTests"
 					    value='test.id'
-					    ng-click='toggleTest(test.id)'
-					    ng-checked='test.isChecked'
-					   >{{test.test_name}}
+					    ng-click='toggleTest(test.id,key)'
+					    ng-disabled='test.disabled'
+					    ng-init='test.disabled = false'
+					    ng-checked='test.isChecked'> {{test.test_name}}
 					</label>
 				</div>
 			</div>
@@ -68,17 +70,19 @@
 
 	<!-- STEP3: Final label setup and print -->
 
-	<div collapse="step3" class='row final-label'>
+	<div collapse="step3" class='row final-label' id='finalPrint'>
 		<nav class='navbar col-md-12 clearfix step3-nav'>
 			<h5>Serial to show:</h5> 
 			<span class='pull-left'> 
-				<input type='radio' ng-model="type" value='pcb' ng-checked='true'>PCB</span>
+				<input type='radio' ng-model="type" value='pcb' ng-init='default=true' ng-checked='default'>PCB</span>
 		
 			<span class='pull-left'>
 				<input type='radio' ng-model="type" value='housing' >Housing</span>
 			
 			<span class='pull-left'>
 				<input type='radio' ng-model="type" value='imei'>IMEI</span>
+
+			<button class='btn btn-success btn-md pull-right' ng-click="print()">Print this page!</button>
 		</nav>
 		<BR>
 
@@ -100,7 +104,7 @@
 			</div>
 			
 			<div class='row'>
-				<div class='test-data' ng-repeat='test in label.tests'>
+				<div class='test-data' ng-repeat='test in label.tests | limitTo:11 | orderBy:test.name'>
 					<input type='text' value='{{test.name}}'>
 					<input type='text' value='{{test.result}}&nbsp;({{test.units}})'>
 				</div>

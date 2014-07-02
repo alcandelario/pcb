@@ -11,7 +11,7 @@
 			"file": "public/app/js/controllers.js",
 			"settings":
 			{
-				"buffer_size": 25307,
+				"buffer_size": 25117,
 				"line_ending": "Windows"
 			}
 		},
@@ -19,7 +19,7 @@
 			"file": "public/app/js/app.js",
 			"settings":
 			{
-				"buffer_size": 4470,
+				"buffer_size": 4533,
 				"line_ending": "Windows"
 			}
 		},
@@ -27,7 +27,7 @@
 			"file": "app/controllers/TestResultController.php",
 			"settings":
 			{
-				"buffer_size": 6401,
+				"buffer_size": 8690,
 				"line_ending": "Windows"
 			}
 		},
@@ -84,6 +84,8 @@
 	},
 	"file_history":
 	[
+		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/db_design/pcb.ddl",
+		"/C/Users/al.candelario/Desktop/viewreader91/password.txt",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
 		"/C/Users/al.candelario/AppData/Roaming/Sublime Text 3/Packages/Xdebug Client/Xdebug.sublime-settings",
 		"/C/Bitnami/wappstack-5.4.26-2/apache2/htdocs/pcbtracker/public/app/partials/serial-history.html",
@@ -209,9 +211,7 @@
 		"/C/WAPP/apache2/htdocs/pcb/app/views/user.php",
 		"/C/WAPP/apache2/htdocs/pcb/app/controllers/UserController.php",
 		"/C/WAPP/apache2/htdocs/pcb/app/controllers/HomeController.php",
-		"/C/WAPP/apache2/htdocs/pcb/app/views/user",
-		"/C/WAPP/apache2/htdocs/pcb/composer.json",
-		"/C/WAPP/apache2/htdocs/pcb/app/views/hello.php"
+		"/C/WAPP/apache2/htdocs/pcb/app/views/user"
 	],
 	"find":
 	{
@@ -258,15 +258,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25307,
+						"buffer_size": 25117,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7175,
-								7175
+								20973,
+								20973
 							]
 						],
 						"settings":
@@ -276,7 +276,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2500.0,
+						"translation.y": 8411.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -288,7 +288,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4470,
+						"buffer_size": 4533,
 						"regions":
 						{
 						},
@@ -317,15 +317,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6401,
+						"buffer_size": 8690,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1675,
-								1675
+								0,
+								0
 							]
 						],
 						"settings":

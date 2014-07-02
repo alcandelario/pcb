@@ -14,20 +14,20 @@
 }
 
 header {
-            margin: 0 auto;
+            /*margin: 0 auto;
     padding-bottom: 10px;
-             width: 1000px;
+             width: 1000px;*/
 }
 
 footer {
-       padding: 50px 10px 10px 10px;
-    text-align: center;
+       /*padding: 50px 10px 10px 10px;
+    text-align: center;*/
 }
 
 body {
-        padding: 20px;
+        /*padding: 20px;
           width: 1400px;
-    padding-top: 10px;
+    padding-top: 10px;*/
 }
 
 .print_nav_cont {
@@ -84,7 +84,7 @@ body {
 
     body {
              margin: 72px 10px 0px 5px;
-              width: 1400px;
+             /* width: 1400px;*/
             padding: 10px 0 0 10px;
     }
 
@@ -98,8 +98,8 @@ body {
 
     /***********NEW STYLES*****************/
     .label-container {
-        margin: 0 73px 157px 0;
-         width: 500px;
+        margin: 0 0px 157px 0;
+         width: 550px;
     }
 
     .meta-data, .test-data, .custom-data {

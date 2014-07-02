@@ -165,9 +165,24 @@ angular.module("projectTracker")
         $scope.projectID = $stateParams.projectID;
         $scope.selectedSerials = [];
         $scope.selectedTests =[];
+        $scope.allowableTests = 
         $scope.step2 = true;
         $scope.step3 = true;
+        
+        $scope.itemsPerLabel = 18;                                      // not including one field for the serial number
 
+        $scope.metaData = [{ "name": "Part Number","val":''    },       // Info that is the same for ALL labels
+                            { "name": "Tested","val":''         },      // for now they must be manually set by user rather
+                            { "name": "CP Version","val":''     },      // than pulled from a dB
+                            { "name": "DSP Version","val":''    },
+                            { "name": "ASIC Version","val":''   }, 
+                            { "name": "NVM Version","val":''    },
+                            { "name": "BOOT Version","val":''   }
+                          ];
+        $scope.remainingTests = $scope.itemsPerLabel - $scope.metaData.length;
+        $scope.remainAlert = 'success';
+
+        // get all projects
         $scope.projects = Projects.get();
         $scope.projects.$promise.then(function(projects) {
             Cache.put('projects',projects);
@@ -175,36 +190,67 @@ angular.module("projectTracker")
                 // just show the project select
             } 
             else{
-                // get tests and pre-check the boxes if user is coming back heres to include on labels
+                // get tests and pre-check the box for serial numbers if necessary
                 $scope.labelSetup($scope.projectID);
                 $scope.step1 = true;
             }
         });
 
-        // manage a list of checked serial numbers 
-        // to generate labels for
+        // manage a list of checked serial numbers to generate labels for
         $scope.toggleSerial = function(id){
             var index = $scope.selectedSerials.indexOf(id);
-            // needs to be removed
+            // remove the serial
             if(index > -1){
               $scope.selectedSerials.splice(index,1);
             }
-            // needs to be added
+            // add the serial
             else{
               $scope.selectedSerials.push(id);
             }
         }
-        // manage a list of checked test data 
-        // to include on the label
-        $scope.toggleTest = function(id){
+        // manage a list of checked test data to include on the label
+        $scope.toggleTest = function(id,key){
+            
             var index = $scope.selectedTests.indexOf(id);
-            // needs to be removed
+            
+            // remove the test 
             if(index > -1){
               $scope.selectedTests.splice(index,1);
             }
-            // needs to be added
+            // add the test
             else{
               $scope.selectedTests.push(id);
+            }
+            // set the isChecked flag
+            $scope.tests[key].isChecked = !$scope.tests[key].isChecked;  
+            // set the disabled flag based on number of checked-off tests
+            $scope.remainingTests = $scope.itemsPerLabel - $scope.metaData.length - $scope.selectedTests.length;
+            if($scope.remainingTests === 0)
+            {
+              //disable all checkboxes that aren't checked
+              $scope.remainAlert = 'danger';
+              for($i=0;$i<$scope.tests.length;$i++)
+              {
+                var test = $scope.tests[$i];
+                if(test.isChecked === true)
+                {
+                  // do nothing
+                  test.disabled=false;
+                }
+                else
+                {
+                  test.disabled=true;
+                }
+              }
+            } 
+            else
+            {
+              //enable all checkboxes
+              $scope.remainAlert = 'success';
+              for($i=0;$i<$scope.tests.length;$i++)
+              {
+                $scope.tests[$i].disabled = false; 
+              }
             }
         }
         // select/deselect all serial numbers
@@ -239,6 +285,14 @@ angular.module("projectTracker")
                   $scope.selectedSerials = [];
                   $scope.selectedTests = [];
                   $scope.tests = Test_Names.query({id: id});
+                  $scope.tests.$promise.then(function(tests) {
+                    for($i=0;$i<tests.length;$i++)
+                    {
+                      test = tests[$i];
+                      test.isChecked=false; // check the partial to see how this variable is used
+                      $scope.tests[$i] = test;
+                    }
+                  });
                   $scope.serials = Serial_Numbers.query({projectID:id});
                   $scope.serials.$promise.then(function(serials) {
                       $scope.serials = preCheckSerial($scope.serialID,$scope.serials);
@@ -254,6 +308,8 @@ angular.module("projectTracker")
           $scope.step2 = true;
           $scope.step3 = true;
           $scope.step1 = false;
+          $scope.remainingTests = $scope.itemsPerLabel - $scope.metaData.length;
+          $scope.remainAlert = 'success';
         }
         // check the appropriate checkbox if we were
         // given a serial number id in the URI segment
@@ -275,11 +331,10 @@ angular.module("projectTracker")
             }
             return serials;
         }
-          
+
         $scope.printLabels = function(){
           $scope.step2 = true;
           $scope.step3 = false;
-          $scope.meta
           // API endpoint to retrieve data for the label
           var $url = $location.absUrl();
           var $path = "index.php?/#"+$location.path();
@@ -304,27 +359,16 @@ angular.module("projectTracker")
                   $scope.labels.push(data[key]);
                 }
               }
-
               $scope.addMetaData(data);
-
               $scope.setPage($scope.currentPage);
            })
         }
         // add meta data to each label
         $scope.addMetaData = function(data){
-         var itemsPerLabel = 18; // not including one field for the serial number
-         $scope.metaData = [{ "name": "Part Number","val":''    }, 
-                            { "name": "Tested","val":''         },
-                            { "name": "CP Version","val":''     },
-                            { "name": "DSP Version","val":''    },
-                            { "name": "ASIC Version","val":''   }, 
-                            { "name": "NVM Version","val":''    },
-                            { "name": "BOOT Version","val":''   }
-                          ];
-          var $emptyFields = itemsPerLabel - (Object.keys($scope.metaData).length + 
-                                              $scope.selectedTests.length);
+          var $emptyFields = $scope.itemsPerLabel - (Object.keys($scope.metaData).length + 
+                                                    $scope.selectedTests.length);
           $scope.custom = [];
-
+          // add empty fields to the label for user customization
           if($emptyFields >= 0)
           {  
             for(var $i=0;$i<$emptyFields;$i++)
@@ -332,7 +376,6 @@ angular.module("projectTracker")
               $scope.custom.push({"name": ''});
             }
           }
-
         }
         // Set the type of serial number to be displayed
         // Currently support "pcb", "housing", "IMEI"
@@ -340,7 +383,7 @@ angular.module("projectTracker")
            $scope.type = 'label.serials.'+type;
            $scope.$digest(); 
         }
-
+        // Filter the serial numbers to reflect the pagination
         $scope.setPage = function(pageNum){
           $scope.currentPage = pageNum;
           var begin = (($scope.currentPage - 1) * $scope.perPage);
@@ -583,6 +626,10 @@ angular.module("projectTracker")
          $scope.closeAlert = function(index) {
               $rootScope.alerts.splice(index, 1);
          }
+        // send to printer dialog. CSS will format doc for printing
+        $scope.print = function(){
+          window.print();
+        }
     })
     /*
      * Handler for file uploading
