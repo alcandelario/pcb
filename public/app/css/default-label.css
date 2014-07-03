@@ -45,6 +45,10 @@ body {
     margin: 0 0 40px 0;
      /*width: 450px;*/
 }
+
+.label-setup-nav {
+  margin-bottom: 30px;
+}
 .meta-data, .test-data, .custom-data {
     height: 20px;
 }
@@ -84,7 +88,7 @@ body {
 
     body {
              margin: 72px 10px 0px 5px;
-             /* width: 1400px;*/
+              width: 1400px;
             padding: 10px 0 0 10px;
     }
 
@@ -99,7 +103,7 @@ body {
     /***********NEW STYLES*****************/
     .label-container {
         margin: 0 0px 157px 0;
-         width: 550px;
+         width: 500px;
     }
 
     .meta-data, .test-data, .custom-data {
